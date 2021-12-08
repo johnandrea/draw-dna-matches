@@ -51,6 +51,10 @@ a number followed by cM. Such as "62", "123cm", "text 123 cm", "1,234 cM", etc. 
 In the produced graphs, each dnamatch person will be shown in a green box. Any person which has multiple families will be in an orange bordered box. Any family
 with 3 or more incoming conenctions will have colored input arrows.
 
+## Example
+
+![Example tree](test-data/test-family.png)
+
 ## Usage
 
 ```
