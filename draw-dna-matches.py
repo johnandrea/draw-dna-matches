@@ -10,7 +10,11 @@ import readgedcom
 # beginning with 'Me,'
 #
 # Might hot handle the situation where the closest shared family between
-# two people doesn't exist in the data.
+# two people doesn't exist in the data
+.
+# This code is released under the MIT License: https://opensource.org/licenses/MIT
+# Copyright (c) 2021 John A. Andrea
+# v1.0
 
 
 # This is the name of the event of value
