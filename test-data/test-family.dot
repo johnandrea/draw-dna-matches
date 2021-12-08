@@ -11,7 +11,7 @@ f5 [label="Mary Briggs\n& Robert Wilson"];
 f4 [label="Doris Horton\n& Fred Briggs"];
 f3 [label="Edith MacDonald\n& Thomas Horton"];
 f2 [label="Hannah Jones\n& Thom MacDonald",color=orange];
-f1 [label="Jane van def Hoff\n& John Jones"];
+f1 [label="Jane van het Hoff\n& John Jones"];
 f10 [label="Kathy Simpson\n& John Hill"];
 f9 [label="Susan Waters\n& Hubert Hill"];
 f8 [label="Elizabeth Turner\n& Fred Waters"];
