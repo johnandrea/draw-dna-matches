@@ -4,7 +4,7 @@ A program that can help with viewing DNA matched family members.
 
 ## Features
 
-- Output is a Graphviz DOT file.
+- Output is a [Graphviz](https://graphviz.org) DOT file.
 - Makes use of [readgedcom.py](https://github.com/johnandrea/readgedcom) library.
 
 ## Limitations
