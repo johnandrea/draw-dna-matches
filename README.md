@@ -22,7 +22,7 @@ The input is a GEDCOM file exported from a genealogy program. The key is that
 the DNA matches are marked in a custom event named 'dnamatch'. Optionally the match cM value will be extracted if found in that event's note field and will be
 displayed below the person's name.
 
-The relevant portion of the event should look like the following:
+With the default values of EVENT_NAME and EVENT_ITEM relevant portion of the event should look like the following:
 
 ```
 1 EVEN
@@ -39,9 +39,24 @@ is identified by an event note which begins with the string "Me," or "me,".
 2 NOTE Me, matching others
 ```
 
+By changing the value of EVENT_ITEM to 'value' those sections should be similar to:
+
+```
+1 EVEN 732 cM
+2 TYPE dnamatch
+```
+
+and
+
+```
+1 EVEN me, start person
+2 TYPE dnamatch
+```
+
 ## Options
 
 The event name can be changed in the program by editing the value of the variable 'EVENT_NAME' near the top of the code.
+And 'EVENT_ITEM' of 'note' or 'value' as described above.
 
 The cM value in the note can be given as only a single number, or else it must be
 a number followed by cM. Such as "62", "123cm", "text 123 cm", "1,234 cM", etc. However "text 321 text" will not match.
