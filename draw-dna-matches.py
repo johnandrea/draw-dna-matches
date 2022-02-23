@@ -11,10 +11,10 @@ import readgedcom
 #
 # Might hot handle the situation where the closest shared family between
 # two people doesn't exist in the data.
+#
 # This code is released under the MIT License: https://opensource.org/licenses/MIT
 # Copyright (c) 2022 John A. Andrea
-#
-# v2.0
+# v2.1
 
 # This is the name of the event of value
 EVENT_NAME = 'dnamatch'
@@ -87,19 +87,6 @@ def get_name( individual ):
     return name.replace( '/', '' )
 
 
-def get_fam_name( family, individuals ):
-    """ Return the name of the two people in the padded
-        family data section. """
-    name = ''
-    sep = ''
-    for parent in ['wife','husb']:
-        if parent in family:
-           parent_id = family[parent][0]
-           name += sep + get_name( individuals[parent_id] )
-           sep = '\\n& '
-    return name
-
-
 def check_for_dna_event( individual ):
     """ Does the person in data section contain the
         desired dna event. Return a list with found or not. """
@@ -164,18 +151,6 @@ def find_ancestor_path( start, end_fam, individuals, families, path ):
     return [ False, path ]
 
 
-def find_parents( the_indi, fam_data ):
-    # return list of   [ parent, fam ], [ parent, fam ]
-    results = []
-    key = 'famc'
-    if key in the_indi:
-       fam = the_indi[key][0]
-       for parent in ['husb','wife']:
-           if parent in fam_data[fam]:
-              results.append( [ fam_data[fam][parent][0], fam ] )
-    return results
-
-
 def does_fam_have_match( matches, family ):
     # Does the family contain a person which is a match
     result = False
@@ -196,10 +171,10 @@ def make_fam_dot_id( xref ):
 def make_indi_dot_id( xref ):
     return 'i' + make_dot_id( str(xref) )
 
+
 def begin_dot():
     """ Start of the DOT output file """
     print( 'digraph family {' )
-    #print( 'node [shape=record];' )
     print( 'rankdir=LR;')
 
 
@@ -254,7 +229,6 @@ def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, 
         text = get_name( individuals[indi] ) + '\\n' + matches[indi]['note']
         options = ', shape="record", style=filled, color=' + box_color
         output_label( make_indi_dot_id(indi), '"'+ text +'"', options )
-
 
     def find_families_of_multiple_marriages():
         results = []
@@ -377,7 +351,7 @@ opts['display-gedcom-warnings'] = False
 
 data = readgedcom.read_file( sys.argv[1], opts )
 
-# people which do have the dna event
+# people who have the dna event
 # matched[indi] = { note: the event text, shared: closest shared ancestor )
 matched = dict()
 
