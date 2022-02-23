@@ -22,7 +22,7 @@ The input is a GEDCOM file exported from a genealogy program. The key is that
 the DNA matches are marked in a custom event named 'dnamatch'. Optionally the match cM value will be extracted if found in that event's note field and will be
 displayed below the person's name.
 
-With the default values of EVENT_NAME and EVENT_ITEM relevant portion of the event should look like the following:
+With the default values of EVENT_NAME and EVENT_ITEM, relevant portion of the event should look like the following:
 
 ```
 1 EVEN
@@ -73,7 +73,7 @@ with 3 or more incoming connections will have coloured input arrows.
 ## Usage
 
 ```
-./draw-dna-matches.py  family.ged  >out.dot  2>out.err
+draw-dna-matches.py  family.ged  >out.dot  2>out.err
 graphviz -Tpng out.dot -o out.png
 graphviz -Tsvg out.dot -o out.svg
 ```
