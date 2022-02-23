@@ -81,10 +81,9 @@ def get_name( individual ):
     """ Return the name for the individual in the passed data section. """
     name = individual['name'][0]['value']
     # the standard unknown code is not good for svg output
-    #if readgedcom.UNKNOWN_NAME in name: #string match problem with non-ascii?
     if '?' in name and '[' in name and ']' in name:
        name = 'unknown'
-    return name.replace( '/', '' )
+    return name.replace( '/', '' ).replace('"','&quot;').replace("'","&rsquo;")
 
 
 def check_for_dna_event( individual ):
