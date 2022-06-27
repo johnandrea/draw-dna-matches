@@ -1,7 +1,8 @@
 #!/usr/local/bin/python3
 import sys
 import re
-import readgedcom
+import importlib.util
+import os
 
 # Output DNA matches in a tree view in Graphviz DOT format.
 # Given a GEDCOM with people having an event of type defined below
@@ -14,7 +15,7 @@ import readgedcom
 #
 # This code is released under the MIT License: https://opensource.org/licenses/MIT
 # Copyright (c) 2022 John A. Andrea
-# v2.1
+# v2.3
 
 # This is the name of the event of value
 EVENT_NAME = 'dnamatch'
@@ -28,10 +29,56 @@ line_colors.extend( ['gold', 'royalblue', 'coral'] )
 line_colors.extend( ['yellowgreen', 'chocolate', 'salmon'] )
 
 # box containing a match person
-box_color = 'lightgreen'
+match_color = 'lightgreen'
+
+# the box for "me"
+me_color = 'lightblue'
 
 # multiple marriage outline
 multi_marr_color = 'orange'
+
+
+def load_my_module( module_name, relative_path ):
+    """
+    Load a module in my own single .py file. Requires Python 3.6+
+    Give the name of the module, not the file name.
+    Give the path to the module relative to the calling program.
+    Requires:
+        import importlib.util
+        import os
+    Use like this:
+        readgedcom = load_my_module( 'readgedcom', '../libs' )
+        data = readgedcom.read_file( input-file )
+    """
+    assert isinstance( module_name, str ), 'Non-string passed as module name'
+    assert isinstance( relative_path, str ), 'Non-string passed as relative path'
+
+    file_path = os.path.dirname( os.path.realpath( __file__ ) )
+    file_path += os.path.sep + relative_path
+    file_path += os.path.sep + module_name + '.py'
+
+    assert os.path.isfile( file_path ), 'Module file not found at ' + str(file_path)
+
+    module_spec = importlib.util.spec_from_file_location( module_name, file_path )
+    my_module = importlib.util.module_from_spec( module_spec )
+    module_spec.loader.exec_module( my_module )
+
+    return my_module
+
+
+def find_ged_file( location ):
+    # if its a file, use that
+    # or if a directory, find the first .ged file
+    result = None
+    if os.path.isfile( location ):
+       result = location
+    else:
+       if os.path.isdir( location ):
+          for file in sorted( os.listdir( location ) ):
+              if file.lower().endswith( '.ged' ):
+                 result = location + os.path.sep + file
+                 break
+    return result
 
 
 def remove_numeric_comma( s ):
@@ -182,7 +229,7 @@ def end_dot():
     print( '}' )
 
 
-def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, people_in_paths ):
+def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, people_in_paths, me_id ):
     """ Output a label for each person who appears in the graphs. """
 
     def output_label( dot_id, s, extra ):
@@ -211,6 +258,9 @@ def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, 
                name = ' ' + sep + get_name( individuals[parent_id] ) + ' '
                tr = '\n<tr><td'
                if parent_id in matches:
+                  box_color = match_color
+                  if parent_id == me_id:
+                     box_color = me_color
                   td = tr + ' bgcolor="' + box_color + '">'
                   text += td + name + '</td></tr>'
                   text += td + matches[parent_id]['note'] + '</td></tr>'
@@ -226,6 +276,9 @@ def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, 
     def output_indi_label( indi ):
         # note the escaped newlines
         text = get_name( individuals[indi] ) + '\\n' + matches[indi]['note']
+        box_color = match_color
+        if indi == me_id:
+           box_color = me_color
         options = ', shape="record", style=filled, color=' + box_color
         output_label( make_indi_dot_id(indi), '"'+ text +'"', options )
 
@@ -341,6 +394,20 @@ def dot_connect( me, matches, my_paths, people_in_paths ):
         print( route[0] + ' -> ' + route[1] + extra + ';' )
 
 
+if len(sys.argv) < 2:
+   print( 'Usage:  program  dir-of-ged  >out-file', file=sys.stderr )
+   sys.exit(1)
+
+data_dir = sys.argv[1]
+
+data_file = find_ged_file( data_dir )
+if not data_file:
+   print( 'Data file not found in:', data_dir, file=sys.stderr )
+   sys.exit(1)
+
+
+readgedcom = load_my_module( 'readgedcom', '..' + os.path.sep + 'readgedcom' )
+
 # these are keys into the parsed sections of the returned data structure
 i_key = readgedcom.PARSED_INDI
 f_key = readgedcom.PARSED_FAM
@@ -348,7 +415,7 @@ f_key = readgedcom.PARSED_FAM
 opts = dict()
 opts['display-gedcom-warnings'] = False
 
-data = readgedcom.read_file( sys.argv[1], opts )
+data = readgedcom.read_file( data_file, opts )
 
 # people who have the dna event
 # matched[indi] = { note: the event text, shared: closest shared ancestor )
@@ -463,7 +530,7 @@ for fam in families_with_matches:
 
 begin_dot()
 
-dot_labels( data[i_key], data[f_key], matched, my_paths, families_with_matches, all_people_in_paths )
+dot_labels( data[i_key], data[f_key], matched, my_paths, families_with_matches, all_people_in_paths, me )
 dot_connect( me, matched, my_paths, all_people_in_paths )
 
 end_dot()
