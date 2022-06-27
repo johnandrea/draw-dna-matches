@@ -1,36 +1,44 @@
 digraph family {
-node [shape=record];
 rankdir=LR;
-i11 [label="Patsy Wilson\n19 cM",color=lightgreen,style=filled];
-i24 [label="Dave Hill\n121 cM",color=lightgreen,style=filled];
-i28 [label="Joy Jackson\n242 cM",color=lightgreen,style=filled];
-i34 [label="Martha Growther\n53 cM",color=lightgreen,style=filled];
-i38 [label="John Anderson\nme",color=lightgreen,style=filled];
-i43 [label="Clark Marshall\n14 cM",color=lightgreen,style=filled];
-f5 [label="Mary Briggs\n& Robert Wilson"];
-f4 [label="Doris Horton\n& Fred Briggs"];
-f3 [label="Edith MacDonald\n& Thomas Horton"];
-f2 [label="Hannah Jones\n& Thom MacDonald",color=orange];
-f1 [label="Jane van het Hoff\n& John Jones"];
-f10 [label="Kathy Simpson\n& John Hill"];
-f9 [label="Susan Waters\n& Hubert Hill"];
-f8 [label="Elizabeth Turner\n& Fred Waters"];
-f7 [label="Eliza Marshall\n& William Turner"];
-f12 [label="Patricia Youngston\n& Robin Jackson"];
-f11 [label="Mary Turner\n& Jack Jackson"];
-f15 [label="Marlene Turner\n& Peter Growther"];
-f14 [label="Annie Walker\n& Harry Turner"];
-f13 [label="Arleen Green\n& Harry Turner"];
-f19 [label="Betsy Force\n& Robert Marshall"];
-f18 [label="Linda Marsh\n& Ken Marshall"];
-f6 [label="Hannah Jones\n& Albert Marshall",color=orange];
-f17 [label="Laura Smith\n& Eugene Anderson"];
-f16 [label="Charlene Turner\n& William Smith"];
-i38 -> f17;
-f17 -> f16;
-f16 -> f7 [color=orchid];
-f7 -> f6;
-f6 -> f1;
+i11 [label="Patsy Wilson\n19 cM", shape="record", style=filled, color=lightgreen];
+f5 [label="Mary Briggs\n+ Robert Wilson"];
+f4 [label="Doris Horton\n+ Fred Briggs"];
+f3 [label="Edith MacDonald\n+ Thomas Horton"];
+f2 [label="Hannah Jones\n+ Thom MacDonald", color=orange];
+f1 [label="Jane van het Hoff\n+ John Jones"];
+f9 [label="Susan Waters\n+ Hubert Hill"];
+f8 [label="Elizabeth Turner\n+ Fred Waters"];
+f7 [label="Eliza Marshall\n+ William Turner"];
+i24 [label="Dave Hill\n121 cM", shape="record", style=filled, color=lightgreen];
+f10 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td border="1"> Kathy Simpson </td></tr>
+<tr><td bgcolor="lightgreen"> + John Hill </td></tr>
+<tr><td bgcolor="lightgreen">200 cM</td></tr>
+</table>
+>, shape="none"];
+i28 [label="Joy Jackson\n242 cM", shape="record", style=filled, color=lightgreen];
+f12 [label="Patricia Youngston\n+ Robin Jackson"];
+f11 [label="Mary Turner\n+ Jack Jackson"];
+f13 [label="Arleen Green\n+ Harry Turner"];
+i34 [label="Martha Growther\n53 cM", shape="record", style=filled, color=lightgreen];
+f15 [label="Marlene Turner\n+ Peter Growther"];
+f14 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td border="1"> Annie Walker </td></tr>
+<tr><td bgcolor="lightgreen"> + Harry Turner </td></tr>
+<tr><td bgcolor="lightgreen">500 cM</td></tr>
+</table>
+>, shape="none"];
+i38 [label="John Anderson\nme", shape="record", style=filled, color=lightblue];
+i43 [label="Clark Marshall\n14 cM", shape="record", style=filled, color=lightgreen];
+f19 [label="Betsy Force\n+ Robert Marshall"];
+f18 [label="Linda Marsh\n+ Ken Marshall"];
+f6 [label="Hannah Jones\n+ Albert Marshall", color=orange];
+i46 [label="Laura Anderson\n1100 cM", shape="record", style=filled, color=lightgreen];
+f20 [label="Jeanette Wilson\n+ Michael Anderson"];
+f17 [label="Laura Smith\n+ Eugene Anderson"];
+f16 [label="Charlene Turner\n+ William Smith"];
 i11 -> f5;
 f5 -> f4;
 f4 -> f3;
@@ -50,4 +58,11 @@ f13 -> f7 [color=orchid];
 i43 -> f19;
 f19 -> f18;
 f18 -> f6;
+i46 -> f20;
+i38 -> f17;
+f17 -> f16;
+f16 -> f7 [color=orchid];
+f7 -> f6;
+f6 -> f1;
+f17 -> f20;
 }
