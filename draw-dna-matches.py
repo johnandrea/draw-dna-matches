@@ -33,7 +33,7 @@ line_colors.extend( ['gold', 'royalblue', 'coral'] )
 line_colors.extend( ['yellowgreen', 'chocolate', 'salmon'] )
 
 # box containing a match person
-match_color = 'lightgreen'
+match_color = 'springgreen'
 
 # the box for "me"
 me_color = 'lightblue'
