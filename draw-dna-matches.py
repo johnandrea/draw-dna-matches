@@ -22,7 +22,7 @@ import os
 #
 # This code is released under the MIT License: https://opensource.org/licenses/MIT
 # Copyright (c) 2022 John A. Andrea
-# v3.0
+# v3.1
 
 # Within the event, 'note' or 'value' where the data is stored.
 EVENT_ITEM = 'note'
