@@ -1,26 +1,30 @@
 #!/usr/local/bin/python3
 import sys
 import re
+import argparse
 import importlib.util
 import os
 
 # Output DNA matches in a tree view in Graphviz DOT format.
-# Given a GEDCOM with people having an event of type defined below
+# Given a GEDCOM with people having a custom event of name as input
 # and an optional note containing the cM value.
 # The person for whom the matches are compared should have a note or value
 # beginning with 'Me,'
 #
-# Might hot handle the situation where the closest shared family between
+# An example of a section in a gedcom file:
+# 1 EVEN Ancestry
+# 2 TYPE dnamatch
+# 2 DATE BEF 2021
+# 2 NOTE 290 cM across 15 segments
+#
+# Might not handle the situation where the closest shared family between
 # two people doesn't exist in the data.
 #
 # This code is released under the MIT License: https://opensource.org/licenses/MIT
 # Copyright (c) 2022 John A. Andrea
-# v2.3
+# v3.0
 
-# This is the name of the event of value
-EVENT_NAME = 'dnamatch'
-
-# within the event, 'note' or 'value'
+# Within the event, 'note' or 'value' where the data is stored.
 EVENT_ITEM = 'note'
 
 # lines to ancestors
@@ -66,19 +70,30 @@ def load_my_module( module_name, relative_path ):
     return my_module
 
 
-def find_ged_file( location ):
-    # if its a file, use that
-    # or if a directory, find the first .ged file
-    result = None
-    if os.path.isfile( location ):
-       result = location
-    else:
-       if os.path.isdir( location ):
-          for file in sorted( os.listdir( location ) ):
-              if file.lower().endswith( '.ged' ):
-                 result = location + os.path.sep + file
-                 break
-    return result
+def get_program_options():
+    results = dict()
+
+    results['infile'] = None
+    results['eventname'] = None
+    results['libpath'] = '.'
+
+    arg_help = 'Draw DNA matches.'
+    parser = argparse.ArgumentParser( description=arg_help )
+
+    # maybe this should be changed to have a type which better matched a directory
+    arg_help = 'Location of the gedcom library. Default is current directory.'
+    parser.add_argument( '--libpath', default=results['libpath'], type=str, help=arg_help )
+
+    parser.add_argument('eventname', type=str )
+    parser.add_argument('infile', type=argparse.FileType('r') )
+
+    args = parser.parse_args()
+
+    results['eventname'] = args.eventname 
+    results['infile'] = args.infile.name
+    results['libpath'] = args.libpath
+
+    return results
 
 
 def remove_numeric_comma( s ):
@@ -133,16 +148,16 @@ def get_name( individual ):
     return name.replace( '/', '' ).replace('"','&quot;').replace("'","&rsquo;")
 
 
-def check_for_dna_event( individual ):
+def check_for_dna_event( dna_event, value_key, individual ):
     """ Does the person in data section contain the
         desired dna event. Return a list with found or not. """
     result = [ False, '' ]
     if 'even' in individual:
        for event in individual['even']:
-           if event['type'].lower() == EVENT_NAME.lower():
-              if EVENT_ITEM in event:
+           if event['type'].lower() == dna_event.lower():
+              if value_key in event:
                  result[0] = True
-                 result[1] = event[EVENT_ITEM].strip()
+                 result[1] = event[value_key].strip()
               break
     return result
 
@@ -394,19 +409,13 @@ def dot_connect( me, matches, my_paths, people_in_paths ):
         print( route[0] + ' -> ' + route[1] + extra + ';' )
 
 
-if len(sys.argv) < 2:
-   print( 'Usage:  program  dir-of-ged  >out-file', file=sys.stderr )
-   sys.exit(1)
+options = get_program_options()
 
-data_dir = sys.argv[1]
+if not os.path.isdir( options['libpath'] ):
+   print( 'Path to readgedcom is not a directory.', file=sys.stderr )
+   sys.exit( 1 )
 
-data_file = find_ged_file( data_dir )
-if not data_file:
-   print( 'Data file not found in:', data_dir, file=sys.stderr )
-   sys.exit(1)
-
-
-readgedcom = load_my_module( 'readgedcom', '..' + os.path.sep + 'readgedcom' )
+readgedcom = load_my_module( 'readgedcom', options['libpath'] )
 
 # these are keys into the parsed sections of the returned data structure
 i_key = readgedcom.PARSED_INDI
@@ -415,7 +424,7 @@ f_key = readgedcom.PARSED_FAM
 opts = dict()
 opts['display-gedcom-warnings'] = False
 
-data = readgedcom.read_file( data_file, opts )
+data = readgedcom.read_file( options['infile'], opts )
 
 # people who have the dna event
 # matched[indi] = { note: the event text, shared: closest shared ancestor )
@@ -425,7 +434,7 @@ matched = dict()
 me = None
 
 for indi in data[i_key]:
-    result = check_for_dna_event( data[i_key][indi] )
+    result = check_for_dna_event( options['eventname'], EVENT_ITEM, data[i_key][indi] )
     if result[0]:
        matched[indi] = dict()
        if result[1].lower().startswith( 'me,' ):
