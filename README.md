@@ -38,7 +38,7 @@ is identified by an event note which begins with the string "Me," or "me,".
 2 NOTE Me, matching others
 ```
 
-By changing the value of EVENT_ITEM to 'value' those sections should be similar to:
+By changing the internal program variable value of EVENT_ITEM to 'value' those sections should be similar to:
 
 ```
 1 EVEN 732 cM
@@ -64,7 +64,7 @@ The full path to the input file.
 
 --libpath=relative-path-to-library
 
-The path relative to this program of the directory containing the readgedcom library. Default is ".", the same location as this program file.
+The directory containing the readgedcom library, relative to the . Default is ".", the same location as this program file.
 
 
 ## Display
