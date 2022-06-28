@@ -18,11 +18,10 @@ No installation process. Copy the program and the library.
 
 ## Input
 
-The input is a GEDCOM file exported from a genealogy program. The key is that
-the DNA matches are marked in a custom event named 'dnamatch'. Optionally the match cM value will be extracted if found in that event's note field and will be
-displayed below the person's name.
+The input is a GEDCOM file exported from a genealogy program. The key is that the DNA matches are marked in a custom event whose name is an input option. The match cM value will be extracted if found in that event's note field and will be
+displayed below the person's name. The cM value in the note can be given as only a single number, or else it must be a number followed by cM. Such as "62", "123cm", "text 123 cm", "1,234 cM", etc. However "text 321 text" will not match.
 
-With the default values of EVENT_NAME and EVENT_ITEM, relevant portion of the event should look like the following:
+An example of a relevant portion of the input file:
 
 ```
 1 EVEN
@@ -55,16 +54,22 @@ and
 
 ## Options
 
-The event name can be changed in the program by editing the value of the variable 'EVENT_NAME' near the top of the code.
-And 'EVENT_ITEM' of 'note' or 'value' as described above.
+event-name
 
-The cM value in the note can be given as only a single number, or else it must be
-a number followed by cM. Such as "62", "123cm", "text 123 cm", "1,234 cM", etc. However "text 321 text" will not match.
+The name of the custom event in which the data is stored. The examples above use "dnamatch".
+
+gedcom-file
+
+The full path to the input file.
+
+--libpath=relative-path-to-library
+
+The path relative to this program of the directory containing the readgedcom library. Default is ".", the same location as this program file.
+
 
 ## Display
 
-In the produced graphs, each dnamatch person will be shown in a green box. Any person which has multiple families will be in an orange bordered box. Any family
-with 3 or more incoming connections will have coloured input arrows.
+In the produced graphs, each dnamatch person will be shown in a green box. Any person which has multiple families will be in an orange bordered box. Any family with 3 or more incoming connections will have coloured input arrows.
 
 ## Example
 
@@ -73,9 +78,15 @@ with 3 or more incoming connections will have coloured input arrows.
 ## Usage
 
 ```
-draw-dna-matches.py  family.ged  >out.dot  2>out.err
+draw-dna-matches.py  dnamatch  family.ged  >out.dot  2>out.err
 graphviz -Tpng out.dot -o out.png
 graphviz -Tsvg out.dot -o out.svg
+```
+
+Example usage if readgedcom.py is in a parallel directory
+
+```
+..\draw-dna-matches.py --libpath=..\codecopy  dnamatch  family.ged  >out.dot  2>out.err
 ```
 
 ## Bug reports
