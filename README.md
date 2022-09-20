@@ -60,6 +60,14 @@ The name of the custom event in which the data is stored. The examples above use
 
 gedcom-file
 
+Minimum match value (cM) to include in the output
+
+--min=value
+
+Maximum match value (cm) to include in the output
+
+--max=value
+
 The full path to the input file.
 
 --libpath=relative-path-to-library
