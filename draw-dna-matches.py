@@ -22,7 +22,7 @@ import os
 #
 # This code is released under the MIT License: https://opensource.org/licenses/MIT
 # Copyright (c) 2022 John A. Andrea
-# v3.1
+# v4.0
 
 # Within the event, 'note' or 'value' where the data is stored.
 EVENT_ITEM = 'note'
@@ -76,9 +76,17 @@ def get_program_options():
     results['infile'] = None
     results['eventname'] = None
     results['libpath'] = '.'
+    results['min'] = 0
+    results['max'] = 5000
 
     arg_help = 'Draw DNA matches.'
     parser = argparse.ArgumentParser( description=arg_help )
+
+    arg_help = 'Minimum of matches (cM) to include. Default ' + str(results['min'])
+    parser.add_argument( '--min', default=results['min'], type=int, help=arg_help )
+
+    arg_help = 'Maximum of matches (cM) to include. Default ' + str(results['max'])
+    parser.add_argument( '--max', default=results['max'], type=int, help=arg_help )
 
     # maybe this should be changed to have a type which better matched a directory
     arg_help = 'Location of the gedcom library. Default is current directory.'
@@ -89,9 +97,11 @@ def get_program_options():
 
     args = parser.parse_args()
 
-    results['eventname'] = args.eventname 
+    results['eventname'] = args.eventname
     results['infile'] = args.infile.name
     results['libpath'] = args.libpath
+    results['min'] = args.min
+    results['max'] = args.max
 
     return results
 
@@ -118,17 +128,17 @@ def extract_dna_cm( note ):
     """ Return the numeric cM value from the note which is either just
         a number or a number followed by "cM" or "cm" """
 
-    a_number = re.compile( r'[0-9]' )
-    all_numbers = re.compile( r'^[0-9]+$' )
+    contains_a_number = re.compile( r'[0-9]' )
+    just_a_number = re.compile( r'^[0-9]+$' )
     cm_count = re.compile( r'([0-9]+)\s*cm\W' )
 
     s = note.strip()
 
     result = ''
 
-    if a_number.search( s ):
+    if contains_a_number.search( s ):
        s = remove_numeric_comma( s )
-       if all_numbers.search( s ):
+       if just_a_number.search( s ):
           result = s
        else:
           # append a space for a simpler regexp of the word ending
@@ -436,12 +446,15 @@ me = None
 for indi in data[i_key]:
     result = check_for_dna_event( options['eventname'], EVENT_ITEM, data[i_key][indi] )
     if result[0]:
-       matched[indi] = dict()
        if result[1].lower().startswith( 'me,' ):
+          matched[indi] = dict()
           matched[indi]['note'] = 'me'
           me = indi
        else:
-          matched[indi]['note'] = extract_dna_cm( result[1] ) + ' cM'
+          value = int( extract_dna_cm( result[1] ) )
+          if options['min'] <= value <= options['max']:
+             matched[indi] = dict()
+             matched[indi]['note'] = str(value) + ' cM'
 
 if not me:
    print( 'Didnt find base person', file=sys.stderr )
