@@ -60,11 +60,11 @@ The name of the custom event in which the data is stored. The examples above use
 
 gedcom-file
 
-Minimum match value (cM) to include in the output
+Minimum match value (cM) to include in the output. Default 0.
 
 --min=value
 
-Maximum match value (cm) to include in the output
+Maximum match value (cm) to include in the output. Default 5000.
 
 --max=value
 
