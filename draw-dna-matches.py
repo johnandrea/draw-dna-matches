@@ -22,7 +22,7 @@ import os
 #
 # This code is released under the MIT License: https://opensource.org/licenses/MIT
 # Copyright (c) 2022 John A. Andrea
-# v4.0
+# v4.1
 
 # Within the event, 'note' or 'value' where the data is stored.
 EVENT_ITEM = 'note'
@@ -78,6 +78,7 @@ def get_program_options():
     results['libpath'] = '.'
     results['min'] = 0
     results['max'] = 5000
+    results['format'] = 'dot'
 
     arg_help = 'Draw DNA matches.'
     parser = argparse.ArgumentParser( description=arg_help )
@@ -87,6 +88,10 @@ def get_program_options():
 
     arg_help = 'Maximum of matches (cM) to include. Default ' + str(results['max'])
     parser.add_argument( '--max', default=results['max'], type=int, help=arg_help )
+
+    arg_help = 'Format of output. Default ' + results['format']
+    formats = [ results['format'], 'gedcom' ]
+    parser.add_argument( '--format', default=results['format'], choices=formats, help=arg_help )
 
     # maybe this should be changed to have a type which better matched a directory
     arg_help = 'Location of the gedcom library. Default is current directory.'
@@ -102,6 +107,7 @@ def get_program_options():
     results['libpath'] = args.libpath
     results['min'] = args.min
     results['max'] = args.max
+    results['format'] = args.format
 
     return results
 
@@ -231,6 +237,84 @@ def does_fam_have_match( matches, family ):
               result = True
               break
     return result
+
+
+def begin_ged():
+    print( '0 HEAD' )
+    print( '1 SOUR draw-dna-matches' )
+    print( '1 GEDC' )
+    print( '2 VERS 5.5.1' )
+    print( '2 FORM LINEAGE-LINKED' )
+    print( '1 CHAR UTF-8' )
+    print( '1 SUBM @SUB1@' )
+    print( '0 @SUB1@ SUBM' )
+    print( '1 NAME draw-dna-matches' )
+
+def end_ged():
+    print( '0 TRLR' )
+
+
+def make_ged_id( s ):
+    return s.replace('@','').replace('I','').replace('i','').replace('F','').replace('f','')
+
+
+def ged_individuals( people, families ):
+    # bare minimum information
+
+    def show_event( tag, indi_data ):
+        if tag in indi_data:
+           best = 0
+           if readgedcom.BEST_EVENT_KEY in indi_data:
+              if tag in indi_data[readgedcom.BEST_EVENT_KEY]:
+                 best = indi_data[readgedcom.BEST_EVENT_KEY][tag]
+           if 'date' in indi_data[tag][best]:
+              print( '1', tag.upper() )
+              print( '2 DATE', indi_data[tag][best]['date']['in'] )
+
+    def show_family( tag, indi_data ):
+        if tag in indi_data:
+           for fam in indi_data[tag]:
+               if fam in families:
+                  print( '1', tag.upper(), '@F' + make_ged_id(fam) + '@' )
+
+    for indi in people:
+        print( '0 @I' + make_ged_id(indi) + '@ INDI' )
+        print( '1 NAME', data[i_key][indi]['name'][0]['value'] )
+        show_event( 'birt', data[i_key][indi] )
+        show_event( 'deat', data[i_key][indi] )
+
+        show_family( 'fams', data[i_key][indi] )
+        show_family( 'famc', data[i_key][indi] )
+
+        # and must include the dna data
+        tag = 'even'
+        if tag in data[i_key][indi]:
+           for event in data[i_key][indi][tag]:
+               if 'type' in event and event['type'] == options['eventname']:
+                  if 'note' in event:
+                     print( '1 EVEN' )
+                     print( '2 TYPE', options['eventname'] )
+                     print( '2 NOTE', event['note'] )
+
+
+def ged_families( people, families ):
+    already_seen = []
+    for fam in families:
+        if fam in already_seen:
+           continue
+        already_seen.append( fam )
+        print( '0 @F' + make_ged_id(fam) + '@ FAM' )
+        for parent in ['wife','husb']:
+            if parent in data[f_key][fam]:
+               # only taking the zero'th person as the parent,
+               # maybe shold check all of them
+               indi = data[f_key][fam][parent][0]
+               print( '1', parent.upper(), '@I' + make_ged_id(indi) + '@')
+        tag = 'chil'
+        if tag in data[f_key][fam]:
+           for child in data[f_key][fam][tag]:
+               if child in people:
+                  print( '1 CHIL @I' + make_ged_id(child) + '@' )
 
 
 def make_dot_id( xref ):
@@ -550,9 +634,25 @@ for fam in families_with_matches:
 
 # Output to stdout
 
-begin_dot()
+if options['format'] == 'gedcom':
+   people_in_tree = [me]
+   for indi in all_people_in_paths:
+       if indi not in people_in_tree:
+          people_in_tree.append( indi )
+   for indi in matched:
+       if indi not in people_in_tree:
+          people_in_tree.append( indi )
+   people_in_tree.sort()
 
-dot_labels( data[i_key], data[f_key], matched, my_paths, families_with_matches, all_people_in_paths, me )
-dot_connect( me, matched, my_paths, all_people_in_paths )
+   begin_ged()
+   ged_individuals( people_in_tree, families_with_matches )
+   ged_families( people_in_tree, families_with_matches )
+   end_ged()
 
-end_dot()
+else:
+   begin_dot()
+
+   dot_labels( data[i_key], data[f_key], matched, my_paths, families_with_matches, all_people_in_paths, me )
+   dot_connect( me, matched, my_paths, all_people_in_paths )
+
+   end_dot()
