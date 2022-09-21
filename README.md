@@ -68,6 +68,14 @@ Maximum match value (cm) to include in the output. Default 5000.
 
 --max=value
 
+Output as a DOT file for creating a display with Graphviz. This is the default.
+
+--format=dot
+
+Output as a GEDCOM file for import into another program. A minimal amount of data is copied into the output. 
+
+--format=gedcom
+
 The full path to the input file.
 
 --libpath=relative-path-to-library
