@@ -99,7 +99,7 @@ graphviz -Tpng out.dot -o out.png
 graphviz -Tsvg out.dot -o out.svg
 ```
 
-Or to make a new gedcom from the matches
+Or to make a new gedcom from the matches and common ancestors
 
 ```
 draw-dna-matches.py  --format=gedcom  dnamatch  family.ged  >matches.ged
