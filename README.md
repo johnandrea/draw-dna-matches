@@ -115,6 +115,8 @@ Example usage if readgedcom.py is in a parallel directory
 
 This code is provided with neither support nor warranty.
 
+- Trouble with half relationships
+
 ### Future enhancements
 
 - Print relationship along with DNA match value
