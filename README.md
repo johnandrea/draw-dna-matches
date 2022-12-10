@@ -60,23 +60,28 @@ The name of the custom event in which the data is stored. The examples above use
 
 gedcom-file
 
+Full path to the input file.
+
+--version 
+
+Dispay the version number then exit
+
+-- min=alue
+
 Minimum match value (cM) to include in the output. Default 0.
-
---min=value
-
-Maximum match value (cm) to include in the output. Default 5000.
 
 --max=value
 
-Output as a DOT file for creating a display with Graphviz. This is the default.
+Maximum match value (cm) to include in the output. Default 5000.
 
 --format=dot
 
-Output as a GEDCOM file for import into another program. A minimal amount of data is copied into the output. 
+Output as a DOT file for creating a display with Graphviz. This is the default.
 
+or use
 --format=gedcom
 
-The full path to the input file.
+Output as a GEDCOM file for import into another program. A minimal amount of data is copied into the output. 
 
 --libpath=relative-path-to-library
 
