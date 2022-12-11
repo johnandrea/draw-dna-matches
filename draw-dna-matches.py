@@ -23,6 +23,9 @@ import os
 # This code is released under the MIT License: https://opensource.org/licenses/MIT
 # Copyright (c) 2022 John A. Andrea
 
+# add some extra output info and some details to stderr
+DEBUG = False
+
 # Within the event, 'note' or 'value' where the data is stored.
 EVENT_ITEM = 'note'
 
@@ -42,7 +45,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '4.1.2' )
+    print( '5.0' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -120,6 +123,12 @@ def get_program_options():
     return results
 
 
+def show_items( title, the_list ):
+    print( title, file=sys.stderr )
+    for item in the_list:
+        print( '    ', item, the_list[item], file=sys.stderr )
+
+
 def remove_numeric_comma( s ):
     """ Given 1,234 1,234,567 and similar, remove the comma.
         Does the same for all such patterns in the string.
@@ -166,6 +175,8 @@ def extract_dna_cm( note ):
 def get_name( individual ):
     """ Return the name for the individual in the passed data section. """
     name = individual['name'][0]['value']
+    if DEBUG:
+       name += ' i' + str( individual['xref'] )
     # the standard unknown code is not good for svg output
     if '?' in name and '[' in name and ']' in name:
        name = 'unknown'
@@ -184,56 +195,6 @@ def check_for_dna_event( dna_event, value_key, individual ):
                  result[1] = event[value_key].strip()
               break
     return result
-
-
-def get_ancestor_families( indi, individuals, families ):
-    """ See the nested function. """
-
-    def all_ancestor_families_of( gen, start, indi ):
-        """ Return a dict of all the ancestors of the given individual.
-            Format is collection of [fam_id] = number of genertions from start """
-        result = dict()
-        if 'famc' in individuals[indi]:
-           fam = individuals[indi]['famc'][0]
-           result[fam] = gen
-           for parent in ['wife','husb']:
-               if parent in families[fam]:
-                  parent_id = families[fam][parent][0]
-                  # prevent a loop
-                  if parent_id != start:
-                     result.update( all_ancestor_families_of( gen+1, start, parent_id ) )
-        return result
-
-    return all_ancestor_families_of( 1, indi, indi )
-
-
-def find_ancestor_path( start, end_fam, individuals, families, path ):
-    """ Return a list of the family ids from the start person to the end family.
-        The list is in order of generations, i.e. the end family will be at the end
-        of the list.
-        Assuming that there are no loops in the families.
-        Returned is a list of  [ found-flag, [ famid, famid, ..., end-famid ] ] """
-
-    if 'famc' in individuals[start]:
-       fam = individuals[start]['famc'][0]
-       for parent in ['wife','husb']:
-           if parent in families[fam]:
-              parent_id = families[fam][parent][0]
-
-              path.append( fam )
-
-              if fam == end_fam:
-                 return [ True, path ]
-
-              # Try the next generation
-              found = find_ancestor_path( parent_id, end_fam, individuals, families, path )
-              if found[0]:
-                 return found
-
-              # This family doesn't lead to that ancestor
-              path.pop()
-
-    return [ False, path ]
 
 
 def does_fam_have_match( matches, family ):
@@ -266,8 +227,8 @@ def make_ged_id( s ):
     return s.replace('@','').replace('I','').replace('i','').replace('F','').replace('f','')
 
 
-def ged_individuals( people, families ):
-    # bare minimum information
+def ged_individuals( families, people ):
+    # bare minimum information getting saved
 
     def show_event( tag, indi_data ):
         if tag in indi_data:
@@ -305,7 +266,7 @@ def ged_individuals( people, families ):
                      print( '2 NOTE', event['note'] )
 
 
-def ged_families( people, families ):
+def ged_families( families, people ):
     already_seen = []
     for fam in families:
         if fam in already_seen:
@@ -346,33 +307,43 @@ def end_dot():
     print( '}' )
 
 
-def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, people_in_paths, me_id ):
-    """ Output a label for each person who appears in the graphs. """
+def dot_labels( matches, fam_to_show, people_to_show, me_id ):
+    """ Output a label for each person who appears in the graphs.
+        'matches' as created in the calling program.
+        'fam_to_show' has a boolean value of a-partner-is-dna-matched
+        'people_to_show' is a plain list
+        'me_id' is id of main person
+    """
 
     def output_label( dot_id, s, extra ):
         print( dot_id, '[label=' + s.replace("'",'.') + extra + '];' )
 
     def output_plain_family_label( fam, multiplied_marr ):
+        parent_ids = []
         text = ''
         sep = ''
         for parent in ['wife','husb']:
-            if parent in families[fam]:
-               parent_id = families[fam][parent][0]
-               text += sep + get_name( individuals[parent_id] )
+            if parent in data[f_key][fam]:
+               parent_id = data[f_key][fam][parent][0]
+               parent_ids.append( parent_id )
+               text += sep + get_name( data[i_key][parent_id] )
                sep = '\\n+ '
         options = ''
         if multiplied_marr:
            options = ', color=' + multi_marr_color
         output_label( make_fam_dot_id(fam), '"'+ text +'"', options )
+        return parent_ids
 
     def output_match_family_label( fam, multiplied_marr ):
+        parent_ids = []
         text = '<\n<table cellpadding="2" cellborder="0" cellspacing="0" border="0">'
         sep = ''
         for parent in ['wife','husb']:
-            if parent in families[fam]:
-               parent_id = families[fam][parent][0]
+            if parent in data[f_key][fam]:
+               parent_id = data[f_key][fam][parent][0]
+               parent_ids.append( parent_id )
                # add padding
-               name = ' ' + sep + get_name( individuals[parent_id] ) + ' '
+               name = ' ' + sep + get_name( data[i_key][parent_id] ) + ' '
                tr = '\n<tr><td'
                if parent_id in matches:
                   box_color = match_color
@@ -389,10 +360,11 @@ def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, 
         if multiplied_marr:
            options += ', color=' + multi_marr_color
         output_label( make_fam_dot_id(fam), text, options )
+        return parent_ids
 
     def output_indi_label( indi ):
         # note the escaped newlines
-        text = get_name( individuals[indi] ) + '\\n' + matches[indi]['note']
+        text = get_name( data[i_key][indi] ) + '\\n' + matches[indi]['note']
         box_color = match_color
         if indi == me_id:
            box_color = me_color
@@ -402,14 +374,18 @@ def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, 
     def find_families_of_multiple_marriages():
         results = []
         person_in_fams = dict()
-        for indi in people_in_paths:
+        # get a list of the families for each person
+        # if a family is in the shown families
+        for indi in people_to_show:
             person_in_fams[indi] = []
             key = 'fams'
-            if key in individuals[indi]:
-               for fam in individuals[indi][key]:
-                   if fam in fam_with_matches:
+            if key in data[i_key][indi]:
+               for fam in data[i_key][indi][key]:
+                   if fam in fam_to_show:
                       person_in_fams[indi].append( fam )
 
+        # count up the number of shown families each person has
+        # and more than one indicates multiples
         for indi in person_in_fams:
             if len( person_in_fams[indi] ) > 1:
                for fam in person_in_fams[indi]:
@@ -420,95 +396,152 @@ def dot_labels( individuals, families, matches, my_ancestors, fam_with_matches, 
 
     multiple_marriages = find_families_of_multiple_marriages()
 
-    already_used = []
+    # use this to skip matches within families
+    already_fam = set()
+    already_indi = set()
 
-    # names of the dna people
-    for indi in matches:
-        if indi not in already_used:
-           already_used.append( indi )
-           if indi not in people_in_paths:
-              output_indi_label( indi )
+    # families first
 
-        for fam in matches[indi]['path']:
-            if fam not in already_used:
-               already_used.append( fam )
-               multiple_marr = fam in multiple_marriages
-               if fam_with_matches[fam]:
-                  output_match_family_label( fam, multiple_marr )
-               else:
-                  output_plain_family_label( fam, multiple_marr )
+    for fam in fam_to_show:
+        if fam not in already_fam:
+           already_fam.add( fam )
 
-    # and for me
-    for shared_fam in my_ancestors:
-        for fam in my_ancestors[shared_fam]:
-            if fam not in already_used:
-               already_used.append( fam )
-               multiple_marr = fam in multiple_marriages
-               if fam_with_matches[fam]:
-                  output_match_family_label( fam, multiple_marr )
-               else:
-                  output_plain_family_label( fam, multiple_marr )
+           multiple_marr = fam in multiple_marriages
+           partners = []
+
+           if fam_to_show[fam]:
+              partners = output_match_family_label( fam, multiple_marr )
+           else:
+              partners = output_plain_family_label( fam, multiple_marr )
+
+           for partner in partners:
+               already_indi.add( partner )
+
+    # people who aren't in the families
+
+    for indi in people_to_show:
+        if indi not in already_indi:
+           already_indi.add( indi )
+           output_indi_label( indi )
 
 
-def dot_connect( me, matches, my_paths, people_in_paths ):
-    """ Output the links from one family to the next. """
+def dot_connect( families_to_show, people_to_show ):
+    """ Output the links from one person/family to the next. """
 
-    # if this many or more incoming edges, set a color on the edges
+    def get_family_of_child( indi ):
+        results = []
+        key = 'famc'
+        if key in data[i_key][indi]:
+           results.append( data[i_key][indi][key][0] )
+        return results
+
+    def get_partner_ids( fam ):
+        results = []
+        for partner in ['wife','husb']:
+            if partner in data[f_key][fam]:
+               results.append( data[f_key][fam][partner][0] )
+        return results
+
+    def get_parent_families( fam ):
+        results = []
+        for partner in get_partner_ids( fam ):
+            for child_fam in get_family_of_child( partner ):
+                results.append( child_fam )
+        return results
+
+
+    # if this many incoming edges (or more), set a color on the edges
     n_to_color = 3
 
     # keep the routes from one family to the next
     # each one only once
-    routes = dict()
+    routes = set()
 
-    for indi in matches:
-        # again, don't draw a person if they are in someone else's path
-        if matches[indi]['path'] and indi not in people_in_paths:
-           previous = make_indi_dot_id( indi )
-           for ancestor in matches[indi]['path']:
-               target = make_fam_dot_id( ancestor )
-               route = (previous, target)
-               routes[route] = ancestor
-               previous = target
+    # count the number of times a family is targeted
+    fam_count = dict()
 
-    for shared_fam in my_paths:
-        # ok to route from me to first fam because it will be saved only once
-        previous = make_indi_dot_id( me )
-        for ancestor in my_paths[shared_fam]:
-            target = make_fam_dot_id( ancestor )
-            route = (previous, target)
-            routes[route] = ancestor
-            previous = target
+    already_indi = set()
 
-    # count the number of connections into each family
-    # so that the multiply connected can be coloured
-    counts = dict()
-    for route in routes:
-        ancestor = routes[route]
-        if ancestor not in counts:
-           counts[ancestor] = 0
-        counts[ancestor] += 1
+    # families first
 
-    # assign the same color to the connection lines for the families
-    # with multiple connections
-    # and
-    # loop through the colors to give a different color as each family matches
-    ancestor_color = dict()
-    n_colors = len( line_colors )
-    c = n_colors + 1
-    for ancestor in counts:
-        if counts[ancestor] >= n_to_color:
-           c = c + 1
-           if c >= n_colors:
-              c = 0
-           ancestor_color[ancestor] = line_colors[c]
+    for fam in families_to_show:
+        # to the parents (if parent family is shown)
+        source = make_fam_dot_id( fam )
+        for parent_fam in get_parent_families( fam ):
+            if parent_fam in families_to_show:
+               target = make_fam_dot_id( parent_fam )
+               routes.add( (source, target) )
+
+               if target not in fam_count:
+                  fam_count[target] = 0
+               fam_count[target] += 1
+
+               # the partners in that source family can't be shown independantly
+               for partner in get_partner_ids( fam ):
+                   already_indi.add( partner )
+
+    # individuals
+
+    for indi in people_to_show:
+        if indi not in already_indi:
+           source = make_indi_dot_id( indi )
+           for parent_fam in get_family_of_child( indi ):
+               if parent_fam in families_to_show:
+                  target = make_fam_dot_id( parent_fam )
+                  routes.add( (source, target) )
+
+                  if target not in fam_count:
+                     fam_count[target] = 0
+                  fam_count[target] += 1
 
     # output the routes
+
+    n_colors = len( line_colors )
+    c = n_colors + 1
+
     for route in routes:
-        ancestor = routes[route]
+        source = route[0]
+        target = route[1]
+
         extra = ''
-        if ancestor in ancestor_color:
-           extra = ' [color=' + ancestor_color[ancestor] + ']'
-        print( route[0] + ' -> ' + route[1] + extra + ';' )
+
+        # if to a family, test for need of a color change
+        if target in fam_count:
+           if fam_count[target] >= n_to_color:
+              # pick the next color
+              c += 1
+              if c >= n_colors:
+                 c = 0
+
+              extra = ' [color=' + line_colors[c] + ']'
+
+        print( source + ' -> ' + target + extra + ';' )
+
+
+def find_ancestors( indi, path ):
+    """ Return the ancestors for the given person.
+        As a dict of [ancestor] = { 'fam': family,
+                                    'path': [ families to get to this person ]
+                                  }
+        Length of the path is the number of generations to the ancestor.
+
+    """
+    results = dict()
+    key = 'famc'
+    if key in data[i_key][indi]:
+       # assuming blood relations are at index zero
+       fam = data[i_key][indi][key][0]
+
+       for partner in ['husb','wife']:
+           if partner in data[f_key][fam]:
+              partner_id = data[f_key][fam][partner][0]
+              results[partner_id] = { 'fam': fam, 'path':path }
+              ancestor_results = find_ancestors( partner_id, path + [fam] )
+              for ancestor in ancestor_results:
+                  # checking for existance will ensure only one path
+                  if ancestor not in results:
+                     results[ancestor] = ancestor_results[ancestor]
+    return results
 
 
 options = get_program_options()
@@ -557,114 +590,185 @@ if not me:
    sys.exit()
 
 ancestors = dict()
+# 'me' is included in the matched list
 for indi in matched:
-    ancestors[indi] = get_ancestor_families( indi, data[i_key], data[f_key] )
+    ancestors[indi] = find_ancestors( indi, [] )
 
-# how many generations do I have
-max_gen = max( ancestors[me].values() )
+if DEBUG:
+   print( '', file=sys.stderr )
+   print( 'ancestors', file=sys.stderr )
+   for indi in ancestors:
+       if indi == me:
+          print( 'me =', indi, file=sys.stderr )
+       show_items( indi, ancestors[indi] )
+
+# how many generations in the tree
+# pick a big number
+max_gen = 1000000
 
 # For each of the dna matched people,
-# find the youngest ancestor which matches with me.
-#
-# Both people exist in the same tree so there must be a similar ancestor
-# unless the dna match is noise. In this case the shared ancestor will be None.
-#
-# Finding shared ancestor person rather than shared ancestor family
-# in order to skip half-cousins. Then in the display show only the people
-# rather than families.
+# find the closest family shared with me.
+# If not found then the match can't be displayed which is ok
+# because the display styles need to have that connection.
 
 for indi in matched:
     if indi == me:
        continue
 
-    found_match = None
-    found_gen = max_gen + 1
+    found_gen = max_gen
+    found_fam = None
 
-    for ancestor_fam in ancestors[indi]:
-        if ancestor_fam in ancestors[me]:
-           my_generation = ancestors[me][ancestor_fam]
-           if my_generation < found_gen:
-              found_gen = my_generation
-              found_match = ancestor_fam
+    # is this person a direct ancestor of 'me'
+    if indi in ancestors[me]:
+       found_fam = ancestors[me][indi]['fam']
 
-    # the closest shared family
-    matched[indi]['shared'] = found_match
+    else:
+       # is this person a direct descendent of 'me'
+       if me in ancestors[indi]:
+          found_fam = ancestors[indi][me]['fam']
 
-# Find the path from each match to the closest shared family.
-# Assuming only one such path for each matched person
-# Adding the list in matched[indi]['path']
+       else:
+          for ancestor in ancestors[indi]:
+              ancestor_fam = ancestors[indi][ancestor]['fam']
+              for my_ancestor in ancestors[me]:
+                  my_ancestor_fam = ancestors[me][my_ancestor]['fam']
+                  if ancestor_fam == my_ancestor_fam:
+                     gen_to_me = len( ancestors[me][my_ancestor]['path'] )
+                     if gen_to_me < found_gen:
+                        found_gen = gen_to_me
+                        found_fam = ancestors[me][my_ancestor]['fam']
 
-for indi in matched:
-    matched[indi]['path'] = []
-    if indi == me:
-       continue
-    top_ancestor_fam = matched[indi]['shared']
-    if top_ancestor_fam:
-       family_path = find_ancestor_path( indi, top_ancestor_fam, data[i_key], data[f_key], [] )
-       if family_path[0]:
-          matched[indi]['path'] = family_path[1]
+    if found_fam is not None:
+       # the closest shared family
+       matched[indi]['closest_fam'] = found_fam
 
+if DEBUG:
+   print( '', file=sys.stderr )
+   print( 'matches, closest fam', file=sys.stderr )
+   for indi in matched:
+       show_items( indi, matched[indi] )
 
-# Find the paths from me to each of those shared ancestors
-
-my_paths = dict()
-
-shared_ancestors = dict()
-for indi in matched:
-    if indi == me:
-       continue
-    shared_ancestors[matched[indi]['shared']] = True
-
-for ancestor_fam in shared_ancestors:
-    family_path = find_ancestor_path( me, ancestor_fam, data[i_key], data[f_key], [] )
-    if family_path[0]:
-       my_paths[ancestor_fam] = family_path[1]
-
-# Find families along those paths which contain a matched person
-# value for each family is true or false.
-
-families_with_matches = dict()
+# For relationship calculations find closest shared ancestor
+# which is different from closest family because of half-relationships.
+# Unfortunately half-siblings would be skipped in this case.
 
 for indi in matched:
-    if indi == me:
+    # ignore those without a found closest family because
+    # they won't be output
+    if 'closest_fam' not in matched[indi]:
        continue
-    for fam in matched[indi]['path']:
-        if fam not in families_with_matches:
-           families_with_matches[fam] = does_fam_have_match( matched, data[f_key][fam] )
-for ancestor_fam in my_paths:
-    for fam in my_paths[ancestor_fam]:
-        if fam not in families_with_matches:
-           families_with_matches[fam] = does_fam_have_match( matched, data[f_key][fam] )
+
+    found_gen = max_gen
+    found_ancestor = None
+    fam_me = None
+    gen_them = None
+    fam_them = None
+
+    # is this person a direct ancestor of 'me'
+    if indi in ancestors[me]:
+       gen_them = 0
+       found_ancestor = indi
+       fam_me = matched[indi]['closest_fam']
+       found_gen = 1 + len( ancestors[me][indi]['path'] )
+       fam_them = matched[indi]['closest_fam']
+
+    else:
+      # is this person a direct descendent of 'me'
+      if me in ancestors[indi]:
+         gen_them = 1 + len( ancestors[indi][me]['path'] )
+         found_ancestor = me
+         fam_me = matched[indi]['closest_fam']
+         found_gen =  0
+         fam_them = matched[indi]['closest_fam']
+
+      else:
+        for ancestor in ancestors[indi]:
+            for my_ancestor in ancestors[me]:
+                if ancestor == my_ancestor:
+                   gen_to_me = 1 + len( ancestors[me][ancestor]['path'] )
+                   if gen_to_me < found_gen:
+                      found_ancestor = ancestor
+                      found_gen = gen_to_me
+                      gen_them = 1 + len( ancestors[indi][found_ancestor]['path'] )
+                      fam_them = ancestors[indi][found_ancestor]['fam']
+                      fam_me = ancestors[me][found_ancestor]['fam']
 
 
-# Find the people who are in the families in the paths
-all_people_in_paths = []
-for fam in families_with_matches:
-    for parent in ['husb','wife']:
-        if parent in data[f_key][fam]:
-           all_people_in_paths.append( data[f_key][fam][parent][0] )
+    if found_ancestor is not None:
+       matched[indi]['closest_indi'] = dict()
+       matched[indi]['closest_indi']['indi'] = found_ancestor
+       matched[indi]['closest_indi']['gen_them'] = gen_them
+       matched[indi]['closest_indi']['fam_them'] = fam_them
+       matched[indi]['closest_indi']['gen_me'] = found_gen
+       matched[indi]['closest_indi']['fam_me'] = fam_me
+
+if DEBUG:
+   print( '', file=sys.stderr )
+   print( 'matches, closest indi', file=sys.stderr )
+   for indi in matched:
+       show_items( indi, matched[indi] )
+
+# For display purposes find all the families in all the paths.
+# Value for family will be True if one of the partners is also a dna match.
+
+families_to_display = dict()
+
+for indi in matched:
+    if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
+       fam = matched[indi]['closest_fam']
+       if fam not in families_to_display:
+          families_to_display[fam] = False
+       for item in ['fam_them','fam_me']:
+           fam = matched[indi]['closest_indi'][item]
+           if fam not in families_to_display:
+              families_to_display[fam] = False
+       shared_indi = matched[indi]['closest_indi']['indi']
+       if shared_indi in ancestors[indi]:
+          for fam in ancestors[indi][shared_indi]['path']:
+              if fam not in families_to_display:
+                 families_to_display[fam] = False
+
+for fam in families_to_display:
+    families_to_display[fam] = does_fam_have_match( matched, data[f_key][fam] )
+
+# Likely possible to trim families at the top.
+# If none above contain matches
+# and if none of the matches link to anything above.
+
+if DEBUG:
+   print( '', file=sys.stderr )
+   show_items( 'families_to_display', families_to_display )
+
+# For display purposes find the people who are in the families in the paths
+# including those who are matches even don't have their own family
+
+people_to_display = set()
+for indi in matched:
+    if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
+       people_to_display.add( indi )
+
+for fam in families_to_display:
+    for partner in ['husb','wife']:
+        if partner in data[f_key][fam]:
+           people_to_display.add( data[f_key][fam][partner][0] )
+
+if DEBUG:
+   print( '', file=sys.stderr )
+   print( 'people_to_display', people_to_display, file=sys.stderr )
+
 
 # Output to stdout
 
 if options['format'] == 'gedcom':
-   people_in_tree = [me]
-   for indi in all_people_in_paths:
-       if indi not in people_in_tree:
-          people_in_tree.append( indi )
-   for indi in matched:
-       if indi not in people_in_tree:
-          people_in_tree.append( indi )
-   people_in_tree.sort()
-
    begin_ged()
-   ged_individuals( people_in_tree, families_with_matches )
-   ged_families( people_in_tree, families_with_matches )
+   ged_individuals( families_to_display, people_to_display )
+   ged_families( families_to_display, people_to_display )
    end_ged()
 
 else:
    begin_dot()
 
-   dot_labels( data[i_key], data[f_key], matched, my_paths, families_with_matches, all_people_in_paths, me )
-   dot_connect( me, matched, my_paths, all_people_in_paths )
+   dot_labels( matched, families_to_display, people_to_display, me )
+   dot_connect( families_to_display, people_to_display )
 
    end_dot()
