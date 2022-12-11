@@ -45,7 +45,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '5.0' )
+    print( '5.1.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -127,6 +127,89 @@ def show_items( title, the_list ):
     print( title, file=sys.stderr )
     for item in the_list:
         print( '    ', item, the_list[item], file=sys.stderr )
+
+
+def find_relation_label( me, them ):
+    # return a string of the relationship of "them" to "me"
+    # as "grandparent", "1C", "auncle", etc
+    # given the generation distance to the nearest common ancestor family
+    #
+    # Note the use of non-gender specific labels
+    # "auncle" = "aunt or uncle"
+    # "nibling" = "niece or nephew"
+    #
+    # Note that the labels used here must be the same as in the dna-range setup.
+
+    result = 'N/A'
+
+    if them == 0:
+       # direct line
+       if me == 0:
+          result = 'self'
+       elif me == 1:
+          result = 'parent'
+       elif me == 2:
+          result = 'grandparent'
+       else:
+          result = 'g' * (me - 2) + '-grandparent'
+
+    elif me == 0:
+         # direct line
+         if them == 0:
+            result = 'self'
+         elif them == 1:
+            result = 'child'
+         elif them == 2:
+            result = 'grandchild'
+         else:
+            result = 'g' * (them - 2) + '-grandchild'
+
+    elif me == 1:
+         if them == 1:
+            result = 'sibling'  #or half-sibling by checking parents family
+         elif them == 2:
+            result = 'nibling'
+         elif them == 3:
+            result = 'grandnibling'
+         else:
+            result = 'g' * (them - 3) + '-grandnibling'
+
+    elif me == them:
+         if me == 0:
+            result = 'self'
+         elif me == 1:
+            result = 'sibling' #or half-sibling
+         else:
+            result = str(me - 1) + 'C'
+
+    elif them == 1:
+         if me == 2:
+            result = 'auncle'
+         elif me == 3:
+            result = 'grandauncle'
+         else:
+            result = 'g' * (me - 3) + '-grandauncle'
+
+    elif me == 2:
+        result = '1C' + str(them - 2) + 'R'
+
+    elif me > 2:
+         y = abs( them - me )
+         if them < me:
+            # older generation
+            result = str(them - 1) + 'C' + str(y) + 'R'
+         else:
+            # younger generation
+            result = str(me - 1) + 'C' + str(y) + 'R'
+
+    return result
+
+
+def compute_relation( closest ):
+    half = ''
+    if closest['fam_me'] != closest['fam_them']:
+       half = 'half-'
+    return half + find_relation_label( closest['gen_me'], closest['gen_them'] )
 
 
 def remove_numeric_comma( s ):
@@ -352,6 +435,8 @@ def dot_labels( matches, fam_to_show, people_to_show, me_id ):
                   td = tr + ' bgcolor="' + box_color + '">'
                   text += td + name + '</td></tr>'
                   text += td + matches[parent_id]['note'] + '</td></tr>'
+                  if 'relation' in matched[parent_id]:
+                     text += td + matched[parent_id]['relation'] + '</td></tr>'
                else:
                   text += tr + ' border="1">' + name + '</td></tr>'
                sep = '+ '
@@ -365,6 +450,8 @@ def dot_labels( matches, fam_to_show, people_to_show, me_id ):
     def output_indi_label( indi ):
         # note the escaped newlines
         text = get_name( data[i_key][indi] ) + '\\n' + matches[indi]['note']
+        if 'relation' in matched[indi]:
+           text += '\\n' + matched[indi]['relation']
         box_color = match_color
         if indi == me_id:
            box_color = me_color
@@ -499,12 +586,13 @@ def dot_connect( families_to_show, people_to_show ):
     n_colors = len( line_colors )
     c = n_colors + 1
 
+    # choose a color for family links
+    colors = dict()
     for route in routes:
-        source = route[0]
         target = route[1]
-
-        extra = ''
-
+        if target in colors:
+           continue
+        colors[target] = ''
         # if to a family, test for need of a color change
         if target in fam_count:
            if fam_count[target] >= n_to_color:
@@ -512,10 +600,12 @@ def dot_connect( families_to_show, people_to_show ):
               c += 1
               if c >= n_colors:
                  c = 0
+              colors[target] = ' [color=' + line_colors[c] + ']'
 
-              extra = ' [color=' + line_colors[c] + ']'
-
-        print( source + ' -> ' + target + extra + ';' )
+    for route in routes:
+        source = route[0]
+        target = route[1]
+        print( source + ' -> ' + target + colors[target] + ';' )
 
 
 def find_ancestors( indi, path ):
@@ -716,17 +806,26 @@ families_to_display = dict()
 for indi in matched:
     if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
        fam = matched[indi]['closest_fam']
-       if fam not in families_to_display:
-          families_to_display[fam] = False
+       families_to_display[fam] = False
        for item in ['fam_them','fam_me']:
            fam = matched[indi]['closest_indi'][item]
-           if fam not in families_to_display:
-              families_to_display[fam] = False
+           families_to_display[fam] = False
        shared_indi = matched[indi]['closest_indi']['indi']
        if shared_indi in ancestors[indi]:
           for fam in ancestors[indi][shared_indi]['path']:
-              if fam not in families_to_display:
-                 families_to_display[fam] = False
+              families_to_display[fam] = False
+
+# 'me' needs to have families added via the path from me to the all matches
+# because they would only occur if a descendent of 'me' was included
+for indi in matched:
+    if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
+       closest = matched[indi]['closest_indi']['indi']
+       # family containing that closest
+       fam = ancestors[me][closest]['fam']
+       families_to_display[fam] = False
+       # then the path to that person
+       for fam in ancestors[me][closest]['path']:
+           families_to_display[fam] = False
 
 for fam in families_to_display:
     families_to_display[fam] = does_fam_have_match( matched, data[f_key][fam] )
@@ -743,6 +842,7 @@ if DEBUG:
 # including those who are matches even don't have their own family
 
 people_to_display = set()
+people_to_display.add( me )
 for indi in matched:
     if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
        people_to_display.add( indi )
@@ -756,6 +856,13 @@ if DEBUG:
    print( '', file=sys.stderr )
    print( 'people_to_display', people_to_display, file=sys.stderr )
 
+# Add relationship names
+# This could be optional
+for indi in matched:
+    if indi == me:
+       continue
+    if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
+       matched[indi]['relation'] = compute_relation( matched[indi]['closest_indi'] )
 
 # Output to stdout
 
@@ -766,9 +873,8 @@ if options['format'] == 'gedcom':
    end_ged()
 
 else:
-   begin_dot()
 
+   begin_dot()
    dot_labels( matched, families_to_display, people_to_display, me )
    dot_connect( families_to_display, people_to_display )
-
    end_dot()
