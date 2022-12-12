@@ -152,7 +152,6 @@ This code is provided with neither support nor warranty.
 
 ### Future enhancements
 
-- Print relationship along with DNA match value
-- Handle non_ASCII names in a manner better for SVG output.
+- Handle non-ASCII names in a manner better for SVG output.
 - Handle family matched above the tree top.
 - Output to other formats (Cytoscape, etc.)
