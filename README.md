@@ -10,7 +10,9 @@ A program that can help with viewing DNA matched family members.
 ## Limitations
 
 - Requires Python 3.6+
-- Might fail if the closest matched person does not have parents in the data file.
+- Won't draw path if closest ancestor is not in the data file
+- Double-cousins and other multiple relationships are shown in only one path
+- Assumes that blood (biological) family connections are listed first in the data
 
 ## Installation
 
