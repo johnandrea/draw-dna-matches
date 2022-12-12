@@ -1,0 +1,109 @@
+digraph family {
+rankdir=LR;
+f1 [label="Jane van het Hoff\n+ John Jones"];
+f2 [label="Hannah Jones\n+ Thom MacDonald", color=orange];
+f6 [label="Hannah Jones\n+ Albert Marshall", color=orange];
+f5 [label="Mary Briggs\n+ Robert Wilson"];
+f4 [label="Doris Horton\n+ Fred Briggs"];
+f3 [label="Edith MacDonald\n+ Thomas Horton"];
+f16 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td bgcolor="springgreen"> Cathy Turner </td></tr>
+<tr><td bgcolor="springgreen">1750 cM</td></tr>
+<tr><td bgcolor="springgreen">grandparent</td></tr>
+<tr><td border="1"> + William Smith </td></tr>
+</table>
+>, shape="none"];
+f7 [label="Eliza Marshall\n+ William Turner"];
+f9 [label="Susan Waters\n+ Hubert Hill"];
+f8 [label="Elizabeth Turner\n+ Fred Waters"];
+f10 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td border="1"> Kathy Simpson </td></tr>
+<tr><td bgcolor="springgreen"> + John Hill </td></tr>
+<tr><td bgcolor="springgreen">200 cM</td></tr>
+<tr><td bgcolor="springgreen">2C</td></tr>
+</table>
+>, shape="none"];
+f12 [label="Patricia Youngston\n+ Robin Jackson"];
+f11 [label="Mary Turner\n+ Jack Jackson"];
+f13 [label="Arleen Green\n+ Harry Turner"];
+f15 [label="Marlene Turner\n+ Peter Growther"];
+f14 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td border="1"> Annie Walker </td></tr>
+<tr><td bgcolor="springgreen"> + Harry Turner </td></tr>
+<tr><td bgcolor="springgreen">500 cM</td></tr>
+<tr><td bgcolor="springgreen">1C1R</td></tr>
+</table>
+>, shape="none"];
+f17 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td bgcolor="springgreen"> Laura Smith </td></tr>
+<tr><td bgcolor="springgreen">3600 cM</td></tr>
+<tr><td bgcolor="springgreen">parent</td></tr>
+<tr><td border="1"> + Eugene Anderson </td></tr>
+</table>
+>, shape="none"];
+f19 [label="Betsy Force\n+ Robert Marshall"];
+f18 [label="Linda Marsh\n+ Ken Marshall"];
+f20 [label="Jeanette Wilson\n+ Michael Anderson", color=orange];
+f21 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td border="1"> Shiela Toner </td></tr>
+<tr><td bgcolor="lightblue"> + John Anderson </td></tr>
+<tr><td bgcolor="lightblue">me</td></tr>
+</table>
+>, shape="none"];
+f24 [label="Maria Conners\n+ Samuel Anderson"];
+f22 [label="Kim Dobson\n+ Michael Anderson", color=orange];
+f23 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td bgcolor="springgreen"> Denise Anderson </td></tr>
+<tr><td bgcolor="springgreen">870 cM</td></tr>
+<tr><td bgcolor="springgreen">half-auncle</td></tr>
+<tr><td border="1"> + Patrick MacIntosh </td></tr>
+</table>
+>, shape="none"];
+i11 [label="Patsy Wilson\n19 cM\nhalf-3C", shape="record", style=filled, color=springgreen];
+i53 [label="Arlene MacIntosh\n450 cM\nhalf-1C", shape="record", style=filled, color=springgreen];
+i28 [label="Joy Jackson\n242 cM\n2C", shape="record", style=filled, color=springgreen];
+i48 [label="Sonny Anderson\n3500 cM\nchild", shape="record", style=filled, color=springgreen];
+i43 [label="Clark Marshall\n14 cM\n2C1R", shape="record", style=filled, color=springgreen];
+i34 [label="Martha Growther\n53 cM\n2C1R", shape="record", style=filled, color=springgreen];
+i24 [label="Dave Hill\n121 cM\n2C1R", shape="record", style=filled, color=springgreen];
+i49 [label="Judith Anderson\n2600 cM\nsibling", shape="record", style=filled, color=springgreen];
+i46 [label="Lucy Anderson\n1100 cM\nauncle", shape="record", style=filled, color=springgreen];
+f10 -> f9;
+f5 -> f4;
+f13 -> f7 [color=orchid];
+f2 -> f1;
+i49 -> f17;
+f3 -> f2;
+i24 -> f10;
+i43 -> f19;
+i34 -> f15;
+f4 -> f3;
+f8 -> f7 [color=orchid];
+i53 -> f23;
+f11 -> f7 [color=orchid];
+f16 -> f7 [color=orchid];
+f21 -> f17;
+f23 -> f22;
+f17 -> f20;
+i28 -> f12;
+f14 -> f13;
+f12 -> f11;
+i11 -> f5;
+i46 -> f20;
+f18 -> f6;
+f19 -> f18;
+f15 -> f14;
+f20 -> f24;
+f22 -> f24;
+f6 -> f1;
+f7 -> f6;
+i48 -> f21;
+f9 -> f8;
+f17 -> f16;
+}
