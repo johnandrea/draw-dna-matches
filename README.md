@@ -40,7 +40,7 @@ is identified by an event note which begins with the string "Me," or "me,".
 2 NOTE Me, matching others
 ```
 
-By changing the internal program variable value of EVENT_ITEM to 'value' those sections should be similar to:
+By setting the option "--eventtype=value" those sections should be similar to:
 
 ```
 1 EVEN 732 cM
@@ -82,6 +82,10 @@ Output as a DOT file for creating a display with Graphviz. This is the default.
 
 or use
 --format=gedcom
+
+--eventtype=value
+
+Set the type of of data containing the DNA match values. See above GEDCOM file examples. Either 'value' or 'note'. Default is 'note'.
 
 Output as a GEDCOM file for import into another program. A minimal amount of data is copied into the output. 
 
