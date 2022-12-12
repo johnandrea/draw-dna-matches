@@ -85,6 +85,23 @@ or use
 
 Output as a GEDCOM file for import into another program. A minimal amount of data is copied into the output. 
 
+--relationship
+
+Add relationship name (sibling, parent, 1C, 2C1R, etc.) to matches. Default is none.
+
+--title="value"
+
+Display a title on the output chart. Default is no title.
+
+--reverse-arrows
+
+Reverse the order of the arrows between parents and children. Default is from children to parents.
+
+--orientation=direction
+
+Set the orientatation of the diagram in the DOT file output. Default is "LR" for left-to-right.
+Other choices are "TB" for top-to-bottom, plus "BT" (bottom-top), and "RL" (right-left).
+
 --libpath=relative-path-to-library
 
 The directory containing the readgedcom library, relative to the . Default is ".", the same location as this program file.
@@ -101,7 +118,14 @@ In the produced graphs, each dnamatch person will be shown in a green box. Any p
 ## Usage
 
 ```
-draw-dna-matches.py  dnamatch  family.ged  >out.dot  2>out.err
+draw-dna-matches.py  --relation  dnamatch  family.ged  >out.dot  2>out.err
+graphviz -Tpng out.dot -o out.png
+graphviz -Tsvg out.dot -o out.svg
+```
+
+Or to show only distant relatives
+```
+draw-dna-matches.py  --relation --max=800  dnamatch  family.ged  >out.dot  2>out.err
 graphviz -Tpng out.dot -o out.png
 graphviz -Tsvg out.dot -o out.svg
 ```
