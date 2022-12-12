@@ -45,7 +45,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '5.1.2' )
+    print( '5.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -79,13 +79,20 @@ def load_my_module( module_name, relative_path ):
 def get_program_options():
     results = dict()
 
+    orientations = [ 'lr', 'tb', 'bt', 'rl' ]
+    formats = ['dot', 'gedcom' ]
+
     results['version'] = False
     results['infile'] = None
     results['eventname'] = None
     results['libpath'] = '.'
     results['min'] = 0
     results['max'] = 5000
-    results['format'] = 'dot'
+    results['format'] = formats[0]
+    results['reverse'] = False
+    results['orientation'] = orientations[0]
+    results['title'] = None
+    results['relationship'] = False
 
     arg_help = 'Draw DNA matches.'
     parser = argparse.ArgumentParser( description=arg_help )
@@ -103,6 +110,18 @@ def get_program_options():
     formats = [ results['format'], 'gedcom' ]
     parser.add_argument( '--format', default=results['format'], choices=formats, help=arg_help )
 
+    arg_help = 'For dot file output, reverse the order of the links.'
+    parser.add_argument( '--reverse-arrows', default=results['reverse'], action='store_true', help=arg_help )
+
+    arg_help = 'Orientation of the output dot file tb=top-bottom, lt=left-right, etc. Default:' + results['orientation']
+    parser.add_argument( '--orientation', default=results['orientation'], type=str, help=arg_help )
+
+    arg_help = 'Title to add to graph. Default is none.'
+    parser.add_argument( '--title', default=results['title'], type=str, help=arg_help )
+
+    arg_help = 'Show the relationship name for the matches.'
+    parser.add_argument( '--relationship', default=results['relationship'], action='store_true', help=arg_help )
+
     # maybe this should be changed to have a type which better matched a directory
     arg_help = 'Location of the gedcom library. Default is current directory.'
     parser.add_argument( '--libpath', default=results['libpath'], type=str, help=arg_help )
@@ -118,7 +137,20 @@ def get_program_options():
     results['libpath'] = args.libpath
     results['min'] = args.min
     results['max'] = args.max
-    results['format'] = args.format
+    results['reverse'] = args.reverse_arrows
+    results['relationship'] = args.relationship
+
+    value = args.orientation.lower()
+    if value in orientations:
+       results['orientation'] = value
+
+    value = args.format.lower()
+    if value in formats:
+       results['format'] = value
+
+    value = args.title
+    if value:
+       results['title'] = value.strip()
 
     return results
 
@@ -379,10 +411,13 @@ def make_indi_dot_id( xref ):
     return 'i' + make_dot_id( str(xref) )
 
 
-def begin_dot():
+def begin_dot( orientation, title ):
     """ Start of the DOT output file """
     print( 'digraph family {' )
-    print( 'rankdir=LR;')
+    print( 'rankdir=' + orientation.upper() + ';' )
+    if title:
+       print( 'labelloc="t";' )
+       print( 'label="' + title + '";' )
 
 
 def end_dot():
@@ -512,7 +547,7 @@ def dot_labels( matches, fam_to_show, people_to_show, me_id ):
            output_indi_label( indi )
 
 
-def dot_connect( families_to_show, people_to_show ):
+def dot_connect( families_to_show, people_to_show, do_reverse ):
     """ Output the links from one person/family to the next. """
 
     def get_family_of_child( indi ):
@@ -530,6 +565,7 @@ def dot_connect( families_to_show, people_to_show ):
         return results
 
     def get_parent_families( fam ):
+        # return a list for easy handling, but its just a single item
         results = []
         for partner in get_partner_ids( fam ):
             for child_fam in get_family_of_child( partner ):
@@ -605,7 +641,10 @@ def dot_connect( families_to_show, people_to_show ):
     for route in routes:
         source = route[0]
         target = route[1]
-        print( source + ' -> ' + target + colors[target] + ';' )
+        if do_reverse:
+           print( target + ' -> ' + source + colors[target] + ';' )
+        else:
+           print( source + ' -> ' + target + colors[target] + ';' )
 
 
 def find_ancestors( indi, path ):
@@ -650,10 +689,10 @@ readgedcom = load_my_module( 'readgedcom', options['libpath'] )
 i_key = readgedcom.PARSED_INDI
 f_key = readgedcom.PARSED_FAM
 
-opts = dict()
-opts['display-gedcom-warnings'] = False
+data_opts = dict()
+data_opts['display-gedcom-warnings'] = False
 
-data = readgedcom.read_file( options['infile'], opts )
+data = readgedcom.read_file( options['infile'], data_opts )
 
 # people who have the dna event
 # matched[indi] = { note: the event text, shared: closest shared ancestor )
@@ -857,12 +896,17 @@ if DEBUG:
    print( 'people_to_display', people_to_display, file=sys.stderr )
 
 # Add relationship names
-# This could be optional
-for indi in matched:
-    if indi == me:
-       continue
-    if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
-       matched[indi]['relation'] = compute_relation( matched[indi]['closest_indi'] )
+if options['relationship']:
+   if DEBUG:
+      print( '', file=sys.stderr )
+      print( 'relationships', file=sys.stderr )
+   for indi in matched:
+       if indi == me:
+          continue
+       if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
+          matched[indi]['relation'] = compute_relation( matched[indi]['closest_indi'] )
+          if DEBUG:
+             print( '   ', indi, matched[indi]['relation'], file=sys.stderr )
 
 # Output to stdout
 
@@ -874,7 +918,7 @@ if options['format'] == 'gedcom':
 
 else:
 
-   begin_dot()
+   begin_dot( options['orientation'], options['title'] )
    dot_labels( matched, families_to_display, people_to_display, me )
-   dot_connect( families_to_display, people_to_display )
+   dot_connect( families_to_display, people_to_display, options['reverse'] )
    end_dot()
