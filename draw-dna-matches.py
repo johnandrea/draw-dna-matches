@@ -42,7 +42,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '5.3' )
+    print( '5.4' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -869,11 +869,13 @@ for indi in matched:
     if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
        closest = matched[indi]['closest_indi']['indi']
        # family containing that closest
-       fam = ancestors[me][closest]['fam']
-       families_to_display[fam] = False
-       # then the path to that person
-       for fam in ancestors[me][closest]['path']:
-           families_to_display[fam] = False
+       # if not an encestor, then its a direct descendent so skip this path
+       if closest in ancestors[me]:
+          fam = ancestors[me][closest]['fam']
+          families_to_display[fam] = False
+          # then the path to that person
+          for fam in ancestors[me][closest]['path']:
+              families_to_display[fam] = False
 
 for fam in families_to_display:
     families_to_display[fam] = does_fam_have_match( matched, data[f_key][fam] )
