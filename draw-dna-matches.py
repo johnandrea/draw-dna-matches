@@ -26,9 +26,6 @@ import os
 # add some extra output info and some details to stderr
 DEBUG = False
 
-# Within the event, 'note' or 'value' where the data is stored.
-EVENT_ITEM = 'note'
-
 # lines to ancestors
 line_colors = ['orchid', 'tomato', 'lightseagreen']
 line_colors.extend( ['gold', 'royalblue', 'coral'] )
@@ -45,7 +42,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '5.2' )
+    print( '5.3' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -81,10 +78,12 @@ def get_program_options():
 
     orientations = [ 'lr', 'tb', 'bt', 'rl' ]
     formats = ['dot', 'gedcom' ]
+    eventtypes = [ 'note', 'value' ]
 
     results['version'] = False
     results['infile'] = None
     results['eventname'] = None
+    results['eventtype'] = eventtypes[0]
     results['libpath'] = '.'
     results['min'] = 0
     results['max'] = 5000
@@ -113,7 +112,8 @@ def get_program_options():
     arg_help = 'For dot file output, reverse the order of the links.'
     parser.add_argument( '--reverse-arrows', default=results['reverse'], action='store_true', help=arg_help )
 
-    arg_help = 'Orientation of the output dot file tb=top-bottom, lt=left-right, etc. Default:' + results['orientation']
+    arg_help = 'Orientation of the output dot file tb=top-bottom, lt=left-right, etc.'
+    arg_help += ' Default:' + results['orientation']
     parser.add_argument( '--orientation', default=results['orientation'], type=str, help=arg_help )
 
     arg_help = 'Title to add to graph. Default is none.'
@@ -121,6 +121,11 @@ def get_program_options():
 
     arg_help = 'Show the relationship name for the matches.'
     parser.add_argument( '--relationship', default=results['relationship'], action='store_true', help=arg_help )
+
+    arg_help = 'Style of data record holding the DNA data values.'
+    arg_help += ' In the event note or the value.'
+    arg_help += ' Default:' + results['eventtype']
+    parser.add_argument( '--eventtype', default=results['eventtype'], type=str, help=arg_help )
 
     # maybe this should be changed to have a type which better matched a directory
     arg_help = 'Location of the gedcom library. Default is current directory.'
@@ -147,6 +152,10 @@ def get_program_options():
     value = args.format.lower()
     if value in formats:
        results['format'] = value
+
+    value = args.eventtype.lower()
+    if value in eventtypes:
+       results['eventtype'] = value
 
     value = args.title
     if value:
@@ -702,7 +711,7 @@ matched = dict()
 me = None
 
 for indi in data[i_key]:
-    result = check_for_dna_event( options['eventname'], EVENT_ITEM, data[i_key][indi] )
+    result = check_for_dna_event( options['eventname'], options['eventtype'], data[i_key][indi] )
     if result[0]:
        if result[1].lower().startswith( 'me,' ):
           matched[indi] = dict()
