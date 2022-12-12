@@ -139,7 +139,7 @@ draw-dna-matches.py  --format=gedcom  dnamatch  family.ged  >matches.ged
 Example usage if readgedcom.py is in a parallel directory
 
 ```
-..\draw-dna-matches.py --libpath=..\codecopy  dnamatch  family.ged  >out.dot  2>out.err
+draw-dna-matches.py --libpath=..\codecopy  dnamatch  family.ged  >out.dot  2>out.err
 ```
 
 ## Bug reports
