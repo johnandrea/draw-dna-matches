@@ -1,0 +1,32 @@
+digraph family {
+rankdir=LR;
+f16 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td bgcolor="springgreen"> Cathy Turner </td></tr>
+<tr><td bgcolor="springgreen">1750 cM</td></tr>
+<tr><td bgcolor="springgreen">grandparent</td></tr>
+<tr><td border="1"> + William Smith </td></tr>
+</table>
+>, shape="none"];
+f17 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td bgcolor="springgreen"> Laura Smith </td></tr>
+<tr><td bgcolor="springgreen">3600 cM</td></tr>
+<tr><td bgcolor="springgreen">parent</td></tr>
+<tr><td border="1"> + Eugene Anderson </td></tr>
+</table>
+>, shape="none"];
+f21 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td border="1"> Shiela Toner </td></tr>
+<tr><td bgcolor="lightblue"> + John Anderson </td></tr>
+<tr><td bgcolor="lightblue">me</td></tr>
+</table>
+>, shape="none"];
+i48 [label="Sonny Anderson\n3500 cM\nchild", shape="record", style=filled, color=springgreen];
+i49 [label="Judith Anderson\n2600 cM\nsibling", shape="record", style=filled, color=springgreen];
+f21 -> f17;
+i48 -> f21;
+i49 -> f17;
+f17 -> f16;
+}
