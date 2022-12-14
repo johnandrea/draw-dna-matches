@@ -42,7 +42,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '5.4' )
+    print( '6.0' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -247,10 +247,12 @@ def find_relation_label( me, them ):
 
 
 def compute_relation( closest ):
+    gen_me = len( closest['match-path'] )
+    gen_them = len( closest['path'] )
     half = ''
-    if closest['fam_me'] != closest['fam_them']:
+    if closest['fam'] != closest['match-fam']:
        half = 'half-'
-    return half + find_relation_label( closest['gen_me'], closest['gen_them'] )
+    return half + find_relation_label( gen_me, gen_them )
 
 
 def remove_numeric_comma( s ):
@@ -656,7 +658,7 @@ def dot_connect( families_to_show, people_to_show, do_reverse ):
            print( source + ' -> ' + target + colors[target] + ';' )
 
 
-def find_ancestors( indi, path ):
+def find_ancestors( indi, path, ancestors ):
     """ Return the ancestors for the given person.
         As a dict of [ancestor] = { 'fam': family,
                                     'path': [ families to get to this person ]
@@ -664,22 +666,69 @@ def find_ancestors( indi, path ):
         Length of the path is the number of generations to the ancestor.
 
     """
-    results = dict()
+
     key = 'famc'
     if key in data[i_key][indi]:
        # assuming blood relations are at index zero
        fam = data[i_key][indi][key][0]
 
+       new_path = path + [fam]
+
        for partner in ['husb','wife']:
            if partner in data[f_key][fam]:
-              partner_id = data[f_key][fam][partner][0]
-              results[partner_id] = { 'fam': fam, 'path':path }
-              ancestor_results = find_ancestors( partner_id, path + [fam] )
-              for ancestor in ancestor_results:
-                  # checking for existance will ensure only one path
-                  if ancestor not in results:
-                     results[ancestor] = ancestor_results[ancestor]
-    return results
+              ancestor = data[f_key][fam][partner][0]
+
+              do_update = True
+              if ancestor in ancestors:
+                 # pick the shortest path
+                 if ancestors[ancestor]['path'] < len(new_path):
+                    do_update = False
+              if do_update:
+                 ancestors[ancestor] = { 'fam': fam, 'path':new_path }
+
+              find_ancestors( ancestor, path + [fam], ancestors )
+
+
+def find_common_ancestor( indi, base_person, base_ancestors ):
+    # return the closest ancestor to the base person
+    # an empty restore means no match
+    result = dict()
+
+    ancestors = dict()
+    find_ancestors( indi, [], ancestors )
+
+    if base_person in ancestors:
+       # person is a direct descendant
+       result['indi'] = base_person
+       result['fam'] = ancestors[base_person]['fam'] # fam containing base person
+       result['path'] = ancestors[base_person]['path'] # from descendant to base person
+       result['match-fam'] = result['fam'] # same fam as above
+       result['match-path'] = [] # base person to base person
+
+    elif indi in base_ancestors:
+       # person is a direct ancestor
+       result['indi'] = indi
+       result['fam'] = base_ancestors[indi]['fam'] # fam containing ancestor
+       result['path'] = [] # base person to base person
+       result['match-fam'] = result['fam'] # same fam as above
+       result['match-path'] = base_ancestors[indi]['path'] # from base person to ancestor
+
+    else:
+       # pick a big number
+       found_len = 1000000
+
+       for ancestor in ancestors:
+           if ancestor in base_ancestors:
+              path_len = len( ancestors[ancestor]['path'] )
+              if path_len < found_len:
+                 found_len = path_len
+                 result['indi'] = ancestor
+                 result['fam'] = ancestors[ancestor]['fam']
+                 result['path'] = ancestors[ancestor]['path']
+                 result['match-fam'] = base_ancestors[ancestor]['fam']
+                 result['match-path'] = base_ancestors[ancestor]['path']
+
+    return result
 
 
 options = get_program_options()
@@ -727,176 +776,86 @@ if not me:
    print( 'Didnt find base person', file=sys.stderr )
    sys.exit()
 
-ancestors = dict()
-# 'me' is included in the matched list
-for indi in matched:
-    ancestors[indi] = find_ancestors( indi, [] )
+if DEBUG:
+   print( '', file=sys.stderr )
+   print( 'matches', file=sys.stderr )
+   for indi in matched:
+       show_items( indi, matched[indi] )
+
+my_ancestors = dict()
+find_ancestors( me, [], my_ancestors )
 
 if DEBUG:
    print( '', file=sys.stderr )
-   print( 'ancestors', file=sys.stderr )
-   for indi in ancestors:
-       if indi == me:
-          print( 'me =', indi, file=sys.stderr )
-       show_items( indi, ancestors[indi] )
-
-# how many generations in the tree
-# pick a big number
-max_gen = 1000000
-
-# For each of the dna matched people,
-# find the closest family shared with me.
-# If not found then the match can't be displayed which is ok
-# because the display styles need to have that connection.
+   print( 'my ancestors(base person)', me, file=sys.stderr )
+   for indi in my_ancestors:
+       show_items( indi, my_ancestors[indi] )
 
 for indi in matched:
     if indi == me:
-       continue
-
-    found_gen = max_gen
-    found_fam = None
-
-    # is this person a direct ancestor of 'me'
-    if indi in ancestors[me]:
-       found_fam = ancestors[me][indi]['fam']
-
+       matched[indi]['common'] = None
     else:
-       # is this person a direct descendent of 'me'
-       if me in ancestors[indi]:
-          found_fam = ancestors[indi][me]['fam']
-
-       else:
-          for ancestor in ancestors[indi]:
-              ancestor_fam = ancestors[indi][ancestor]['fam']
-              for my_ancestor in ancestors[me]:
-                  my_ancestor_fam = ancestors[me][my_ancestor]['fam']
-                  if ancestor_fam == my_ancestor_fam:
-                     gen_to_me = len( ancestors[me][my_ancestor]['path'] )
-                     if gen_to_me < found_gen:
-                        found_gen = gen_to_me
-                        found_fam = ancestors[me][my_ancestor]['fam']
-
-    if found_fam is not None:
-       # the closest shared family
-       matched[indi]['closest_fam'] = found_fam
+       matched[indi]['common'] = find_common_ancestor( indi, me, my_ancestors )
 
 if DEBUG:
    print( '', file=sys.stderr )
-   print( 'matches, closest fam', file=sys.stderr )
+   print( 'matches, closest ancestor', file=sys.stderr )
    for indi in matched:
-       show_items( indi, matched[indi] )
+       if matched[indi]['common']:
+          show_items( indi, matched[indi]['common'] )
 
-# For relationship calculations find closest shared ancestor
-# which is different from closest family because of half-relationships.
-# Unfortunately half-siblings would be skipped in this case.
-
-for indi in matched:
-    # ignore those without a found closest family because
-    # they won't be output
-    if 'closest_fam' not in matched[indi]:
-       continue
-
-    found_gen = max_gen
-    found_ancestor = None
-    fam_me = None
-    gen_them = None
-    fam_them = None
-
-    # is this person a direct ancestor of 'me'
-    if indi in ancestors[me]:
-       gen_them = 0
-       found_ancestor = indi
-       fam_me = matched[indi]['closest_fam']
-       found_gen = 1 + len( ancestors[me][indi]['path'] )
-       fam_them = matched[indi]['closest_fam']
-
-    else:
-      # is this person a direct descendent of 'me'
-      if me in ancestors[indi]:
-         gen_them = 1 + len( ancestors[indi][me]['path'] )
-         found_ancestor = me
-         fam_me = matched[indi]['closest_fam']
-         found_gen =  0
-         fam_them = matched[indi]['closest_fam']
-
-      else:
-        for ancestor in ancestors[indi]:
-            for my_ancestor in ancestors[me]:
-                if ancestor == my_ancestor:
-                   gen_to_me = 1 + len( ancestors[me][ancestor]['path'] )
-                   if gen_to_me < found_gen:
-                      found_ancestor = ancestor
-                      found_gen = gen_to_me
-                      gen_them = 1 + len( ancestors[indi][found_ancestor]['path'] )
-                      fam_them = ancestors[indi][found_ancestor]['fam']
-                      fam_me = ancestors[me][found_ancestor]['fam']
-
-
-    if found_ancestor is not None:
-       matched[indi]['closest_indi'] = dict()
-       matched[indi]['closest_indi']['indi'] = found_ancestor
-       matched[indi]['closest_indi']['gen_them'] = gen_them
-       matched[indi]['closest_indi']['fam_them'] = fam_them
-       matched[indi]['closest_indi']['gen_me'] = found_gen
-       matched[indi]['closest_indi']['fam_me'] = fam_me
-
-if DEBUG:
-   print( '', file=sys.stderr )
-   print( 'matches, closest indi', file=sys.stderr )
+# Add relationship names
+if options['relationship']:
+   if DEBUG:
+      print( '', file=sys.stderr )
+      print( 'relationships', file=sys.stderr )
    for indi in matched:
-       show_items( indi, matched[indi] )
+       if matched[indi]['common']:
+          matched[indi]['relation'] = compute_relation( matched[indi]['common'] )
+          if DEBUG:
+             print( '   ', indi, matched[indi]['relation'], file=sys.stderr )
 
 # For display purposes find all the families in all the paths.
 # Value for family will be True if one of the partners is also a dna match.
 
 families_to_display = dict()
-
 for indi in matched:
-    if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
-       fam = matched[indi]['closest_fam']
-       families_to_display[fam] = False
-       for item in ['fam_them','fam_me']:
-           fam = matched[indi]['closest_indi'][item]
+    if matched[indi]['common']:
+       path_fams = [] # used below
+       for key in ['fam','match-fam']:
+           fam = matched[indi]['common'][key]
            families_to_display[fam] = False
-       shared_indi = matched[indi]['closest_indi']['indi']
-       if shared_indi in ancestors[indi]:
-          for fam in ancestors[indi][shared_indi]['path']:
-              families_to_display[fam] = False
+           path_fams.append( fam )
+       for key in ['path','match-path']:
+           for fam in matched[indi]['common'][key]:
+               families_to_display[fam] = False
 
-# 'me' needs to have families added via the path from me to the all matches
-# because they would only occur if a descendent of 'me' was included
-for indi in matched:
-    if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
-       closest = matched[indi]['closest_indi']['indi']
-       # family containing that closest
-       # if not an encestor, then its a direct descendent so skip this path
-       if closest in ancestors[me]:
-          fam = ancestors[me][closest]['fam']
-          families_to_display[fam] = False
-          # then the path to that person
-          for fam in ancestors[me][closest]['path']:
-              families_to_display[fam] = False
+       # for half relationships, step to one older generation to ensure
+       # the paths are connected
+       if path_fams[0] != path_fams[1]:
+          common = matched[indi]['common']['indi']
+          key = 'famc'
+          if key in data[i_key][common]:
+             fam = data[i_key][common][key][0]
+             families_to_display[fam] = False
+
+# do the test
 
 for fam in families_to_display:
     families_to_display[fam] = does_fam_have_match( matched, data[f_key][fam] )
-
-# Likely possible to trim families at the top.
-# If none above contain matches
-# and if none of the matches link to anything above.
 
 if DEBUG:
    print( '', file=sys.stderr )
    show_items( 'families_to_display', families_to_display )
 
 # For display purposes find the people who are in the families in the paths
-# including those who are matches even don't have their own family
+# Including those who are matches even don't have their own family
 
 people_to_display = set()
 people_to_display.add( me )
 for indi in matched:
-    if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
+    if matched[indi]['common']:
        people_to_display.add( indi )
-
 for fam in families_to_display:
     for partner in ['husb','wife']:
         if partner in data[f_key][fam]:
@@ -905,19 +864,6 @@ for fam in families_to_display:
 if DEBUG:
    print( '', file=sys.stderr )
    print( 'people_to_display', people_to_display, file=sys.stderr )
-
-# Add relationship names
-if options['relationship']:
-   if DEBUG:
-      print( '', file=sys.stderr )
-      print( 'relationships', file=sys.stderr )
-   for indi in matched:
-       if indi == me:
-          continue
-       if 'closest_fam' in matched[indi] and 'closest_indi' in matched[indi]:
-          matched[indi]['relation'] = compute_relation( matched[indi]['closest_indi'] )
-          if DEBUG:
-             print( '   ', indi, matched[indi]['relation'], file=sys.stderr )
 
 # Output to stdout
 
