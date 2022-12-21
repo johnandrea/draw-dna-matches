@@ -1,0 +1,55 @@
+digraph family {
+rankdir=LR;
+f2 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td bgcolor="springgreen"> Susan Waters </td></tr>
+<tr><td bgcolor="springgreen">1750 cM</td></tr>
+<tr><td bgcolor="springgreen">grandparent</td></tr>
+<tr><td border="1"> + John French </td></tr>
+</table>
+>, shape="none", color=orange];
+f3 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td border="1"> Clara Spencer </td></tr>
+<tr><td bgcolor="springgreen"> + William French </td></tr>
+<tr><td bgcolor="springgreen">3300 cM</td></tr>
+<tr><td bgcolor="springgreen">parent</td></tr>
+</table>
+>, shape="none"];
+f4 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td bgcolor="springgreen"> Liz French </td></tr>
+<tr><td bgcolor="springgreen">1740 cM</td></tr>
+<tr><td bgcolor="springgreen">auncle</td></tr>
+<tr><td border="1"> + Sam Green </td></tr>
+</table>
+>, shape="none"];
+f6 [label="Harriet \n+ Peter Spencer"];
+f7 [label="Martha \n+ Fred Spencer"];
+f5 [label=<
+<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
+<tr><td bgcolor="springgreen"> Susan Waters </td></tr>
+<tr><td bgcolor="springgreen">1750 cM</td></tr>
+<tr><td bgcolor="springgreen">grandparent</td></tr>
+<tr><td border="1"> + George Ruff </td></tr>
+</table>
+>, shape="none", color=orange];
+f8 [label="Hannah Spencer\n+ Arthur Ruff"];
+f1 [label="Jane \n+ Thomas Waters"];
+i7 [label="Julia French\nme", shape="record", style=filled, color=lightblue];
+i19 [label="DOUBLE Ruff\n900 cM\nhalf-1C", shape="record", style=filled, color=springgreen];
+i10 [label="Allan Green\n860 cM\n1C", shape="record", style=filled, color=springgreen];
+i18 [label="Louise Spencer\n850 cM\n1C", shape="record", style=filled, color=springgreen];
+f2 -> f1;
+f8 -> f5;
+i10 -> f4;
+f5 -> f1;
+f4 -> f2;
+i7 -> f3;
+i19 -> f8;
+i18 -> f7;
+f8 -> f6 [color=orchid];
+f3 -> f6 [color=orchid];
+f7 -> f6 [color=orchid];
+f3 -> f2;
+}

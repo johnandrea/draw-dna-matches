@@ -1,0 +1,192 @@
+﻿0 HEAD
+1 SOUR manual
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 SUBM @SUB1@
+0 @SUB1@ SUBM
+1 NAME John Andrea
+0 @I1@ INDI
+1 NAME Thomas /Waters/
+2 SURN Waters
+2 GIVN Thomas
+1 SEX M
+1 DEAT Y
+1 FAMS @F1@
+0 @I2@ INDI
+1 NAME Jane //
+2 GIVN Jane
+1 SEX F
+1 DEAT Y
+1 FAMS @F1@
+0 @I3@ INDI
+1 NAME Susan /Waters/
+2 SURN Waters
+2 GIVN Susan
+1 SEX F
+1 EVEN
+2 TYPE dnamatch
+2 NOTE 1750 cM
+1 DEAT Y
+1 FAMS @F2@
+1 FAMS @F5@
+1 FAMC @F1@
+0 @I4@ INDI
+1 NAME John /French/
+2 SURN French
+2 GIVN John
+1 SEX M
+1 DEAT Y
+1 FAMS @F2@
+0 @I5@ INDI
+1 NAME William /French/
+2 SURN French
+2 GIVN William
+1 SEX M
+1 EVEN
+2 TYPE dnamatch
+2 NOTE 3300 cM
+1 FAMS @F3@
+1 FAMC @F2@
+0 @I6@ INDI
+1 NAME Clara /Spencer/
+2 SURN Spencer
+2 GIVN Clara
+1 SEX F
+1 FAMS @F3@
+1 FAMC @F6@
+0 @I7@ INDI
+1 NAME Julia /French/
+2 SURN French
+2 GIVN Julia
+1 SEX F
+1 EVEN
+2 TYPE dnamatch
+2 NOTE me,
+1 FAMC @F3@
+0 @I8@ INDI
+1 NAME Liz /French/
+2 SURN French
+2 GIVN Liz
+1 SEX F
+1 EVEN
+2 TYPE dnamatch
+2 NOTE 1740 cM
+1 FAMS @F4@
+1 FAMC @F2@
+0 @I9@ INDI
+1 NAME Sam /Green/
+2 SURN Green
+2 GIVN Sam
+1 SEX M
+1 FAMS @F4@
+0 @I10@ INDI
+1 NAME Allan /Green/
+2 SURN Green
+2 GIVN Allan
+1 SEX M
+1 EVEN
+2 TYPE dnamatch
+2 NOTE 860 cM
+1 FAMC @F4@
+0 @I11@ INDI
+1 NAME George /Ruff/
+2 SURN Ruff
+2 GIVN George
+1 SEX M
+1 DEAT Y
+1 FAMS @F5@
+0 @I12@ INDI
+1 NAME Arthur /Ruff/
+2 SURN Ruff
+2 GIVN Arthur
+1 SEX M
+1 FAMS @F8@
+1 FAMC @F5@
+0 @I13@ INDI
+1 NAME Peter /Spencer/
+2 SURN Spencer
+2 GIVN Peter
+1 SEX M
+1 DEAT Y
+1 FAMS @F6@
+0 @I14@ INDI
+1 NAME Harriet //
+2 GIVN Harriet
+1 SEX F
+1 DEAT Y
+1 FAMS @F6@
+0 @I15@ INDI
+1 NAME Hannah /Spencer/
+2 SURN Spencer
+2 GIVN Hannah
+1 SEX F
+1 FAMS @F8@
+1 FAMC @F6@
+0 @I16@ INDI
+1 NAME Fred /Spencer/
+2 SURN Spencer
+2 GIVN Fred
+1 SEX M
+1 FAMS @F7@
+1 FAMC @F6@
+0 @I17@ INDI
+1 NAME Martha //
+2 GIVN Martha
+1 SEX F
+1 FAMS @F7@
+0 @I18@ INDI
+1 NAME Louise /Spencer/
+2 SURN Spencer
+2 GIVN Louise
+1 SEX F
+1 EVEN
+2 TYPE dnamatch
+2 NOTE 850 cM
+1 FAMC @F7@
+0 @I19@ INDI
+1 NAME DOUBLE /Ruff/
+2 SURN Ruff
+2 GIVN DOUBLE
+1 SEX F
+1 EVEN
+2 TYPE dnamatch
+2 NOTE 900 cM
+1 FAMC @F8@
+0 @F1@ FAM
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I3@
+0 @F2@ FAM
+1 HUSB @I4@
+1 WIFE @I3@
+1 CHIL @I5@
+1 CHIL @I8@
+0 @F3@ FAM
+1 HUSB @I5@
+1 WIFE @I6@
+1 CHIL @I7@
+0 @F4@ FAM
+1 HUSB @I9@
+1 WIFE @I8@
+1 CHIL @I10@
+0 @F5@ FAM
+1 HUSB @I11@
+1 WIFE @I3@
+1 CHIL @I12@
+0 @F6@ FAM
+1 HUSB @I13@
+1 WIFE @I14@
+1 CHIL @I6@
+1 CHIL @I15@
+1 CHIL @I16@
+0 @F7@ FAM
+1 HUSB @I16@
+1 WIFE @I17@
+1 CHIL @I18@
+0 @F8@ FAM
+1 HUSB @I12@
+1 WIFE @I15@
+1 CHIL @I19@
+0 TRLR
