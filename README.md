@@ -152,6 +152,7 @@ This code is provided with neither support nor warranty.
 
 ### Future enhancements
 
+- Try to find simplest path in a multiple path relationship. I.E. 2C1R rather than half-2C1R.
 - Handle non-ASCII names in a manner better for SVG output.
 - Handle family matched above the tree top.
 - Output to other formats (Cytoscape, etc.)
