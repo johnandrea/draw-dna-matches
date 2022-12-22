@@ -42,7 +42,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '6.0.1' )
+    print( '6.0.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -764,7 +764,7 @@ for indi in data[i_key]:
     result = check_for_dna_event( options['eventname'], options['eventtype'], data[i_key][indi] )
     if result[0]:
        test_for_me = result[1].lower()
-       if test_for_me == 'me' or test_for_me.startswith( 'me,' ):
+       if test_for_me == 'me' or test_for_me[2] in [' ', '.', ',', ':']:
           matched[indi] = dict()
           matched[indi]['note'] = 'me'
           me = indi
