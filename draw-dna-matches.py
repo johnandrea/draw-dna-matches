@@ -9,13 +9,17 @@ import os
 # Given a GEDCOM with people having a custom event of name as input
 # and an optional note containing the cM value.
 # The person for whom the matches are compared should have a note or value
-# beginning with 'Me,'
+# beginning with 'Me ', "Me,", "Me." or equal to "Me" (case independant).
 #
 # An example of a section in a gedcom file:
 # 1 EVEN Ancestry
 # 2 TYPE dnamatch
 # 2 DATE BEF 2021
 # 2 NOTE 290 cM across 15 segments
+# and
+# 1 EVEN
+# 2 TYPE dnamatch
+# 2 NOTE me
 #
 # Might not handle the situation where the closest shared family between
 # two people doesn't exist in the data.
