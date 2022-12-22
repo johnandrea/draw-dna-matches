@@ -32,7 +32,7 @@ An example of a relevant portion of the input file:
 ```
 
 The matches are intended to be made against one person in the data file. That person
-is identified by an event note which begins with the string "Me," or "me,".
+is identified by an event note which is "Me" or begins with "Me ", "me." or "me," (case independant).
 
 ```
 1 EVEN
@@ -50,7 +50,7 @@ By setting the option "--eventtype=value" those sections should be similar to:
 and
 
 ```
-1 EVEN me, start person
+1 EVEN me. The start person
 2 TYPE dnamatch
 ```
 
