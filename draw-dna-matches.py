@@ -42,7 +42,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '6.0' )
+    print( '6.0.1' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -258,7 +258,8 @@ def compute_relation( closest ):
 def remove_numeric_comma( s ):
     """ Given 1,234 1,234,567 and similar, remove the comma.
         Does the same for all such patterns in the string.
-        Assuming anglo style numbers rather than euro style of 1.234,99 """
+        Assuming anglo style numbers rather than euro style of 1.234,99
+        Don't use a simple replace, get only the ones inside a number. """
 
     comma_pattern = re.compile( r'\d,\d' )
 
@@ -762,7 +763,8 @@ me = None
 for indi in data[i_key]:
     result = check_for_dna_event( options['eventname'], options['eventtype'], data[i_key][indi] )
     if result[0]:
-       if result[1].lower().startswith( 'me,' ):
+       test_for_me = result[1].lower()
+       if test_for_me == 'me' or test_for_me.startswith( 'me,' ):
           matched[indi] = dict()
           matched[indi]['note'] = 'me'
           me = indi
