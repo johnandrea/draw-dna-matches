@@ -46,7 +46,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '6.0.2' )
+    print( '6.0.3' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -447,6 +447,10 @@ def dot_labels( matches, fam_to_show, people_to_show, me_id ):
         'fam_to_show' has a boolean value of a-partner-is-dna-matched
         'people_to_show' is a plain list
         'me_id' is id of main person
+
+        See https://graphviz.org/doc/info/shapes.html
+        section "Recreating the Record Example"
+        Using HTML is the only way to apply color only one partner in a family.
     """
 
     def output_label( dot_id, s, extra ):
