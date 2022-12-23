@@ -1,0 +1,51 @@
+digraph family {
+node [shape=plaintext];
+rankdir=LR;
+labelloc="t";
+label="Double cousin concept";
+f2 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="h1">George Ruff</td></tr>
+<tr><td port="u1" bgcolor="cyan">&amp;</td></tr>
+<tr><td port="w" bgcolor="cyan">Susan Waters</td></tr>
+<tr><td port="u" bgcolor="cyan">&amp;</td></tr>
+<tr><td port="h">John French</td></tr>
+</table>>];
+f3 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w" bgcolor="pink">Clara Spencer</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h" bgcolor="cyan">William French</td></tr>
+</table>>];
+f6 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Harriet</td></tr>
+<tr><td port="u" bgcolor="pink">&amp;</td></tr>
+<tr><td port="h">Peter Spencer</td></tr>
+</table>>];
+f8 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w" bgcolor="pink">Hannah Spencer</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h" bgcolor="cyan">Arthur Ruff</td></tr>
+</table>>];
+i7 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i">Julia French</td></tr>
+</table>>];
+i19 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i">Cousin Ruff<br/>1C via Spencer<br/>half-1C via Waters</td></tr>
+</table>>];
+i20 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="cyan">Waters</td></tr>
+</table>>];
+f3:h -> f2:u [color=blue];
+f8:h -> f2:u1 [color=blue];
+f3:w -> f6:u [color=red];
+i7:i -> f3:u;
+f8:w -> f6:u [color=red];
+i19:i -> f8:u;
+f2:w -> i20:i [color=blue];
+}
