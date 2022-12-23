@@ -160,6 +160,22 @@
 2 TYPE dnamatch
 2 NOTE 900 cM
 1 FAMC @F8@
+1 FAMS @F9@
+0 @I20@ INDI
+1 NAME Louis /Sweet/
+2 GIVN Louis
+2 SURN Sweet
+1 SEX M
+1 FAMS @F9@
+0 @I21@ INDI
+1 NAME Billy /Sweet/
+2 GIVN Billy
+2 SURN Sweet
+1 SEX M
+1 EVEN
+2 TYPE dnamatch
+2 NOTE 430 cM, 1C1R
+1 FAMC @F9@
 0 @F1@ FAM
 1 HUSB @I1@
 1 WIFE @I2@
@@ -195,4 +211,8 @@
 1 HUSB @I12@
 1 WIFE @I15@
 1 CHIL @I19@
+0 @F9@ FAM
+1 HUSB @I20@
+1 WIFE @I19@
+1 CHIL @I21@
 0 TRLR
