@@ -311,7 +311,7 @@ def get_name( individual ):
     # the standard unknown code is not good for svg output
     if '?' in name and '[' in name and ']' in name:
        name = 'unknown'
-    return name.replace( '/', '' ).replace('"','&quot;').replace("'","&rsquo;")
+    return name.replace( '/', '' ).replace( '&', '&amp;' ).replace('"','&quot;').replace("'","&rsquo;")
 
 
 def check_for_dna_event( dna_event, value_key, individual ):
@@ -458,10 +458,6 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
         and then all labels everything needs to be HTML.
     """
 
-    def unquote( s ):
-        # change characters to html entities
-        return s.replace( '&', '&amp;' ).replace( "'", '&quot;' ).replace( '"', '&quot;' )
-
     def output_label( dot_id, s ):
         text = '<\n<table cellpadding="3" border="1" cellspacing="0" cellborder="0">\n'
         text += s
@@ -478,7 +474,7 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
                parent_id = data[f_key][fam][parent][0]
                parent_ids.append( parent_id )
 
-               name = unquote( get_name( data[i_key][parent_id] ) )
+               name = get_name( data[i_key][parent_id] )
 
                text += '<tr><td port="' + parent[0] + '"'
                if parent_id in matched:
@@ -489,23 +485,17 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
                   if parent_id in married_multi:
                      box_color = multi_marr_color
 
-                  #text += dot_indi_row( parent[0], box_color, name )
-                  #text += dot_indi_row( None, box_color, matches[parent_id]['note'] )
-                  #if 'relation' in matches[parent_id]:
-                  #   text += dot_indi_row( None, box_color, matches[parent_id]['relation'] )
                   text += ' bgcolor="' + box_color + '">' + name
                   text += '<br/>' + matches[parent_id]['note']
                   if 'relation' in matches[parent_id]:
                      text += '<br/>' + matched[parent_id]['relation']
                else:
-                  #text += dot_indi_row( parent[0], None, name )
                   text += '>' + name
                text += '</td></tr>\n'
 
             if add_sep:
                add_sep = False
                # "u" for "union"
-               #text += dot_indi_row( 'u', None, '&amp;' )
                text += '<tr><td port="u">&amp;</td></tr>\n'
 
         output_label( make_fam_dot_id(fam), text )
@@ -513,7 +503,7 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
         return parent_ids
 
     def output_indi_label( indi ):
-        name = unquote( get_name( data[i_key][indi] ) )
+        name = get_name( data[i_key][indi] )
 
         text = '<tr><td port="i"'
         if indi in matches:
@@ -521,16 +511,11 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
            if indi == me_id:
               box_color = me_color
 
-           #text += dot_indi_row( 'i', box_color, name )
-           #text += dot_indi_row( None, box_color, matches[indi]['note'] )
-           #if 'relation' in matches[indi]:
-           #   text += dot_indi_row( None, box_color, matches[indi]['relation'] )
            text += ' bgcolor="' + box_color + '">' + name
            text += '<br/>' + matches[indi]['note']
            if 'relation' in matches[indi]:
               text += '<br/>' + matches[indi]['relation']
         else:
-           #text += dot_indi_row( 'i', None, name )
            text += '>' + name
         text += '</td></tr>\n'
 
@@ -559,7 +544,7 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
            output_indi_label( indi )
 
 
-def dot_connect( families_to_show, people_to_show, married_multi, do_reverse ):
+def dot_connect( families_to_show, people_to_show, do_reverse ):
     """ Output the links from one person/family to the next. """
 
     def get_family_of_child( indi ):
@@ -568,15 +553,6 @@ def dot_connect( families_to_show, people_to_show, married_multi, do_reverse ):
         if key in data[i_key][indi]:
            results.append( data[i_key][indi][key][0] )
         return results
-
-    def get_post_in_family( fam, indi ):
-        result = ''
-        for partner in ['wife','husb']:
-            if partner in data[f_key][fam]:
-               if data[f_key][fam][partner][0] == indi:
-                  result = make_fam_dot_id( fam ) + ':' + partner[0]
-                  break
-        return result
 
     # if this many incoming edges (or more), set a color on the edges
     n_to_color = 3
@@ -651,21 +627,6 @@ def dot_connect( families_to_show, people_to_show, married_multi, do_reverse ):
            print( target + ' -> ' + source + colors[target] + ';' )
         else:
            print( source + ' -> ' + target + colors[target] + ';' )
-
-    # and for people who are married multiple times,
-    # connect them together so that graphviz can put them next to each other
-    # presumably by reducing overall crossed lines
-
-    # --> nope, this style ruins the alignment of generations
-
-    for indi in married_multi:
-        first_fam = None
-        for fam in married_multi[indi]:
-            if first_fam is None:
-               first_fam = get_post_in_family( fam, indi )
-            else:
-               next_fam = get_post_in_family( fam, indi )
-               print( first_fam + ' -> ' + next_fam + ';' )
 
 
 def find_ancestors( indi, path, ancestors ):
@@ -897,6 +858,10 @@ if DEBUG:
 
 multiple_marriages = find_families_of_multiple_marriages( people_to_display, families_to_display )
 
+if DEBUG:
+   print( '', file=sys.stderr )
+   show_items( 'multiply married', multiple_marriages )
+
 # Output to stdout
 
 if options['format'] == 'gedcom':
@@ -909,5 +874,5 @@ else:
 
    begin_dot( options['orientation'], options['title'] )
    dot_labels( matched, families_to_display, people_to_display, multiple_marriages, me )
-   dot_connect( families_to_display, people_to_display, multiple_marriages, options['reverse'] )
+   dot_connect( families_to_display, people_to_display, options['reverse'] )
    end_dot()
