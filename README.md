@@ -11,7 +11,7 @@ A program that can help with viewing DNA matched family members.
 
 - Requires Python 3.6+
 - Won't draw path if closest ancestor is not in the data file
-- Double-cousins and other multiple relationships are shown in only one path
+- Double-cousins and other multiple relationships are shown in only one path. Direct relationships are selected over half relationships.
 - Assumes that blood (biological) family connections are listed first in the data
 
 ## Installation
