@@ -46,7 +46,7 @@ multi_marr_color = 'goldenrod'
 
 
 def show_version():
-    print( '6.1.1' )
+    print( '6.1.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -420,11 +420,13 @@ def ged_families( families, people ):
 def make_dot_id( xref ):
     return xref.lower().replace('@','').replace('i','').replace('f','').replace('.','')
 
-def make_fam_dot_id( xref ):
-    return 'f' + make_dot_id( str(xref) )
+def make_fam_dot_id( fam ):
+    # requires use of readgedcom v1.14.0+
+    return 'f' + make_dot_id( str(data[f_key][fam]['xref']) )
 
-def make_indi_dot_id( xref ):
-    return 'i' + make_dot_id( str(xref) )
+def make_indi_dot_id( indi ):
+    # requires use of readgedcom v1.14.0+
+    return 'i' + make_dot_id( str(data[i_key][indi]['xref']) )
 
 
 def begin_dot( orientation, title ):
