@@ -121,58 +121,58 @@ f20 [label=<
 <tr><td port="u">&amp;</td></tr>
 <tr><td port="h">Michael Anderson</td></tr>
 </table>>];
-i34 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Martha Growther<br/>53 cM<br/>2C1R</td></tr>
-</table>>];
-i43 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Clark Marshall<br/>14 cM<br/>2C1R</td></tr>
-</table>>];
 i46 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Laura Anderson<br/>1100 cM<br/>auncle</td></tr>
 </table>>];
-i24 [label=<
+i34 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Dave Hill<br/>121 cM<br/>2C1R</td></tr>
-</table>>];
-i11 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Patsy Wilson<br/>19 cM<br/>half-3C</td></tr>
-</table>>];
-i38 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="lightblue">John Anderson<br/>me</td></tr>
+<tr><td port="i" bgcolor="springgreen">Martha Growther<br/>53 cM<br/>2C1R</td></tr>
 </table>>];
 i28 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Joy Jackson<br/>242 cM<br/>2C</td></tr>
 </table>>];
-f14:h -> f13:u;
-f4:w -> f3:u;
-f16:w -> f7:u [color=orchid];
-f13:h -> f7:u [color=orchid];
-i43:i -> f19:u;
-f11:w -> f7:u [color=orchid];
-f12:h -> f11:u;
-i38:i -> f17:u;
-f17:h -> f20:u;
-f2:w -> f1:u;
+i38 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="lightblue">John Anderson<br/>me</td></tr>
+</table>>];
+i11 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Patsy Wilson<br/>19 cM<br/>half-3C</td></tr>
+</table>>];
+i24 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Dave Hill<br/>121 cM<br/>2C1R</td></tr>
+</table>>];
+i43 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Clark Marshall<br/>14 cM<br/>2C1R</td></tr>
+</table>>];
+i24:i -> f10:u;
+f15:w -> f14:u;
 f6:w -> f1:u;
-i46:i -> f20:u;
-f17:w -> f16:u;
-f18:h -> f6:u;
-f10:h -> f9:u;
-f19:h -> f18:u;
-f8:w -> f7:u [color=orchid];
+f13:h -> f7:u [color=orchid];
+i28:i -> f12:u;
+f2:w -> f1:u;
 f3:w -> f2:u;
 f7:w -> f6:u;
-f15:w -> f14:u;
-i28:i -> f12:u;
+i43:i -> f19:u;
+f17:h -> f20:u;
+f11:w -> f7:u [color=orchid];
+f10:h -> f9:u;
+f12:h -> f11:u;
+i46:i -> f20:u;
 i34:i -> f15:u;
-i24:i -> f10:u;
-i11:i -> f5:u;
-f5:w -> f4:u;
+f4:w -> f3:u;
+f8:w -> f7:u [color=orchid];
 f9:w -> f8:u;
+i38:i -> f17:u;
+f14:h -> f13:u;
+f16:w -> f7:u [color=orchid];
+f17:w -> f16:u;
+f18:h -> f6:u;
+f5:w -> f4:u;
+f19:h -> f18:u;
+i11:i -> f5:u;
 }
