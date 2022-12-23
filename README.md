@@ -21,7 +21,7 @@ No installation process. Copy the program and the library.
 ## Input
 
 The input is a GEDCOM file exported from a genealogy program. The key is that the DNA matches are marked in a custom event whose name is an input option. The match cM value will be extracted if found in that event's note field and will be
-displayed below the person's name. The cM value in the note can be given as only a single number, or else it must be a number followed by cM. Such as "62", "123cm", "text 123 cm", "1,234 cM", etc. However "text 321 text" will not match.
+displayed below the person's name. The cM value in the note can be given as only a single number, or else it must be a number followed by cM. Such as "62 cM", "123cm", "text 123 cm", "1,234 cM", etc. However "text 321 text" will not match.
 
 An example of a relevant portion of the input file:
 
