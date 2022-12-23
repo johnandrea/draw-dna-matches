@@ -3,7 +3,7 @@ node [shape=plaintext];
 rankdir=LR;
 f2 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w" bgcolor="goldenrod">Susan Waters<br/>1750 cM<br/>grandparent</td></tr>
+<tr><td port="w" bgcolor="springgreen">Susan Waters<br/>1750 cM<br/>grandparent</td></tr>
 <tr><td port="u">&amp;</td></tr>
 <tr><td port="h">John French</td></tr>
 </table>>];
@@ -31,31 +31,19 @@ f7 [label=<
 <tr><td port="u">&amp;</td></tr>
 <tr><td port="h">Fred Spencer</td></tr>
 </table>>];
-f5 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w" bgcolor="goldenrod">Susan Waters<br/>1750 cM<br/>grandparent</td></tr>
-<tr><td port="u">&amp;</td></tr>
-<tr><td port="h">George Ruff</td></tr>
-</table>>];
 f8 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="w">Hannah Spencer</td></tr>
 <tr><td port="u">&amp;</td></tr>
 <tr><td port="h">Arthur Ruff</td></tr>
 </table>>];
-f1 [label=<
+i19 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w">Jane </td></tr>
-<tr><td port="u">&amp;</td></tr>
-<tr><td port="h">Thomas Waters</td></tr>
+<tr><td port="i" bgcolor="springgreen">DOUBLE Ruff<br/>900 cM<br/>1C</td></tr>
 </table>>];
 i7 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="lightblue">Julia French<br/>me</td></tr>
-</table>>];
-i19 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">DOUBLE Ruff<br/>900 cM<br/>half-1C</td></tr>
 </table>>];
 i10 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
@@ -65,16 +53,13 @@ i18 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Louise Spencer<br/>850 cM<br/>1C</td></tr>
 </table>>];
-f2:w -> f1:u;
-f7:h -> f6:u [color=orchid];
-f8:w -> f6:u [color=orchid];
-f3:h -> f2:u;
-f5:w -> f1:u;
-f8:h -> f5:u;
-i10:i -> f4:u;
 i19:i -> f8:u;
-i7:i -> f3:u;
-f4:w -> f2:u;
+i10:i -> f4:u;
 i18:i -> f7:u;
 f3:w -> f6:u [color=orchid];
+f4:w -> f2:u;
+f8:w -> f6:u [color=orchid];
+f3:h -> f2:u;
+i7:i -> f3:u;
+f7:h -> f6:u [color=orchid];
 }

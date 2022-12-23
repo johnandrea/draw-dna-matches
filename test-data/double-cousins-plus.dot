@@ -51,13 +51,13 @@ f8 [label=<
 </table>>];
 f9 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w" bgcolor="springgreen">DOUBLE Ruff<br/>900 cM<br/>half-1C</td></tr>
+<tr><td port="w" bgcolor="springgreen">DOUBLE Ruff<br/>900 cM<br/>1C</td></tr>
 <tr><td port="u">&amp;</td></tr>
 <tr><td port="h">Louis Sweet</td></tr>
 </table>>];
-i7 [label=<
+i10 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="lightblue">Julia French<br/>me</td></tr>
+<tr><td port="i" bgcolor="springgreen">Allan Green<br/>860 cM<br/>1C</td></tr>
 </table>>];
 i18 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
@@ -65,23 +65,23 @@ i18 [label=<
 </table>>];
 i21 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Billy Sweet<br/>430 cM<br/>half-1C1R</td></tr>
+<tr><td port="i" bgcolor="springgreen">Billy Sweet<br/>430 cM<br/>1C1R</td></tr>
 </table>>];
-i10 [label=<
+i7 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Allan Green<br/>860 cM<br/>1C</td></tr>
+<tr><td port="i" bgcolor="lightblue">Julia French<br/>me</td></tr>
 </table>>];
-f7:h -> f6:u [color=orchid];
 f3:w -> f6:u [color=orchid];
-i10:i -> f4:u;
-f4:w -> f2:u;
-f8:w -> f6:u [color=orchid];
-f9:w -> f8:u;
-i18:i -> f7:u;
-f2:w -> f1:u;
-i21:i -> f9:u;
-i7:i -> f3:u;
 f3:h -> f2:u;
-f5:w -> f1:u;
+f4:w -> f2:u;
+i10:i -> f4:u;
+f7:h -> f6:u [color=orchid];
+f8:w -> f6:u [color=orchid];
+i18:i -> f7:u;
 f8:h -> f5:u;
+i21:i -> f9:u;
+f5:w -> f1:u;
+f9:w -> f8:u;
+i7:i -> f3:u;
+f2:w -> f1:u;
 }

@@ -19,16 +19,16 @@ f21 [label=<
 <tr><td port="u">&amp;</td></tr>
 <tr><td port="h" bgcolor="lightblue">John Anderson<br/>me</td></tr>
 </table>>];
-i49 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Judith Anderson<br/>2600 cM<br/>sibling</td></tr>
-</table>>];
 i48 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Sonny Anderson<br/>3500 cM<br/>child</td></tr>
 </table>>];
+i49 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Judith Anderson<br/>2600 cM<br/>sibling</td></tr>
+</table>>];
 i49:i -> f17:u;
-f17:w -> f16:u;
-f21:h -> f17:u;
 i48:i -> f21:u;
+f21:h -> f17:u;
+f17:w -> f16:u;
 }

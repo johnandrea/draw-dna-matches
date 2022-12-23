@@ -26,7 +26,7 @@
 <polygon fill="none" stroke="black" points="978,-645 978,-710 1084,-710 1084,-645 978,-645"/>
 </g>
 <!-- f2&#45;&gt;f1 -->
-<g id="edge33" class="edge">
+<g id="edge8" class="edge">
 <title>f2:w&#45;&gt;f1:u</title>
 <path fill="none" stroke="black" d="M926.5,-781.5C974.62,-781.5 933.23,-691.51 968.07,-678.15"/>
 <polygon fill="black" stroke="black" points="968.71,-681.59 978,-676.5 967.56,-674.69 968.71,-681.59"/>
@@ -40,7 +40,7 @@
 <polygon fill="none" stroke="black" points="823.5,-518 823.5,-583 917.5,-583 917.5,-518 823.5,-518"/>
 </g>
 <!-- f6&#45;&gt;f1 -->
-<g id="edge32" class="edge">
+<g id="edge23" class="edge">
 <title>f6:w&#45;&gt;f1:u</title>
 <path fill="none" stroke="black" d="M917.5,-571.5C967.57,-571.5 930.28,-662.25 968.07,-675.02"/>
 <polygon fill="black" stroke="black" points="967.59,-678.48 978,-676.5 968.63,-671.56 967.59,-678.48"/>
@@ -62,7 +62,7 @@
 <polygon fill="none" stroke="black" points="506,-773 506,-838 589,-838 589,-773 506,-773"/>
 </g>
 <!-- f5&#45;&gt;f4 -->
-<g id="edge11" class="edge">
+<g id="edge3" class="edge">
 <title>f5:w&#45;&gt;f4:u</title>
 <path fill="none" stroke="black" d="M428.5,-813.5C459.72,-813.5 469.58,-806.3 496.29,-804.78"/>
 <polygon fill="black" stroke="black" points="496.6,-808.27 506.5,-804.5 496.41,-801.27 496.6,-808.27"/>
@@ -76,13 +76,13 @@
 <polygon fill="none" stroke="black" points="655.5,-765 655.5,-830 762.5,-830 762.5,-765 655.5,-765"/>
 </g>
 <!-- f4&#45;&gt;f3 -->
-<g id="edge17" class="edge">
+<g id="edge26" class="edge">
 <title>f4:w&#45;&gt;f3:u</title>
 <path fill="none" stroke="black" d="M589.5,-826.5C618.12,-826.5 622.77,-803.12 645.77,-797.64"/>
 <polygon fill="black" stroke="black" points="646.45,-801.09 656,-796.5 645.67,-794.13 646.45,-801.09"/>
 </g>
 <!-- f3&#45;&gt;f2 -->
-<g id="edge4" class="edge">
+<g id="edge19" class="edge">
 <title>f3:w&#45;&gt;f2:u</title>
 <path fill="none" stroke="black" d="M763,-818.5C794.12,-818.5 783.73,-772.11 805.45,-761.6"/>
 <polygon fill="black" stroke="black" points="806.43,-764.97 815.5,-759.5 805,-758.12 806.43,-764.97"/>
@@ -110,7 +110,7 @@
 <polygon fill="none" stroke="black" points="504,-429 504,-524 591,-524 591,-429 504,-429"/>
 </g>
 <!-- f17&#45;&gt;f16 -->
-<g id="edge5" class="edge">
+<g id="edge20" class="edge">
 <title>f17:w&#45;&gt;f16:u</title>
 <path fill="none" stroke="black" d="M436.5,-472.5C463.47,-472.5 471.85,-463.23 494.32,-460.99"/>
 <polygon fill="black" stroke="black" points="494.68,-464.47 504.5,-460.5 494.34,-457.48 494.68,-464.47"/>
@@ -124,7 +124,7 @@
 <polygon fill="none" stroke="black" points="492,-211 492,-276 603,-276 603,-211 492,-211"/>
 </g>
 <!-- f17&#45;&gt;f20 -->
-<g id="edge29" class="edge">
+<g id="edge16" class="edge">
 <title>f17:h&#45;&gt;f20:u</title>
 <path fill="none" stroke="black" d="M436.5,-414.5C513.13,-414.5 421.52,-258.25 482.38,-243.6"/>
 <polygon fill="black" stroke="black" points="482.94,-247.06 492.5,-242.5 482.18,-240.1 482.94,-247.06"/>
@@ -138,13 +138,13 @@
 <polygon fill="none" stroke="black" points="663,-496 663,-561 755,-561 755,-496 663,-496"/>
 </g>
 <!-- f16&#45;&gt;f7 -->
-<g id="edge18" class="edge">
+<g id="edge29" class="edge">
 <title>f16:w&#45;&gt;f7:u</title>
 <path fill="none" stroke="orchid" d="M591.5,-497.5C622.19,-497.5 627.59,-521.3 652.75,-526.5"/>
 <polygon fill="orchid" stroke="orchid" points="652.71,-530.01 663,-527.5 653.39,-523.05 652.71,-530.01"/>
 </g>
 <!-- f7&#45;&gt;f6 -->
-<g id="edge13" class="edge">
+<g id="edge15" class="edge">
 <title>f7:w&#45;&gt;f6:u</title>
 <path fill="none" stroke="black" d="M755,-549.5C781.76,-549.5 790.88,-549.5 813.36,-549.5"/>
 <polygon fill="black" stroke="black" points="813.5,-553 823.5,-549.5 813.5,-546 813.5,-553"/>
@@ -166,13 +166,13 @@
 <polygon fill="none" stroke="black" points="497.5,-662 497.5,-727 597.5,-727 597.5,-662 497.5,-662"/>
 </g>
 <!-- f9&#45;&gt;f8 -->
-<g id="edge22" class="edge">
+<g id="edge27" class="edge">
 <title>f9:w&#45;&gt;f8:u</title>
 <path fill="none" stroke="black" d="M425.5,-707.5C454.41,-707.5 463.03,-696.49 487.34,-694"/>
 <polygon fill="black" stroke="black" points="487.68,-697.49 497.5,-693.5 487.34,-690.49 487.68,-697.49"/>
 </g>
 <!-- f8&#45;&gt;f7 -->
-<g id="edge19" class="edge">
+<g id="edge33" class="edge">
 <title>f8:w&#45;&gt;f7:u</title>
 <path fill="none" stroke="orchid" d="M597.5,-715.5C682.18,-715.5 583.73,-543.31 652.67,-528.51"/>
 <polygon fill="orchid" stroke="orchid" points="653.39,-531.96 663,-527.5 652.71,-524.99 653.39,-531.96"/>
@@ -189,7 +189,7 @@
 <polygon fill="none" stroke="black" points="171.5,-657 171.5,-752 266.5,-752 266.5,-657 171.5,-657"/>
 </g>
 <!-- f10&#45;&gt;f9 -->
-<g id="edge2" class="edge">
+<g id="edge17" class="edge">
 <title>f10:h&#45;&gt;f9:u</title>
 <path fill="none" stroke="black" d="M267,-682.5C295.6,-682.5 305.13,-684.86 329.4,-685.39"/>
 <polygon fill="black" stroke="black" points="329.46,-688.89 339.5,-685.5 329.54,-681.89 329.46,-688.89"/>
@@ -211,13 +211,13 @@
 <polygon fill="none" stroke="black" points="506.5,-550 506.5,-615 588.5,-615 588.5,-550 506.5,-550"/>
 </g>
 <!-- f12&#45;&gt;f11 -->
-<g id="edge27" class="edge">
+<g id="edge10" class="edge">
 <title>f12:h&#45;&gt;f11:u</title>
 <path fill="none" stroke="black" d="M440.5,-573.5C466.35,-573.5 474.87,-579.63 496.39,-581.16"/>
 <polygon fill="black" stroke="black" points="496.39,-584.66 506.5,-581.5 496.62,-577.66 496.39,-584.66"/>
 </g>
 <!-- f11&#45;&gt;f7 -->
-<g id="edge7" class="edge">
+<g id="edge14" class="edge">
 <title>f11:w&#45;&gt;f7:u</title>
 <path fill="none" stroke="orchid" d="M588.5,-603.5C632.1,-603.5 618.43,-538.91 653.08,-528.82"/>
 <polygon fill="orchid" stroke="orchid" points="653.55,-532.29 663,-527.5 652.63,-525.35 653.55,-532.29"/>
@@ -231,7 +231,7 @@
 <polygon fill="none" stroke="black" points="506.5,-326 506.5,-391 588.5,-391 588.5,-326 506.5,-326"/>
 </g>
 <!-- f13&#45;&gt;f7 -->
-<g id="edge23" class="edge">
+<g id="edge24" class="edge">
 <title>f13:h&#45;&gt;f7:u</title>
 <path fill="none" stroke="orchid" d="M588.5,-336.5C675.88,-336.5 580.39,-512.15 652.76,-526.56"/>
 <polygon fill="orchid" stroke="orchid" points="652.72,-530.07 663,-527.5 653.36,-523.1 652.72,-530.07"/>
@@ -256,13 +256,13 @@
 <polygon fill="none" stroke="black" points="340.5,-283 340.5,-378 424.5,-378 424.5,-283 340.5,-283"/>
 </g>
 <!-- f15&#45;&gt;f14 -->
-<g id="edge24" class="edge">
+<g id="edge28" class="edge">
 <title>f15:w&#45;&gt;f14:u</title>
 <path fill="none" stroke="black" d="M266,-306.5C299.58,-306.5 302.79,-337.98 330.2,-344.37"/>
 <polygon fill="black" stroke="black" points="330.18,-347.89 340.5,-345.5 330.94,-340.93 330.18,-347.89"/>
 </g>
 <!-- f14&#45;&gt;f13 -->
-<g id="edge3" class="edge">
+<g id="edge13" class="edge">
 <title>f14:h&#45;&gt;f13:u</title>
 <path fill="none" stroke="black" d="M424.5,-308.5C463.31,-308.5 464.21,-349.44 496.5,-356.48"/>
 <polygon fill="black" stroke="black" points="496.2,-359.96 506.5,-357.5 496.91,-353 496.2,-359.96"/>
@@ -284,13 +284,13 @@
 <polygon fill="none" stroke="black" points="668,-20 668,-85 750,-85 750,-20 668,-20"/>
 </g>
 <!-- f19&#45;&gt;f18 -->
-<g id="edge1" class="edge">
+<g id="edge2" class="edge">
 <title>f19:h&#45;&gt;f18:u</title>
 <path fill="none" stroke="black" d="M597.5,-24.5C627.38,-24.5 633.34,-45.92 657.99,-50.6"/>
 <polygon fill="black" stroke="black" points="657.73,-54.09 668,-51.5 658.35,-47.12 657.73,-54.09"/>
 </g>
 <!-- f18&#45;&gt;f6 -->
-<g id="edge30" class="edge">
+<g id="edge32" class="edge">
 <title>f18:h&#45;&gt;f6:u</title>
 <path fill="none" stroke="black" d="M750,-30.5C862.84,-30.5 716.71,-517.57 813.37,-548.01"/>
 <polygon fill="black" stroke="black" points="813.1,-551.51 823.5,-549.5 814.12,-544.58 813.1,-551.51"/>
@@ -304,7 +304,7 @@
 <polygon fill="none" stroke="black" points="655,-164 655,-229 763,-229 763,-164 655,-164"/>
 </g>
 <!-- f20&#45;&gt;f24 -->
-<g id="edge9" class="edge">
+<g id="edge4" class="edge">
 <title>f20:h&#45;&gt;f24:u</title>
 <path fill="none" stroke="black" d="M603.5,-221.5C625.33,-221.5 628.73,-202.65 645.1,-197.05"/>
 <polygon fill="black" stroke="black" points="645.66,-200.5 655,-195.5 644.58,-193.59 645.66,-200.5"/>
@@ -320,7 +320,7 @@
 <polygon fill="none" stroke="black" points="172.5,-344.5 172.5,-424.5 265.5,-424.5 265.5,-344.5 172.5,-344.5"/>
 </g>
 <!-- f21&#45;&gt;f17 -->
-<g id="edge25" class="edge">
+<g id="edge9" class="edge">
 <title>f21:h&#45;&gt;f17:u</title>
 <path fill="none" stroke="black" d="M266,-363.5C304.57,-363.5 289.6,-423.14 318.55,-433.86"/>
 <polygon fill="black" stroke="black" points="318.06,-437.33 328.5,-435.5 319.2,-430.42 318.06,-437.33"/>
@@ -334,7 +334,7 @@
 <polygon fill="none" stroke="black" points="492,-120 492,-185 603,-185 603,-120 492,-120"/>
 </g>
 <!-- f22&#45;&gt;f24 -->
-<g id="edge16" class="edge">
+<g id="edge30" class="edge">
 <title>f22:h&#45;&gt;f24:u</title>
 <path fill="none" stroke="black" d="M603.5,-130.5C636.47,-130.5 622.17,-182.51 645.17,-193.48"/>
 <polygon fill="black" stroke="black" points="644.5,-196.92 655,-195.5 645.91,-190.06 644.5,-196.92"/>
@@ -351,7 +351,7 @@
 <polygon fill="none" stroke="black" points="327,-83 327,-178 438,-178 438,-83 327,-83"/>
 </g>
 <!-- f23&#45;&gt;f22 -->
-<g id="edge31" class="edge">
+<g id="edge21" class="edge">
 <title>f23:w&#45;&gt;f22:u</title>
 <path fill="none" stroke="black" d="M438.5,-151.5C458.75,-151.5 466.19,-151.5 482.43,-151.5"/>
 <polygon fill="black" stroke="black" points="482.5,-155 492.5,-151.5 482.5,-148 482.5,-155"/>
@@ -368,88 +368,13 @@
 <polygon fill="none" stroke="black" points="169,-451 169,-546 269,-546 269,-451 169,-451"/>
 </g>
 <!-- f25&#45;&gt;f17 -->
-<g id="edge14" class="edge">
+<g id="edge1" class="edge">
 <title>f25:w&#45;&gt;f17:u</title>
 <path fill="none" stroke="black" d="M269,-519.5C310.82,-519.5 287.68,-449.32 318.33,-437.25"/>
 <polygon fill="black" stroke="black" points="319.24,-440.65 328.5,-435.5 318.05,-433.75 319.24,-440.65"/>
 </g>
-<!-- i28 -->
-<g id="node26" class="node">
-<title>i28</title>
-<polygon fill="springgreen" stroke="transparent" points="182,-572.5 182,-623.5 257,-623.5 257,-572.5 182,-572.5"/>
-<text text-anchor="start" x="185" y="-609.3" font-family="Times New Roman,serif" font-size="14.00">Joy Jackson</text>
-<text text-anchor="start" x="198" y="-594.3" font-family="Times New Roman,serif" font-size="14.00">242 cM</text>
-<text text-anchor="start" x="211" y="-579.3" font-family="Times New Roman,serif" font-size="14.00">2C</text>
-<polygon fill="none" stroke="black" points="180.5,-572 180.5,-625 257.5,-625 257.5,-572 180.5,-572"/>
-</g>
-<!-- i28&#45;&gt;f12 -->
-<g id="edge8" class="edge">
-<title>i28:i&#45;&gt;f12:u</title>
-<path fill="none" stroke="black" d="M257.26,-595.95C274.38,-595.32 295.38,-594.71 315.24,-594.54"/>
-<polygon fill="black" stroke="black" points="315.52,-598.04 325.5,-594.5 315.48,-591.04 315.52,-598.04"/>
-</g>
-<!-- i11 -->
-<g id="node27" class="node">
-<title>i11</title>
-<polygon fill="springgreen" stroke="transparent" points="179,-778.5 179,-829.5 260,-829.5 260,-778.5 179,-778.5"/>
-<text text-anchor="start" x="182" y="-815.3" font-family="Times New Roman,serif" font-size="14.00">Patsy Wilson</text>
-<text text-anchor="start" x="201" y="-800.3" font-family="Times New Roman,serif" font-size="14.00">19 cM</text>
-<text text-anchor="start" x="198.5" y="-785.3" font-family="Times New Roman,serif" font-size="14.00">half&#45;3C</text>
-<polygon fill="none" stroke="black" points="177.5,-778 177.5,-831 260.5,-831 260.5,-778 177.5,-778"/>
-</g>
-<!-- i11&#45;&gt;f5 -->
-<g id="edge21" class="edge">
-<title>i11:i&#45;&gt;f5:u</title>
-<path fill="none" stroke="black" d="M260.26,-797.43C279.9,-794.84 304.34,-792.26 327.38,-791.64"/>
-<polygon fill="black" stroke="black" points="327.55,-795.14 337.5,-791.5 327.45,-788.14 327.55,-795.14"/>
-</g>
-<!-- i43 -->
-<g id="node28" class="node">
-<title>i43</title>
-<polygon fill="springgreen" stroke="transparent" points="338.5,-4.5 338.5,-55.5 426.5,-55.5 426.5,-4.5 338.5,-4.5"/>
-<text text-anchor="start" x="341.5" y="-41.3" font-family="Times New Roman,serif" font-size="14.00">Clark Marshall</text>
-<text text-anchor="start" x="364" y="-26.3" font-family="Times New Roman,serif" font-size="14.00">14 cM</text>
-<text text-anchor="start" x="365.5" y="-11.3" font-family="Times New Roman,serif" font-size="14.00">2C1R</text>
-<polygon fill="none" stroke="black" points="337.5,-4 337.5,-57 427.5,-57 427.5,-4 337.5,-4"/>
-</g>
-<!-- i43&#45;&gt;f19 -->
-<g id="edge20" class="edge">
-<title>i43:i&#45;&gt;f19:u</title>
-<path fill="none" stroke="black" d="M426.72,-38.39C445.18,-41.55 467.28,-44.53 488.29,-45.31"/>
-<polygon fill="black" stroke="black" points="488.44,-48.81 498.5,-45.5 488.57,-41.81 488.44,-48.81"/>
-</g>
-<!-- i48 -->
-<g id="node29" class="node">
-<title>i48</title>
-<polygon fill="springgreen" stroke="transparent" points="10.5,-367.5 10.5,-418.5 111.5,-418.5 111.5,-367.5 10.5,-367.5"/>
-<text text-anchor="start" x="13.5" y="-404.3" font-family="Times New Roman,serif" font-size="14.00">Sonny Anderson</text>
-<text text-anchor="start" x="36" y="-389.3" font-family="Times New Roman,serif" font-size="14.00">3500 cM</text>
-<text text-anchor="start" x="47" y="-374.3" font-family="Times New Roman,serif" font-size="14.00">child</text>
-<polygon fill="none" stroke="black" points="9,-367 9,-420 112,-420 112,-367 9,-367"/>
-</g>
-<!-- i48&#45;&gt;f21 -->
-<g id="edge6" class="edge">
-<title>i48:i&#45;&gt;f21:u</title>
-<path fill="none" stroke="black" d="M111.73,-392.5C127.72,-392.5 145.78,-392.5 162.99,-392.5"/>
-<polygon fill="black" stroke="black" points="163,-396 173,-392.5 163,-389 163,-396"/>
-</g>
-<!-- i24 -->
-<g id="node30" class="node">
-<title>i24</title>
-<polygon fill="springgreen" stroke="transparent" points="31.5,-694.5 31.5,-745.5 89.5,-745.5 89.5,-694.5 31.5,-694.5"/>
-<text text-anchor="start" x="34.5" y="-731.3" font-family="Times New Roman,serif" font-size="14.00">Dave Hill</text>
-<text text-anchor="start" x="39" y="-716.3" font-family="Times New Roman,serif" font-size="14.00">121 cM</text>
-<text text-anchor="start" x="43.5" y="-701.3" font-family="Times New Roman,serif" font-size="14.00">2C1R</text>
-<polygon fill="none" stroke="black" points="30.5,-694 30.5,-747 90.5,-747 90.5,-694 30.5,-694"/>
-</g>
-<!-- i24&#45;&gt;f10 -->
-<g id="edge15" class="edge">
-<title>i24:i&#45;&gt;f10:u</title>
-<path fill="none" stroke="black" d="M89.66,-719.5C109.29,-719.5 136.38,-719.5 161.67,-719.5"/>
-<polygon fill="black" stroke="black" points="162,-723 172,-719.5 162,-716 162,-723"/>
-</g>
 <!-- i46 -->
-<g id="node31" class="node">
+<g id="node26" class="node">
 <title>i46</title>
 <polygon fill="springgreen" stroke="transparent" points="335.5,-204.5 335.5,-255.5 429.5,-255.5 429.5,-204.5 335.5,-204.5"/>
 <text text-anchor="start" x="338.5" y="-241.3" font-family="Times New Roman,serif" font-size="14.00">Lucy Anderson</text>
@@ -458,28 +383,58 @@
 <polygon fill="none" stroke="black" points="334.5,-204 334.5,-257 430.5,-257 430.5,-204 334.5,-204"/>
 </g>
 <!-- i46&#45;&gt;f20 -->
-<g id="edge28" class="edge">
+<g id="edge25" class="edge">
 <title>i46:i&#45;&gt;f20:u</title>
 <path fill="none" stroke="black" d="M429.76,-237.47C445.92,-239.72 464.46,-241.72 482.18,-242.32"/>
 <polygon fill="black" stroke="black" points="482.44,-245.83 492.5,-242.5 482.56,-238.83 482.44,-245.83"/>
 </g>
-<!-- i34 -->
-<g id="node32" class="node">
-<title>i34</title>
-<polygon fill="springgreen" stroke="transparent" points="9.5,-259.5 9.5,-310.5 112.5,-310.5 112.5,-259.5 9.5,-259.5"/>
-<text text-anchor="start" x="12.5" y="-296.3" font-family="Times New Roman,serif" font-size="14.00">Martha Growther</text>
-<text text-anchor="start" x="42.5" y="-281.3" font-family="Times New Roman,serif" font-size="14.00">53 cM</text>
-<text text-anchor="start" x="44" y="-266.3" font-family="Times New Roman,serif" font-size="14.00">2C1R</text>
-<polygon fill="none" stroke="black" points="8,-259 8,-312 113,-312 113,-259 8,-259"/>
+<!-- i48 -->
+<g id="node27" class="node">
+<title>i48</title>
+<polygon fill="springgreen" stroke="transparent" points="10.5,-367.5 10.5,-418.5 111.5,-418.5 111.5,-367.5 10.5,-367.5"/>
+<text text-anchor="start" x="13.5" y="-404.3" font-family="Times New Roman,serif" font-size="14.00">Sonny Anderson</text>
+<text text-anchor="start" x="36" y="-389.3" font-family="Times New Roman,serif" font-size="14.00">3500 cM</text>
+<text text-anchor="start" x="47" y="-374.3" font-family="Times New Roman,serif" font-size="14.00">child</text>
+<polygon fill="none" stroke="black" points="9,-367 9,-420 112,-420 112,-367 9,-367"/>
 </g>
-<!-- i34&#45;&gt;f15 -->
-<g id="edge26" class="edge">
-<title>i34:i&#45;&gt;f15:u</title>
-<path fill="none" stroke="black" d="M112.65,-284.5C128.08,-284.5 145.36,-284.5 161.85,-284.5"/>
-<polygon fill="black" stroke="black" points="162,-288 172,-284.5 162,-281 162,-288"/>
+<!-- i48&#45;&gt;f21 -->
+<g id="edge11" class="edge">
+<title>i48:i&#45;&gt;f21:u</title>
+<path fill="none" stroke="black" d="M111.73,-392.5C127.72,-392.5 145.78,-392.5 162.99,-392.5"/>
+<polygon fill="black" stroke="black" points="163,-396 173,-392.5 163,-389 163,-396"/>
+</g>
+<!-- i28 -->
+<g id="node28" class="node">
+<title>i28</title>
+<polygon fill="springgreen" stroke="transparent" points="182,-572.5 182,-623.5 257,-623.5 257,-572.5 182,-572.5"/>
+<text text-anchor="start" x="185" y="-609.3" font-family="Times New Roman,serif" font-size="14.00">Joy Jackson</text>
+<text text-anchor="start" x="198" y="-594.3" font-family="Times New Roman,serif" font-size="14.00">242 cM</text>
+<text text-anchor="start" x="211" y="-579.3" font-family="Times New Roman,serif" font-size="14.00">2C</text>
+<polygon fill="none" stroke="black" points="180.5,-572 180.5,-625 257.5,-625 257.5,-572 180.5,-572"/>
+</g>
+<!-- i28&#45;&gt;f12 -->
+<g id="edge6" class="edge">
+<title>i28:i&#45;&gt;f12:u</title>
+<path fill="none" stroke="black" d="M257.26,-595.95C274.38,-595.32 295.38,-594.71 315.24,-594.54"/>
+<polygon fill="black" stroke="black" points="315.52,-598.04 325.5,-594.5 315.48,-591.04 315.52,-598.04"/>
+</g>
+<!-- i43 -->
+<g id="node29" class="node">
+<title>i43</title>
+<polygon fill="springgreen" stroke="transparent" points="338.5,-4.5 338.5,-55.5 426.5,-55.5 426.5,-4.5 338.5,-4.5"/>
+<text text-anchor="start" x="341.5" y="-41.3" font-family="Times New Roman,serif" font-size="14.00">Clark Marshall</text>
+<text text-anchor="start" x="364" y="-26.3" font-family="Times New Roman,serif" font-size="14.00">14 cM</text>
+<text text-anchor="start" x="365.5" y="-11.3" font-family="Times New Roman,serif" font-size="14.00">2C1R</text>
+<polygon fill="none" stroke="black" points="337.5,-4 337.5,-57 427.5,-57 427.5,-4 337.5,-4"/>
+</g>
+<!-- i43&#45;&gt;f19 -->
+<g id="edge5" class="edge">
+<title>i43:i&#45;&gt;f19:u</title>
+<path fill="none" stroke="black" d="M426.72,-38.39C445.18,-41.55 467.28,-44.53 488.29,-45.31"/>
+<polygon fill="black" stroke="black" points="488.44,-48.81 498.5,-45.5 488.57,-41.81 488.44,-48.81"/>
 </g>
 <!-- i53 -->
-<g id="node33" class="node">
+<g id="node30" class="node">
 <title>i53</title>
 <polygon fill="springgreen" stroke="transparent" points="166,-89.5 166,-140.5 272,-140.5 272,-89.5 166,-89.5"/>
 <text text-anchor="start" x="169" y="-126.3" font-family="Times New Roman,serif" font-size="14.00">Arlene MacIntosh</text>
@@ -488,13 +443,13 @@
 <polygon fill="none" stroke="black" points="165,-89 165,-142 273,-142 273,-89 165,-89"/>
 </g>
 <!-- i53&#45;&gt;f23 -->
-<g id="edge10" class="edge">
+<g id="edge31" class="edge">
 <title>i53:i&#45;&gt;f23:u</title>
 <path fill="none" stroke="black" d="M272.22,-114.5C286.49,-114.5 302.18,-114.5 317.22,-114.5"/>
 <polygon fill="black" stroke="black" points="317.5,-118 327.5,-114.5 317.5,-111 317.5,-118"/>
 </g>
 <!-- i57 -->
-<g id="node34" class="node">
+<g id="node31" class="node">
 <title>i57</title>
 <polygon fill="springgreen" stroke="transparent" points="20.5,-457.5 20.5,-508.5 101.5,-508.5 101.5,-457.5 20.5,-457.5"/>
 <text text-anchor="start" x="23.5" y="-494.3" font-family="Times New Roman,serif" font-size="14.00">Jimmy Maple</text>
@@ -507,6 +462,51 @@
 <title>i57:i&#45;&gt;f25:u</title>
 <path fill="none" stroke="black" d="M101.95,-482.5C119.05,-482.5 139.56,-482.5 158.97,-482.5"/>
 <polygon fill="black" stroke="black" points="159,-486 169,-482.5 159,-479 159,-486"/>
+</g>
+<!-- i24 -->
+<g id="node32" class="node">
+<title>i24</title>
+<polygon fill="springgreen" stroke="transparent" points="31.5,-694.5 31.5,-745.5 89.5,-745.5 89.5,-694.5 31.5,-694.5"/>
+<text text-anchor="start" x="34.5" y="-731.3" font-family="Times New Roman,serif" font-size="14.00">Dave Hill</text>
+<text text-anchor="start" x="39" y="-716.3" font-family="Times New Roman,serif" font-size="14.00">121 cM</text>
+<text text-anchor="start" x="43.5" y="-701.3" font-family="Times New Roman,serif" font-size="14.00">2C1R</text>
+<polygon fill="none" stroke="black" points="30.5,-694 30.5,-747 90.5,-747 90.5,-694 30.5,-694"/>
+</g>
+<!-- i24&#45;&gt;f10 -->
+<g id="edge22" class="edge">
+<title>i24:i&#45;&gt;f10:u</title>
+<path fill="none" stroke="black" d="M89.66,-719.5C109.29,-719.5 136.38,-719.5 161.67,-719.5"/>
+<polygon fill="black" stroke="black" points="162,-723 172,-719.5 162,-716 162,-723"/>
+</g>
+<!-- i11 -->
+<g id="node33" class="node">
+<title>i11</title>
+<polygon fill="springgreen" stroke="transparent" points="179,-778.5 179,-829.5 260,-829.5 260,-778.5 179,-778.5"/>
+<text text-anchor="start" x="182" y="-815.3" font-family="Times New Roman,serif" font-size="14.00">Patsy Wilson</text>
+<text text-anchor="start" x="201" y="-800.3" font-family="Times New Roman,serif" font-size="14.00">19 cM</text>
+<text text-anchor="start" x="198.5" y="-785.3" font-family="Times New Roman,serif" font-size="14.00">half&#45;3C</text>
+<polygon fill="none" stroke="black" points="177.5,-778 177.5,-831 260.5,-831 260.5,-778 177.5,-778"/>
+</g>
+<!-- i11&#45;&gt;f5 -->
+<g id="edge18" class="edge">
+<title>i11:i&#45;&gt;f5:u</title>
+<path fill="none" stroke="black" d="M260.26,-797.43C279.9,-794.84 304.34,-792.26 327.38,-791.64"/>
+<polygon fill="black" stroke="black" points="327.55,-795.14 337.5,-791.5 327.45,-788.14 327.55,-795.14"/>
+</g>
+<!-- i34 -->
+<g id="node34" class="node">
+<title>i34</title>
+<polygon fill="springgreen" stroke="transparent" points="9.5,-259.5 9.5,-310.5 112.5,-310.5 112.5,-259.5 9.5,-259.5"/>
+<text text-anchor="start" x="12.5" y="-296.3" font-family="Times New Roman,serif" font-size="14.00">Martha Growther</text>
+<text text-anchor="start" x="42.5" y="-281.3" font-family="Times New Roman,serif" font-size="14.00">53 cM</text>
+<text text-anchor="start" x="44" y="-266.3" font-family="Times New Roman,serif" font-size="14.00">2C1R</text>
+<polygon fill="none" stroke="black" points="8,-259 8,-312 113,-312 113,-259 8,-259"/>
+</g>
+<!-- i34&#45;&gt;f15 -->
+<g id="edge7" class="edge">
+<title>i34:i&#45;&gt;f15:u</title>
+<path fill="none" stroke="black" d="M112.65,-284.5C128.08,-284.5 145.36,-284.5 161.85,-284.5"/>
+<polygon fill="black" stroke="black" points="162,-288 172,-284.5 162,-281 162,-288"/>
 </g>
 </g>
 </svg>
