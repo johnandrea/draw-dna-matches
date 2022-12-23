@@ -1,109 +1,216 @@
 digraph family {
+node [shape=plaintext];
 rankdir=LR;
-f1 [label="Jane van het Hoff\n+ John Jones"];
-f2 [label="Hannah Jones\n+ Thom MacDonald", color=orange];
-f6 [label="Hannah Jones\n+ Albert Marshall", color=orange];
-f5 [label="Mary Briggs\n+ Robert Wilson"];
-f4 [label="Doris Horton\n+ Fred Briggs"];
-f3 [label="Edith MacDonald\n+ Thomas Horton"];
-f16 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td bgcolor="springgreen"> Cathy Turner </td></tr>
-<tr><td bgcolor="springgreen">1750 cM</td></tr>
-<tr><td bgcolor="springgreen">grandparent</td></tr>
-<tr><td border="1"> + William Smith </td></tr>
-</table>
->, shape="none"];
-f7 [label="Eliza Marshall\n+ William Turner"];
-f9 [label="Susan Waters\n+ Hubert Hill"];
-f8 [label="Elizabeth Turner\n+ Fred Waters"];
-f10 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td border="1"> Kathy Simpson </td></tr>
-<tr><td bgcolor="springgreen"> + John Hill </td></tr>
-<tr><td bgcolor="springgreen">200 cM</td></tr>
-<tr><td bgcolor="springgreen">2C</td></tr>
-</table>
->, shape="none"];
-f12 [label="Patricia Youngston\n+ Robin Jackson"];
-f11 [label="Mary Turner\n+ Jack Jackson"];
-f13 [label="Arleen Green\n+ Harry Turner"];
-f15 [label="Marlene Turner\n+ Peter Growther"];
-f14 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td border="1"> Annie Walker </td></tr>
-<tr><td bgcolor="springgreen"> + Harry Turner </td></tr>
-<tr><td bgcolor="springgreen">500 cM</td></tr>
-<tr><td bgcolor="springgreen">1C1R</td></tr>
-</table>
->, shape="none"];
+f2 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Hannah Jones</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Thom MacDonald</td></tr>
+</table>>];
+f6 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Hannah Jones</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Albert Marshall</td></tr>
+</table>>];
+f5 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Mary Briggs</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Robert Wilson</td></tr>
+</table>>];
+f4 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Doris Horton</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Fred Briggs</td></tr>
+</table>>];
+f3 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Edith MacDonald</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Thomas Horton</td></tr>
+</table>>];
 f17 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td bgcolor="springgreen"> Laura Smith </td></tr>
-<tr><td bgcolor="springgreen">3600 cM</td></tr>
-<tr><td bgcolor="springgreen">parent</td></tr>
-<tr><td border="1"> + Eugene Anderson </td></tr>
-</table>
->, shape="none"];
-f19 [label="Betsy Force\n+ Robert Marshall"];
-f18 [label="Linda Marsh\n+ Ken Marshall"];
-f20 [label="Jeanette Wilson\n+ Michael Anderson", color=orange];
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w" bgcolor="springgreen">Laura Smith<br/>3600 cM<br/>parent</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Eugene Anderson</td></tr>
+</table>>];
+f16 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w" bgcolor="springgreen">Cathy Turner<br/>1750 cM<br/>grandparent</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">William Smith</td></tr>
+</table>>];
+f7 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Eliza Marshall</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">William Turner</td></tr>
+</table>>];
+f1 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Jane van het Hoff</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">John Jones</td></tr>
+</table>>];
+f9 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Susan Waters</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Hubert Hill</td></tr>
+</table>>];
+f8 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Elizabeth Turner</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Fred Waters</td></tr>
+</table>>];
+f10 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Kathy Simpson</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h" bgcolor="springgreen">John Hill<br/>200 cM<br/>2C</td></tr>
+</table>>];
+f12 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Patricia Youngston</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Robin Jackson</td></tr>
+</table>>];
+f11 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Mary Turner</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Jack Jackson</td></tr>
+</table>>];
+f13 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Arleen Green</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Harry Turner</td></tr>
+</table>>];
+f15 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Marlene Turner</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Peter Growther</td></tr>
+</table>>];
+f14 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Annie Walker</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h" bgcolor="springgreen">Harry Turner<br/>500 cM<br/>1C1R</td></tr>
+</table>>];
+f19 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Betsy Force</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Robert Marshall</td></tr>
+</table>>];
+f18 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Linda Marsh</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Ken Marshall</td></tr>
+</table>>];
+f20 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Jeanette Wilson</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Michael Anderson</td></tr>
+</table>>];
 f21 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td border="1"> Shiela Toner </td></tr>
-<tr><td bgcolor="lightblue"> + John Anderson </td></tr>
-<tr><td bgcolor="lightblue">me</td></tr>
-</table>
->, shape="none"];
-f24 [label="Maria Conners\n+ Samuel Anderson"];
-f22 [label="Kim Dobson\n+ Michael Anderson", color=orange];
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Shiela Toner</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h" bgcolor="lightblue">John Anderson<br/>me</td></tr>
+</table>>];
+f22 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Kim Dobson</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Michael Anderson</td></tr>
+</table>>];
+f24 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Maria Conners</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Samuel Anderson</td></tr>
+</table>>];
 f23 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td bgcolor="springgreen"> Denise Anderson </td></tr>
-<tr><td bgcolor="springgreen">870 cM</td></tr>
-<tr><td bgcolor="springgreen">half-auncle</td></tr>
-<tr><td border="1"> + Patrick MacIntosh </td></tr>
-</table>
->, shape="none"];
-i11 [label="Patsy Wilson\n19 cM\nhalf-3C", shape="record", style=filled, color=springgreen];
-i53 [label="Arlene MacIntosh\n450 cM\nhalf-1C", shape="record", style=filled, color=springgreen];
-i28 [label="Joy Jackson\n242 cM\n2C", shape="record", style=filled, color=springgreen];
-i48 [label="Sonny Anderson\n3500 cM\nchild", shape="record", style=filled, color=springgreen];
-i43 [label="Clark Marshall\n14 cM\n2C1R", shape="record", style=filled, color=springgreen];
-i34 [label="Martha Growther\n53 cM\n2C1R", shape="record", style=filled, color=springgreen];
-i24 [label="Dave Hill\n121 cM\n2C1R", shape="record", style=filled, color=springgreen];
-i49 [label="Judith Anderson\n2600 cM\nsibling", shape="record", style=filled, color=springgreen];
-i46 [label="Lucy Anderson\n1100 cM\nauncle", shape="record", style=filled, color=springgreen];
-f10 -> f9;
-f5 -> f4;
-f13 -> f7 [color=orchid];
-f2 -> f1;
-i49 -> f17;
-f3 -> f2;
-i24 -> f10;
-i43 -> f19;
-i34 -> f15;
-f4 -> f3;
-f8 -> f7 [color=orchid];
-i53 -> f23;
-f11 -> f7 [color=orchid];
-f16 -> f7 [color=orchid];
-f21 -> f17;
-f23 -> f22;
-f17 -> f20;
-i28 -> f12;
-f14 -> f13;
-f12 -> f11;
-i11 -> f5;
-i46 -> f20;
-f18 -> f6;
-f19 -> f18;
-f15 -> f14;
-f20 -> f24;
-f22 -> f24;
-f6 -> f1;
-f7 -> f6;
-i48 -> f21;
-f9 -> f8;
-f17 -> f16;
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w" bgcolor="springgreen">Denise Anderson<br/>870 cM<br/>half-auncle</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Patrick MacIntosh</td></tr>
+</table>>];
+i34 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Martha Growther<br/>53 cM<br/>2C1R</td></tr>
+</table>>];
+i49 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Judith Anderson<br/>2600 cM<br/>sibling</td></tr>
+</table>>];
+i11 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Patsy Wilson<br/>19 cM<br/>half-3C</td></tr>
+</table>>];
+i43 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Clark Marshall<br/>14 cM<br/>2C1R</td></tr>
+</table>>];
+i48 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Sonny Anderson<br/>3500 cM<br/>child</td></tr>
+</table>>];
+i28 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Joy Jackson<br/>242 cM<br/>2C</td></tr>
+</table>>];
+i53 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Arlene MacIntosh<br/>450 cM<br/>half-1C</td></tr>
+</table>>];
+i46 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Lucy Anderson<br/>1100 cM<br/>auncle</td></tr>
+</table>>];
+i24 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Dave Hill<br/>121 cM<br/>2C1R</td></tr>
+</table>>];
+i49:i -> f17:u;
+f10:h -> f9:u;
+f4:w -> f3:u;
+f20:h -> f24:u;
+f2:w -> f1:u;
+i53:i -> f23:u;
+f16:w -> f7:u [color=orchid];
+f7:w -> f6:u;
+f6:w -> f1:u;
+f22:h -> f24:u;
+f14:h -> f13:u;
+f23:w -> f22:u;
+f8:w -> f7:u [color=orchid];
+i48:i -> f21:u;
+i28:i -> f12:u;
+f15:w -> f14:u;
+f9:w -> f8:u;
+i43:i -> f19:u;
+i46:i -> f20:u;
+f17:w -> f16:u;
+f3:w -> f2:u;
+f11:w -> f7:u [color=orchid];
+f17:h -> f20:u;
+f21:h -> f17:u;
+i24:i -> f10:u;
+i11:i -> f5:u;
+f5:w -> f4:u;
+f12:h -> f11:u;
+f13:h -> f7:u [color=orchid];
+i34:i -> f15:u;
+f19:h -> f18:u;
+f18:h -> f6:u;
 }
