@@ -46,7 +46,7 @@ multi_marr_color = 'goldenrod'
 
 
 def show_version():
-    print( '6.1.2' )
+    print( '6.1.3' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -741,6 +741,9 @@ f_key = readgedcom.PARSED_FAM
 
 data_opts = dict()
 data_opts['display-gedcom-warnings'] = False
+data_opts['exit-on-no-families'] = True
+data_opts['exit-on-missing-individuals'] = True
+data_opts['exit-on-missing-families'] = True
 
 data = readgedcom.read_file( options['infile'], data_opts )
 
