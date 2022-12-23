@@ -46,7 +46,7 @@ multi_marr_color = 'orange'
 
 
 def show_version():
-    print( '6.0.3' )
+    print( '6.1' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -430,6 +430,7 @@ def make_indi_dot_id( xref ):
 def begin_dot( orientation, title ):
     """ Start of the DOT output file """
     print( 'digraph family {' )
+    print( 'node [shape=plaintext];' )
     print( 'rankdir=' + orientation.upper() + ';' )
     if title:
        print( 'labelloc="t";' )
@@ -441,102 +442,99 @@ def end_dot():
     print( '}' )
 
 
-def dot_labels( matches, fam_to_show, people_to_show, me_id ):
+def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
     """ Output a label for each person who appears in the graphs.
         'matches' as created in the calling program.
         'fam_to_show' has a boolean value of a-partner-is-dna-matched
         'people_to_show' is a plain list
+        'married_multi' is a list of those in more than one marriage
         'me_id' is id of main person
 
         See https://graphviz.org/doc/info/shapes.html
         section "Recreating the Record Example"
         Using HTML is the only way to apply color only one partner in a family.
+
+        To make the pointers work with HTML the setup requires "node shape = plaintext"
+        and then all labels everything needs to be HTML.
     """
 
-    def output_label( dot_id, s, extra ):
-        print( dot_id, '[label=' + s.replace("'",'.') + extra + '];' )
+    def unquote( s ):
+        # change characters to html entities
+        return s.replace( '&', '&amp;' ).replace( "'", '&quot;' ).replace( '"', '&quot;' )
 
-    def output_plain_family_label( fam, multiplied_marr ):
+    def output_label( dot_id, s ):
+        text = '<\n<table cellpadding="3" border="1" cellspacing="0" cellborder="0">\n'
+        text += s
+        text += '</table>>'
+        print( dot_id, '[label=' + text + '];' )
+
+    def output_family_label( fam ):
         parent_ids = []
         text = ''
-        sep = ''
-        for parent in ['wife','husb']:
-            if parent in data[f_key][fam]:
-               parent_id = data[f_key][fam][parent][0]
-               parent_ids.append( parent_id )
-               text += sep + get_name( data[i_key][parent_id] )
-               sep = '\\n+ '
-        options = ''
-        if multiplied_marr:
-           options = ', color=' + multi_marr_color
-        output_label( make_fam_dot_id(fam), '"'+ text +'"', options )
-        return parent_ids
+        add_sep = True
 
-    def output_match_family_label( fam, multiplied_marr ):
-        parent_ids = []
-        text = '<\n<table cellpadding="2" cellborder="0" cellspacing="0" border="0">'
-        sep = ''
         for parent in ['wife','husb']:
             if parent in data[f_key][fam]:
                parent_id = data[f_key][fam][parent][0]
                parent_ids.append( parent_id )
-               # add padding
-               name = ' ' + sep + get_name( data[i_key][parent_id] ) + ' '
-               tr = '\n<tr><td'
-               if parent_id in matches:
+
+               name = unquote( get_name( data[i_key][parent_id] ) )
+
+               text += '<tr><td port="' + parent[0] + '"'
+               if parent_id in matched:
                   box_color = match_color
                   if parent_id == me_id:
                      box_color = me_color
-                  td = tr + ' bgcolor="' + box_color + '">'
-                  text += td + name + '</td></tr>'
-                  text += td + matches[parent_id]['note'] + '</td></tr>'
-                  if 'relation' in matched[parent_id]:
-                     text += td + matched[parent_id]['relation'] + '</td></tr>'
+
+                  if parent_id in married_multi:
+                     box_color = multi_marr_color
+
+                  #text += dot_indi_row( parent[0], box_color, name )
+                  #text += dot_indi_row( None, box_color, matches[parent_id]['note'] )
+                  #if 'relation' in matches[parent_id]:
+                  #   text += dot_indi_row( None, box_color, matches[parent_id]['relation'] )
+                  text += ' bgcolor="' + box_color + '">' + name
+                  text += '<br/>' + matches[parent_id]['note']
+                  if 'relation' in matches[parent_id]:
+                     text += '<br/>' + matched[parent_id]['relation']
                else:
-                  text += tr + ' border="1">' + name + '</td></tr>'
-               sep = '+ '
-        text += '\n</table>\n>'
-        options = ', shape="none"'
-        if multiplied_marr:
-           options += ', color=' + multi_marr_color
-        output_label( make_fam_dot_id(fam), text, options )
+                  #text += dot_indi_row( parent[0], None, name )
+                  text += '>' + name
+               text += '</td></tr>\n'
+
+            if add_sep:
+               add_sep = False
+               # "u" for "union"
+               #text += dot_indi_row( 'u', None, '&amp;' )
+               text += '<tr><td port="u">&amp;</td></tr>\n'
+
+        output_label( make_fam_dot_id(fam), text )
+
         return parent_ids
 
     def output_indi_label( indi ):
-        # note the escaped newlines
-        text = get_name( data[i_key][indi] ) + '\\n' + matches[indi]['note']
-        if 'relation' in matched[indi]:
-           text += '\\n' + matched[indi]['relation']
-        box_color = match_color
-        if indi == me_id:
-           box_color = me_color
-        options = ', shape="record", style=filled, color=' + box_color
-        output_label( make_indi_dot_id(indi), '"'+ text +'"', options )
+        name = unquote( get_name( data[i_key][indi] ) )
 
-    def find_families_of_multiple_marriages():
-        results = []
-        person_in_fams = dict()
-        # get a list of the families for each person
-        # if a family is in the shown families
-        for indi in people_to_show:
-            person_in_fams[indi] = []
-            key = 'fams'
-            if key in data[i_key][indi]:
-               for fam in data[i_key][indi][key]:
-                   if fam in fam_to_show:
-                      person_in_fams[indi].append( fam )
+        text = '<tr><td port="i"'
+        if indi in matches:
+           box_color = match_color
+           if indi == me_id:
+              box_color = me_color
 
-        # count up the number of shown families each person has
-        # and more than one indicates multiples
-        for indi in person_in_fams:
-            if len( person_in_fams[indi] ) > 1:
-               for fam in person_in_fams[indi]:
-                   if fam not in results:
-                      results.append( fam )
+           #text += dot_indi_row( 'i', box_color, name )
+           #text += dot_indi_row( None, box_color, matches[indi]['note'] )
+           #if 'relation' in matches[indi]:
+           #   text += dot_indi_row( None, box_color, matches[indi]['relation'] )
+           text += ' bgcolor="' + box_color + '">' + name
+           text += '<br/>' + matches[indi]['note']
+           if 'relation' in matches[indi]:
+              text += '<br/>' + matches[indi]['relation']
+        else:
+           #text += dot_indi_row( 'i', None, name )
+           text += '>' + name
+        text += '</td></tr>\n'
 
-        return results
-
-    multiple_marriages = find_families_of_multiple_marriages()
+        output_label( make_indi_dot_id(indi), text )
 
     # use this to skip matches within families
     already_fam = set()
@@ -548,13 +546,7 @@ def dot_labels( matches, fam_to_show, people_to_show, me_id ):
         if fam not in already_fam:
            already_fam.add( fam )
 
-           multiple_marr = fam in multiple_marriages
-           partners = []
-
-           if fam_to_show[fam]:
-              partners = output_match_family_label( fam, multiple_marr )
-           else:
-              partners = output_plain_family_label( fam, multiple_marr )
+           partners = output_family_label( fam )
 
            for partner in partners:
                already_indi.add( partner )
@@ -567,7 +559,7 @@ def dot_labels( matches, fam_to_show, people_to_show, me_id ):
            output_indi_label( indi )
 
 
-def dot_connect( families_to_show, people_to_show, do_reverse ):
+def dot_connect( families_to_show, people_to_show, married_multi, do_reverse ):
     """ Output the links from one person/family to the next. """
 
     def get_family_of_child( indi ):
@@ -577,27 +569,20 @@ def dot_connect( families_to_show, people_to_show, do_reverse ):
            results.append( data[i_key][indi][key][0] )
         return results
 
-    def get_partner_ids( fam ):
-        results = []
+    def get_post_in_family( fam, indi ):
+        result = ''
         for partner in ['wife','husb']:
             if partner in data[f_key][fam]:
-               results.append( data[f_key][fam][partner][0] )
-        return results
-
-    def get_parent_families( fam ):
-        # return a list for easy handling, but its just a single item
-        results = []
-        for partner in get_partner_ids( fam ):
-            for child_fam in get_family_of_child( partner ):
-                results.append( child_fam )
-        return results
-
+               if data[f_key][fam][partner][0] == indi:
+                  result = make_fam_dot_id( fam ) + ':' + partner[0]
+                  break
+        return result
 
     # if this many incoming edges (or more), set a color on the edges
     n_to_color = 3
 
     # keep the routes from one family to the next
-    # each one only once
+    # so that there is each one only once
     routes = set()
 
     # count the number of times a family is targeted
@@ -609,28 +594,29 @@ def dot_connect( families_to_show, people_to_show, do_reverse ):
 
     for fam in families_to_show:
         # to the parents (if parent family is shown)
-        source = make_fam_dot_id( fam )
-        for parent_fam in get_parent_families( fam ):
-            if parent_fam in families_to_show:
-               target = make_fam_dot_id( parent_fam )
-               routes.add( (source, target) )
-
-               if target not in fam_count:
-                  fam_count[target] = 0
-               fam_count[target] += 1
-
+        for partner in ['wife','husb']:
+            if partner in data[f_key][fam]:
+               partner_id = data[f_key][fam][partner][0]
+               source = make_fam_dot_id( fam ) + ':' + partner[0] #:w or :h as post
                # the partners in that source family can't be shown independantly
-               for partner in get_partner_ids( fam ):
-                   already_indi.add( partner )
+               already_indi.add( partner_id )
+               for parent_fam in get_family_of_child( partner_id ):
+                   if parent_fam in families_to_show:
+                      target = make_fam_dot_id( parent_fam ) + ':u'
+                      routes.add( (source, target) )
+
+                      if target not in fam_count:
+                         fam_count[target] = 0
+                      fam_count[target] += 1
 
     # individuals
 
     for indi in people_to_show:
         if indi not in already_indi:
-           source = make_indi_dot_id( indi )
+           source = make_indi_dot_id( indi ) + ':i'
            for parent_fam in get_family_of_child( indi ):
                if parent_fam in families_to_show:
-                  target = make_fam_dot_id( parent_fam )
+                  target = make_fam_dot_id( parent_fam ) + ':u'
                   routes.add( (source, target) )
 
                   if target not in fam_count:
@@ -665,6 +651,21 @@ def dot_connect( families_to_show, people_to_show, do_reverse ):
            print( target + ' -> ' + source + colors[target] + ';' )
         else:
            print( source + ' -> ' + target + colors[target] + ';' )
+
+    # and for people who are married multiple times,
+    # connect them together so that graphviz can put them next to each other
+    # presumably by reducing overall crossed lines
+
+    # --> nope, this style ruins the alignment of generations
+
+    for indi in married_multi:
+        first_fam = None
+        for fam in married_multi[indi]:
+            if first_fam is None:
+               first_fam = get_post_in_family( fam, indi )
+            else:
+               next_fam = get_post_in_family( fam, indi )
+               print( first_fam + ' -> ' + next_fam + ';' )
 
 
 def find_ancestors( indi, path, ancestors ):
@@ -739,6 +740,25 @@ def find_common_ancestor( indi, base_person, base_ancestors ):
 
     return result
 
+def find_families_of_multiple_marriages( people_to_show, families_to_show ):
+    # for each person in multiple marriages return the list of their families
+    # if the families are also being shown
+    # result[indi1] = [fam1, fam2]
+    # result[indi2] = [fam3, fam4]
+    # etc.
+    results = dict()
+
+    for indi in people_to_show:
+        key = 'fams'
+        if key in data[i_key][indi]:
+           for_this_person = set()
+           for fam in data[i_key][indi][key]:
+               if fam in families_to_show:
+                  for_this_person.add( fam )
+           if len(for_this_person) > 1:
+              results[indi] = list(for_this_person)
+
+    return results
 
 options = get_program_options()
 
@@ -875,6 +895,8 @@ if DEBUG:
    print( '', file=sys.stderr )
    print( 'people_to_display', people_to_display, file=sys.stderr )
 
+multiple_marriages = find_families_of_multiple_marriages( people_to_display, families_to_display )
+
 # Output to stdout
 
 if options['format'] == 'gedcom':
@@ -886,6 +908,6 @@ if options['format'] == 'gedcom':
 else:
 
    begin_dot( options['orientation'], options['title'] )
-   dot_labels( matched, families_to_display, people_to_display, me )
-   dot_connect( families_to_display, people_to_display, options['reverse'] )
+   dot_labels( matched, families_to_display, people_to_display, multiple_marriages, me )
+   dot_connect( families_to_display, people_to_display, multiple_marriages, options['reverse'] )
    end_dot()
