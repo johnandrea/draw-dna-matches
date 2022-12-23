@@ -145,72 +145,79 @@ f23 [label=<
 <tr><td port="u">&amp;</td></tr>
 <tr><td port="h">Patrick MacIntosh</td></tr>
 </table>>];
-i46 [label=<
+f25 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Lucy Anderson<br/>1100 cM<br/>auncle</td></tr>
-</table>>];
-i11 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Patsy Wilson<br/>19 cM<br/>half-3C</td></tr>
-</table>>];
-i53 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Arlene MacIntosh<br/>450 cM<br/>half-1C</td></tr>
-</table>>];
-i48 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Sonny Anderson<br/>3500 cM<br/>child</td></tr>
-</table>>];
-i34 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Martha Growther<br/>53 cM<br/>2C1R</td></tr>
-</table>>];
-i49 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Judith Anderson<br/>2600 cM<br/>sibling</td></tr>
+<tr><td port="w" bgcolor="springgreen">Judith Anderson<br/>2600 cM<br/>sibling</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Ray Maple</td></tr>
 </table>>];
 i28 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Joy Jackson<br/>242 cM<br/>2C</td></tr>
 </table>>];
-i24 [label=<
+i11 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Dave Hill<br/>121 cM<br/>2C1R</td></tr>
+<tr><td port="i" bgcolor="springgreen">Patsy Wilson<br/>19 cM<br/>half-3C</td></tr>
 </table>>];
 i43 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Clark Marshall<br/>14 cM<br/>2C1R</td></tr>
 </table>>];
-f9:w -> f8:u;
-i43:i -> f19:u;
-f20:h -> f24:u;
-i11:i -> f5:u;
-f16:w -> f7:u [color=orchid];
-f17:w -> f16:u;
-f23:w -> f22:u;
-i46:i -> f20:u;
-f8:w -> f7:u [color=orchid];
-f15:w -> f14:u;
-f7:w -> f6:u;
-f3:w -> f2:u;
-i34:i -> f15:u;
-i49:i -> f17:u;
-f18:h -> f6:u;
-f12:h -> f11:u;
+i48 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Sonny Anderson<br/>3500 cM<br/>child</td></tr>
+</table>>];
+i24 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Dave Hill<br/>121 cM<br/>2C1R</td></tr>
+</table>>];
+i46 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Lucy Anderson<br/>1100 cM<br/>auncle</td></tr>
+</table>>];
+i34 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Martha Growther<br/>53 cM<br/>2C1R</td></tr>
+</table>>];
+i53 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Arlene MacIntosh<br/>450 cM<br/>half-1C</td></tr>
+</table>>];
+i57 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Jimmy Maple<br/>1700 cM<br/>nibling</td></tr>
+</table>>];
 f19:h -> f18:u;
-f21:h -> f17:u;
-f5:w -> f4:u;
-f13:h -> f7:u [color=orchid];
-i28:i -> f12:u;
-f14:h -> f13:u;
-f11:w -> f7:u [color=orchid];
-f4:w -> f3:u;
-i24:i -> f10:u;
-f17:h -> f20:u;
-i53:i -> f23:u;
-f2:w -> f1:u;
 f10:h -> f9:u;
-f22:h -> f24:u;
+f14:h -> f13:u;
+f3:w -> f2:u;
+f17:w -> f16:u;
 i48:i -> f21:u;
+f11:w -> f7:u [color=orchid];
+i28:i -> f12:u;
+f20:h -> f24:u;
+i53:i -> f23:u;
+f5:w -> f4:u;
+i57:i -> f25:u;
+f7:w -> f6:u;
+f25:w -> f17:u;
+i24:i -> f10:u;
+f22:h -> f24:u;
+f4:w -> f3:u;
+f16:w -> f7:u [color=orchid];
+f8:w -> f7:u [color=orchid];
+i43:i -> f19:u;
+i11:i -> f5:u;
+f9:w -> f8:u;
+f13:h -> f7:u [color=orchid];
+f15:w -> f14:u;
+f21:h -> f17:u;
+i34:i -> f15:u;
+f12:h -> f11:u;
+i46:i -> f20:u;
+f17:h -> f20:u;
+f18:h -> f6:u;
+f23:w -> f22:u;
 f6:w -> f1:u;
+f2:w -> f1:u;
 }
