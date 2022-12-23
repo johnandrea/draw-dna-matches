@@ -46,7 +46,7 @@ multi_marr_color = 'goldenrod'
 
 
 def show_version():
-    print( '6.2' )
+    print( '6.2.1' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -498,7 +498,9 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
             if add_sep:
                add_sep = False
                # "u" for "union"
-               text += '<tr><td port="u">&amp;</td></tr>\n'
+               # shrink up this section
+               smaller = ' cellpadding="0" cellspacing="0"'
+               text += '<tr><td port="u"' + smaller + '>&amp;</td></tr>\n'
 
         output_label( make_fam_dot_id(fam), text )
 
