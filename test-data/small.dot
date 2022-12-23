@@ -1,32 +1,34 @@
 digraph family {
+node [shape=plaintext];
 rankdir=LR;
 f16 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td bgcolor="springgreen"> Cathy Turner </td></tr>
-<tr><td bgcolor="springgreen">1750 cM</td></tr>
-<tr><td bgcolor="springgreen">grandparent</td></tr>
-<tr><td border="1"> + William Smith </td></tr>
-</table>
->, shape="none"];
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w" bgcolor="springgreen">Cathy Turner<br/>1750 cM<br/>grandparent</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">William Smith</td></tr>
+</table>>];
 f17 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td bgcolor="springgreen"> Laura Smith </td></tr>
-<tr><td bgcolor="springgreen">3600 cM</td></tr>
-<tr><td bgcolor="springgreen">parent</td></tr>
-<tr><td border="1"> + Eugene Anderson </td></tr>
-</table>
->, shape="none"];
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w" bgcolor="springgreen">Laura Smith<br/>3600 cM<br/>parent</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h">Eugene Anderson</td></tr>
+</table>>];
 f21 [label=<
-<table cellpadding="2" cellborder="0" cellspacing="0" border="0">
-<tr><td border="1"> Shiela Toner </td></tr>
-<tr><td bgcolor="lightblue"> + John Anderson </td></tr>
-<tr><td bgcolor="lightblue">me</td></tr>
-</table>
->, shape="none"];
-i48 [label="Sonny Anderson\n3500 cM\nchild", shape="record", style=filled, color=springgreen];
-i49 [label="Judith Anderson\n2600 cM\nsibling", shape="record", style=filled, color=springgreen];
-f21 -> f17;
-i48 -> f21;
-i49 -> f17;
-f17 -> f16;
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Shiela Toner</td></tr>
+<tr><td port="u">&amp;</td></tr>
+<tr><td port="h" bgcolor="lightblue">John Anderson<br/>me</td></tr>
+</table>>];
+i49 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Judith Anderson<br/>2600 cM<br/>sibling</td></tr>
+</table>>];
+i48 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Sonny Anderson<br/>3500 cM<br/>child</td></tr>
+</table>>];
+i49:i -> f17:u;
+i48:i -> f21:u;
+f21:h -> f17:u;
+f17:w -> f16:u;
 }
