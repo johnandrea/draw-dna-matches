@@ -46,7 +46,7 @@ multi_marr_color = 'goldenrod'
 
 
 def show_version():
-    print( '6.1.3' )
+    print( '6.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -693,7 +693,20 @@ def find_common_ancestor( indi, base_person, base_ancestors ):
        for ancestor in ancestors:
            if ancestor in base_ancestors:
               path_len = len( ancestors[ancestor]['path'] )
-              if path_len < found_len:
+              if path_len == found_len:
+                 # if no closer
+                 # prefer same family over "half" relations with different families
+                 them_fam = ancestors[ancestor]['fam']
+                 base_fam = base_ancestors[ancestor]['fam']
+                 if them_fam == base_fam:
+                    # side effect is that without double checking
+                    # this will toggle batween partners in a matched family
+                    result['indi'] = ancestor
+                    result['fam'] = them_fam
+                    result['path'] = ancestors[ancestor]['path']
+                    result['match-fam'] = base_fam
+                    result['match-path'] = base_ancestors[ancestor]['path']
+              elif path_len < found_len:
                  found_len = path_len
                  result['indi'] = ancestor
                  result['fam'] = ancestors[ancestor]['fam']
