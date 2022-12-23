@@ -42,11 +42,11 @@ match_color = 'springgreen'
 me_color = 'lightblue'
 
 # multiple marriage outline
-multi_marr_color = 'orange'
+multi_marr_color = 'goldenrod'
 
 
 def show_version():
-    print( '6.1' )
+    print( '6.1.1' )
 
 
 def load_my_module( module_name, relative_path ):
