@@ -152,6 +152,7 @@ This code is provided with neither support nor warranty.
 
 ### Future enhancements
 
+- Allow non-integer DNA cM values in ged file.
 - Come up with a compact style wchih can connect each person's multiple marriages.
 - Handle non-ASCII names in a manner better for SVG output.
 - Handle family matched above the tree top.
