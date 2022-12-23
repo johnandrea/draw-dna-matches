@@ -68,13 +68,13 @@ Full path to the input file.
 
 Dispay the version number then exit
 
--- min=alue
+-- min=value
 
-Minimum match value (cM) to include in the output. Default 0.
+Minimum match value (cM) to include in the output. Only integer values are allowed. Default 0.
 
 --max=value
 
-Maximum match value (cm) to include in the output. Default 5000.
+Maximum match value (cm) to include in the output. Only integer values are allowed. Default 5000.
 
 --format=dot
 
