@@ -83,7 +83,7 @@ Output as a DOT file for creating a display with Graphviz. This is the default.
 or use
 --format=gedcom
 
---eventtype=value
+--eventtype=type
 
 Set the type of of data containing the DNA match values. See above GEDCOM file examples. Either 'value' or 'note'. Default is 'note'.
 
@@ -91,9 +91,10 @@ Output as a GEDCOM file for import into another program. A minimal amount of dat
 
 --relationship
 
-Add relationship name (sibling, parent, 1C, 2C1R, etc.) to matches. Default is none.
+Add relationship name (sibling, parent, 1C, 2C1R, etc.) to matches. Relationships are computed from paths in the tree, 
+dna values are not involved. Default is none.
 
---title="string"
+--title="text"
 
 Display a title on the output chart. Default is no title.
 
