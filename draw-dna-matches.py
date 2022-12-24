@@ -45,7 +45,7 @@ multi_marr_color = 'goldenrod'
 
 
 def show_version():
-    print( '6.2.2' )
+    print( '6.2.3' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -258,7 +258,7 @@ def compute_relation( closest ):
     return half + find_relation_label( gen_me, gen_them )
 
 
-def extract_dna_cm( note ):
+def extract_dna_cm( indi, note ):
     """ Return the numeric cM value from the note which is
         a number at the start of the line followed by "cM" or "cm" """
 
@@ -270,6 +270,8 @@ def extract_dna_cm( note ):
            result = False
         return result
 
+    xref = '@I' + str( data[i_key][indi]['xref'] ) + '@'
+
     s = note.replace('  ',' ').strip().lower()
 
     result = None
@@ -280,7 +282,17 @@ def extract_dna_cm( note ):
           # assume anglo numbers with commas but not euro style "1.234,56"
           number = parts[0].replace(',','')
           if string_is_numeric( number ):
-             result = int( round( float( number ) ) )
+             result = float( number )
+             if result < 0:
+                # but not bothering to check for an upper bound
+                result = None
+                print( xref, 'Ignoring invalid DNA value (below zero):', note, file=sys.stderr )
+             else:
+                result = int( round( result ) )
+          else:
+             print( xref, 'Ignoring unusable DNA value:', note, file=sys.stderr )
+       else:
+          print( xref, 'Ignoring unusable DNA value:', note, file=sys.stderr )
 
     return result
 
@@ -759,14 +771,14 @@ for indi in data[i_key]:
           matched[indi]['note'] = 'me'
           me = indi
        else:
-          value = extract_dna_cm( result )
+          value = extract_dna_cm( indi, result )
           if value is not None:
              if options['min'] <= value <= options['max']:
                 matched[indi] = dict()
                 matched[indi]['note'] = str(value) + ' cM'
 
 if not me:
-   print( 'Didnt find base person', file=sys.stderr )
+   print( 'Didn\'t find base person', file=sys.stderr )
    sys.exit()
 
 if DEBUG:
