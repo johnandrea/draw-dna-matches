@@ -1,6 +1,5 @@
 #!/usr/local/bin/python3
 import sys
-import re
 import argparse
 import importlib.util
 import os
@@ -46,7 +45,7 @@ multi_marr_color = 'goldenrod'
 
 
 def show_version():
-    print( '6.2.1' )
+    print( '6.2.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -259,46 +258,29 @@ def compute_relation( closest ):
     return half + find_relation_label( gen_me, gen_them )
 
 
-def remove_numeric_comma( s ):
-    """ Given 1,234 1,234,567 and similar, remove the comma.
-        Does the same for all such patterns in the string.
-        Assuming anglo style numbers rather than euro style of 1.234,99
-        Don't use a simple replace, get only the ones inside a number. """
-
-    comma_pattern = re.compile( r'\d,\d' )
-
-    result = s
-
-    # global replace count not working on this expression,
-    # use a loop as a workaround
-
-    while comma_pattern.search( result ):
-          result = re.sub( r'^(.*\d),(\d.*)$', r'\1\2', result )
-
-    return result
-
-
 def extract_dna_cm( note ):
-    """ Return the numeric cM value from the note which is either just
-        a number or a number followed by "cM" or "cm" """
+    """ Return the numeric cM value from the note which is
+        a number at the start of the line followed by "cM" or "cm" """
 
-    contains_a_number = re.compile( r'[0-9]' )
-    just_a_number = re.compile( r'^[0-9]+$' )
-    cm_count = re.compile( r'([0-9]+)\s*cm\W' )
+    def string_is_numeric( x ):
+        result = True
+        try:
+           y = float( x )
+        except ValueError:
+           result = False
+        return result
 
-    s = note.strip()
+    s = note.replace('  ',' ').strip().lower()
 
-    result = ''
+    result = None
 
-    if contains_a_number.search( s ):
-       s = remove_numeric_comma( s )
-       if just_a_number.search( s ):
-          result = s
-       else:
-          # append a space for a simpler regexp of the word ending
-          match = cm_count.search( s.lower() + ' ' )
-          if match:
-             result = match.group(1)
+    parts = s.split()
+    if len(parts) > 1:
+       if parts[1].startswith('cm') and (parts[1] == 'cm' or parts[1][2] in [' ','.',',',';',':']):
+          # assume anglo numbers with commas but not euro style "1.234,56"
+          number = parts[0].replace(',','')
+          if string_is_numeric( number ):
+             result = int( round( float( number ) ) )
 
     return result
 
@@ -316,14 +298,13 @@ def get_name( individual ):
 
 def check_for_dna_event( dna_event, value_key, individual ):
     """ Does the person in data section contain the
-        desired dna event. Return a list with found or not. """
-    result = [ False, '' ]
+        desired dna event. """
+    result = None
     if 'even' in individual:
        for event in individual['even']:
            if event['type'].lower() == dna_event.lower():
               if value_key in event:
-                 result[0] = True
-                 result[1] = event[value_key].strip()
+                 result = event[value_key].strip()
               break
     return result
 
@@ -771,17 +752,18 @@ me = None
 
 for indi in data[i_key]:
     result = check_for_dna_event( options['eventname'], options['eventtype'], data[i_key][indi] )
-    if result[0]:
-       test_for_me = result[1].lower()
+    if result is not None:
+       test_for_me = result.lower()
        if test_for_me.startswith('me') and (test_for_me == 'me' or test_for_me[2] in [' ', '.', ',', ':']):
           matched[indi] = dict()
           matched[indi]['note'] = 'me'
           me = indi
        else:
-          value = int( extract_dna_cm( result[1] ) )
-          if options['min'] <= value <= options['max']:
-             matched[indi] = dict()
-             matched[indi]['note'] = str(value) + ' cM'
+          value = extract_dna_cm( result )
+          if value is not None:
+             if options['min'] <= value <= options['max']:
+                matched[indi] = dict()
+                matched[indi]['note'] = str(value) + ' cM'
 
 if not me:
    print( 'Didnt find base person', file=sys.stderr )
