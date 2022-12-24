@@ -32,7 +32,7 @@
 <polygon fill="none" stroke="black" points="159.5,-119 159.5,-208 252.5,-208 252.5,-119 159.5,-119"/>
 </g>
 <!-- f3&#45;&gt;f2 -->
-<g id="edge1" class="edge">
+<g id="edge8" class="edge">
 <title>f3:h&#45;&gt;f2:u</title>
 <path fill="none" stroke="black" d="M253,-144.5C279.26,-144.5 279.01,-114.91 298.43,-107.28"/>
 <polygon fill="black" stroke="black" points="299.26,-110.69 308.5,-105.5 298.04,-103.79 299.26,-110.69"/>
@@ -46,7 +46,7 @@
 <polygon fill="none" stroke="black" points="308,-253 308,-312 395,-312 395,-253 308,-253"/>
 </g>
 <!-- f3&#45;&gt;f6 -->
-<g id="edge5" class="edge">
+<g id="edge1" class="edge">
 <title>f3:w&#45;&gt;f6:u</title>
 <path fill="none" stroke="orchid" d="M253,-196.5C294.24,-196.5 268.76,-267.52 298.54,-279.72"/>
 <polygon fill="orchid" stroke="orchid" points="298.04,-283.19 308.5,-281.5 299.27,-276.3 298.04,-283.19"/>
@@ -63,7 +63,7 @@
 <polygon fill="none" stroke="black" points="170.5,-4 170.5,-93 241.5,-93 241.5,-4 170.5,-4"/>
 </g>
 <!-- f4&#45;&gt;f2 -->
-<g id="edge2" class="edge">
+<g id="edge3" class="edge">
 <title>f4:w&#45;&gt;f2:u</title>
 <path fill="none" stroke="black" d="M242,-66.5C272.52,-66.5 274.25,-97.44 298.46,-104.2"/>
 <polygon fill="black" stroke="black" points="298.13,-107.69 308.5,-105.5 299.03,-100.75 298.13,-107.69"/>
@@ -91,28 +91,13 @@
 <polygon fill="none" stroke="black" points="156,-234 156,-293 256,-293 256,-234 156,-234"/>
 </g>
 <!-- f8&#45;&gt;f6 -->
-<g id="edge6" class="edge">
+<g id="edge2" class="edge">
 <title>f8:w&#45;&gt;f6:u</title>
 <path fill="none" stroke="orchid" d="M256,-281.5C275.51,-281.5 282.78,-281.5 298.27,-281.5"/>
 <polygon fill="orchid" stroke="orchid" points="298.5,-285 308.5,-281.5 298.5,-278 298.5,-285"/>
 </g>
-<!-- i18 -->
-<g id="node7" class="node">
-<title>i18</title>
-<polygon fill="springgreen" stroke="transparent" points="9,-322.5 9,-373.5 103,-373.5 103,-322.5 9,-322.5"/>
-<text text-anchor="start" x="12" y="-359.3" font-family="Times New Roman,serif" font-size="14.00">Louise Spencer</text>
-<text text-anchor="start" x="34.5" y="-344.3" font-family="Times New Roman,serif" font-size="14.00">850 cM</text>
-<text text-anchor="start" x="47.5" y="-329.3" font-family="Times New Roman,serif" font-size="14.00">1C</text>
-<polygon fill="none" stroke="black" points="8,-322 8,-375 104,-375 104,-322 8,-322"/>
-</g>
-<!-- i18&#45;&gt;f7 -->
-<g id="edge3" class="edge">
-<title>i18:i&#45;&gt;f7:u</title>
-<path fill="none" stroke="black" d="M103.08,-347.5C118.72,-347.5 136.54,-347.5 153.54,-347.5"/>
-<polygon fill="black" stroke="black" points="154,-351 164,-347.5 154,-344 154,-351"/>
-</g>
 <!-- i19 -->
-<g id="node8" class="node">
+<g id="node7" class="node">
 <title>i19</title>
 <polygon fill="springgreen" stroke="transparent" points="11,-237.5 11,-288.5 102,-288.5 102,-237.5 11,-237.5"/>
 <text text-anchor="start" x="14" y="-274.3" font-family="Times New Roman,serif" font-size="14.00">DOUBLE Ruff</text>
@@ -121,13 +106,13 @@
 <polygon fill="none" stroke="black" points="9.5,-237 9.5,-290 102.5,-290 102.5,-237 9.5,-237"/>
 </g>
 <!-- i19&#45;&gt;f8 -->
-<g id="edge8" class="edge">
+<g id="edge4" class="edge">
 <title>i19:i&#45;&gt;f8:u</title>
 <path fill="none" stroke="black" d="M102.39,-262.5C116.04,-262.5 131.33,-262.5 145.98,-262.5"/>
 <polygon fill="black" stroke="black" points="146,-266 156,-262.5 146,-259 146,-266"/>
 </g>
 <!-- i10 -->
-<g id="node9" class="node">
+<g id="node8" class="node">
 <title>i10</title>
 <polygon fill="springgreen" stroke="transparent" points="20,-7.5 20,-58.5 93,-58.5 93,-7.5 20,-7.5"/>
 <text text-anchor="start" x="23" y="-44.3" font-family="Times New Roman,serif" font-size="14.00">Allan Green</text>
@@ -136,13 +121,13 @@
 <polygon fill="none" stroke="black" points="18.5,-7 18.5,-60 93.5,-60 93.5,-7 18.5,-7"/>
 </g>
 <!-- i10&#45;&gt;f4 -->
-<g id="edge4" class="edge">
+<g id="edge5" class="edge">
 <title>i10:i&#45;&gt;f4:u</title>
 <path fill="none" stroke="black" d="M93.12,-32.5C112.55,-32.5 137.43,-32.5 160.76,-32.5"/>
 <polygon fill="black" stroke="black" points="161,-36 171,-32.5 161,-29 161,-36"/>
 </g>
 <!-- i7 -->
-<g id="node10" class="node">
+<g id="node9" class="node">
 <title>i7</title>
 <polygon fill="lightblue" stroke="transparent" points="20,-160.5 20,-196.5 93,-196.5 93,-160.5 20,-160.5"/>
 <text text-anchor="start" x="23" y="-182.3" font-family="Times New Roman,serif" font-size="14.00">Julia French</text>
@@ -154,6 +139,21 @@
 <title>i7:i&#45;&gt;f3:u</title>
 <path fill="none" stroke="black" d="M93.4,-178.5C110.11,-178.5 130.61,-178.5 149.99,-178.5"/>
 <polygon fill="black" stroke="black" points="150,-182 160,-178.5 150,-175 150,-182"/>
+</g>
+<!-- i18 -->
+<g id="node10" class="node">
+<title>i18</title>
+<polygon fill="springgreen" stroke="transparent" points="9,-322.5 9,-373.5 103,-373.5 103,-322.5 9,-322.5"/>
+<text text-anchor="start" x="12" y="-359.3" font-family="Times New Roman,serif" font-size="14.00">Louise Spencer</text>
+<text text-anchor="start" x="34.5" y="-344.3" font-family="Times New Roman,serif" font-size="14.00">850 cM</text>
+<text text-anchor="start" x="47.5" y="-329.3" font-family="Times New Roman,serif" font-size="14.00">1C</text>
+<polygon fill="none" stroke="black" points="8,-322 8,-375 104,-375 104,-322 8,-322"/>
+</g>
+<!-- i18&#45;&gt;f7 -->
+<g id="edge6" class="edge">
+<title>i18:i&#45;&gt;f7:u</title>
+<path fill="none" stroke="black" d="M103.08,-347.5C118.72,-347.5 136.54,-347.5 153.54,-347.5"/>
+<polygon fill="black" stroke="black" points="154,-351 164,-347.5 154,-344 154,-351"/>
 </g>
 </g>
 </svg>

@@ -37,10 +37,6 @@ f8 [label=<
 <tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
 <tr><td port="h">Arthur Ruff</td></tr>
 </table>>];
-i18 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Louise Spencer<br/>850 cM<br/>1C</td></tr>
-</table>>];
 i19 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">DOUBLE Ruff<br/>900 cM<br/>1C</td></tr>
@@ -53,13 +49,17 @@ i7 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="lightblue">Julia French<br/>me</td></tr>
 </table>>];
-f3:h -> f2:u;
-f4:w -> f2:u;
-i18:i -> f7:u;
-i10:i -> f4:u;
+i18 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Louise Spencer<br/>850 cM<br/>1C</td></tr>
+</table>>];
 f3:w -> f6:u [color=orchid];
 f8:w -> f6:u [color=orchid];
-f7:h -> f6:u [color=orchid];
+f4:w -> f2:u;
 i19:i -> f8:u;
+i10:i -> f4:u;
+i18:i -> f7:u;
+f7:h -> f6:u [color=orchid];
+f3:h -> f2:u;
 i7:i -> f3:u;
 }

@@ -177,8 +177,7 @@
 1 SEX M
 1 EVEN
 2 TYPE dnamatch
-2 DATE 2020
-2 NOTE 121
+2 NOTE 121 cM
 1 FAMC @F10@
 0 @I25@ INDI
 1 NAME Jack /Jackson/
@@ -207,7 +206,7 @@
 1 EVEN
 2 TYPE dnamatch
 2 DATE 2019
-2 NOTE 242
+2 NOTE 242 cM
 1 FAMC @F12@
 0 @I29@ INDI
 1 NAME Arleen /Green/
@@ -253,7 +252,7 @@
 1 EVEN
 2 TYPE dnamatch
 2 DATE 2021
-2 NOTE 53
+2 NOTE 53 cM
 1 FAMC @F15@
 0 @I35@ INDI
 1 NAME William /Smith/

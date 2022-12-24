@@ -27,8 +27,8 @@ i48 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Sonny Anderson<br/>3500 cM<br/>child</td></tr>
 </table>>];
-f17:w -> f16:u;
 i49:i -> f17:u;
-i48:i -> f21:u;
 f21:h -> f17:u;
+f17:w -> f16:u;
+i48:i -> f21:u;
 }
