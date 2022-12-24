@@ -21,14 +21,14 @@ No installation process. Copy the program and the library.
 ## Input
 
 The input is a GEDCOM file exported from a genealogy program. The key is that the DNA matches are marked in a custom event whose name is an input option. The match cM value will be extracted if found in that event's note field and will be
-displayed below the person's name. The cM value in the note can be given as only a single number, or else it must be a number followed by cM. Such as "62 cM", "123cm", "text 123 cm", "1,234 cM", etc. However "text 321 text" will not match.
+displayed below the person's name. The cM value in the note is a number at the start of the line followed by "cM" or "cm" such as "62 cM", "123cm", "1,234 cM", etc. A floating point number can be used, such as "123.7 cM", but it will be rounded.
 
 An example of a relevant portion of the input file:
 
 ```
 1 EVEN
 2 TYPE dnamatch
-2 NOTE matched at 732 cM
+2 NOTE 732 cM, a cousin
 ```
 
 The matches are intended to be made against one person in the data file. That person
@@ -152,7 +152,6 @@ This code is provided with neither support nor warranty.
 
 ### Future enhancements
 
-- Allow non-integer DNA cM values in ged file.
 - Come up with a compact style wchih can connect each person's multiple marriages.
 - Handle non-ASCII names in a manner better for SVG output.
 - Handle family matched above the tree top.
