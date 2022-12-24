@@ -68,11 +68,11 @@ Full path to the input file.
 
 Dispay the version number then exit
 
--- min=value
+-- min=number
 
 Minimum match value (cM) to include in the output. Only integer values are allowed. Default 0.
 
---max=value
+--max=number
 
 Maximum match value (cm) to include in the output. Only integer values are allowed. Default 5000.
 
@@ -93,7 +93,7 @@ Output as a GEDCOM file for import into another program. A minimal amount of dat
 
 Add relationship name (sibling, parent, 1C, 2C1R, etc.) to matches. Default is none.
 
---title="value"
+--title="string"
 
 Display a title on the output chart. Default is no title.
 
