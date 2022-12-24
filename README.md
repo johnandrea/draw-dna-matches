@@ -113,7 +113,7 @@ The directory containing the readgedcom library, relative to the . Default is ".
 
 ## Display
 
-In the produced graphs, each dnamatch person will be shown in a green box. Any person which has multiple families will be in an orange box. Any family with 3 or more incoming connections will have coloured input arrows.
+In the produced graphs, each DNA match person will be shown in a green box. Any person which has multiple families will be in an orange box. Any family with 3 or more incoming connections will have coloured input arrows.
 
 ## Example
 
