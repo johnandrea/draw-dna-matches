@@ -31,7 +31,7 @@ DEBUG = False
 
 # lines to ancestors
 line_colors = ['orchid', 'tomato', 'lightseagreen']
-line_colors.extend( ['gold', 'royalblue', 'coral'] )
+line_colors.extend( ['teal', 'royalblue', 'coral'] )
 line_colors.extend( ['yellowgreen', 'chocolate', 'salmon'] )
 
 # box containing a match person
@@ -41,11 +41,15 @@ match_color = 'springgreen'
 me_color = 'lightblue'
 
 # multiple marriage outline
-multi_marr_color = 'goldenrod'
+multi_marr_color = '#ffc000'  #golden yellow
+
+# I tend to list the wife first, the displar ordering can be changed by
+# swapping the names in this list
+partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.2.3' )
+    print( '6.2.4' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -324,7 +328,7 @@ def check_for_dna_event( dna_event, value_key, individual ):
 def does_fam_have_match( matches, family ):
     # Does the family contain a person which is a match
     result = False
-    for parent in ['husb','wife']:
+    for parent in partner_types:
         if parent in family:
            if family[parent][0] in matches:
               result = True
@@ -397,7 +401,7 @@ def ged_families( families, people ):
            continue
         already_seen.append( fam )
         print( '0 @F' + make_ged_id(fam) + '@ FAM' )
-        for parent in ['wife','husb']:
+        for parent in partner_types:
             if parent in data[f_key][fam]:
                # only taking the zero'th person as the parent,
                # maybe shold check all of them
@@ -464,7 +468,7 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
         text = ''
         add_sep = True
 
-        for parent in ['wife','husb']:
+        for parent in partner_types:
             if parent in data[f_key][fam]:
                parent_id = data[f_key][fam][parent][0]
                parent_ids.append( parent_id )
@@ -485,6 +489,8 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
                   if 'relation' in matches[parent_id]:
                      text += '<br/>' + matched[parent_id]['relation']
                else:
+                  if parent_id in married_multi:
+                     text += ' bgcolor="' + multi_marr_color + '"'
                   text += '>' + name
                text += '</td></tr>\n'
 
@@ -567,7 +573,7 @@ def dot_connect( families_to_show, people_to_show, do_reverse ):
 
     for fam in families_to_show:
         # to the parents (if parent family is shown)
-        for partner in ['wife','husb']:
+        for partner in partner_types:
             if partner in data[f_key][fam]:
                partner_id = data[f_key][fam][partner][0]
                source = make_fam_dot_id( fam ) + ':' + partner[0] #:w or :h as post
@@ -642,7 +648,7 @@ def find_ancestors( indi, path, ancestors ):
 
        new_path = path + [fam]
 
-       for partner in ['husb','wife']:
+       for partner in partner_types:
            if partner in data[f_key][fam]:
               ancestor = data[f_key][fam][partner][0]
 
@@ -862,7 +868,7 @@ for indi in matched:
     if matched[indi]['common']:
        people_to_display.add( indi )
 for fam in families_to_display:
-    for partner in ['husb','wife']:
+    for partner in partner_types:
         if partner in data[f_key][fam]:
            people_to_display.add( data[f_key][fam][partner][0] )
 
