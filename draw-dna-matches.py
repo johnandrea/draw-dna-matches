@@ -49,7 +49,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.2.4' )
+    print( '6.3' )
 
 
 def load_my_module( module_name, relative_path ):
