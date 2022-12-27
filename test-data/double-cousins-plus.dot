@@ -3,7 +3,7 @@ node [shape=plaintext];
 rankdir=LR;
 f2 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w" bgcolor="goldenrod">Susan Waters<br/>1750 cM<br/>grandparent</td></tr>
+<tr><td port="w" bgcolor="#ffc000">Susan Waters<br/>1750 cM<br/>grandparent</td></tr>
 <tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
 <tr><td port="h">John French</td></tr>
 </table>>];
@@ -21,7 +21,7 @@ f4 [label=<
 </table>>];
 f5 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w" bgcolor="goldenrod">Susan Waters<br/>1750 cM<br/>grandparent</td></tr>
+<tr><td port="w" bgcolor="#ffc000">Susan Waters<br/>1750 cM<br/>grandparent</td></tr>
 <tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
 <tr><td port="h">George Ruff</td></tr>
 </table>>];
@@ -55,33 +55,33 @@ f9 [label=<
 <tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
 <tr><td port="h">Louis Sweet</td></tr>
 </table>>];
-i21 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Billy Sweet<br/>430 cM<br/>1C1R</td></tr>
-</table>>];
 i10 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Allan Green<br/>860 cM<br/>1C</td></tr>
-</table>>];
-i18 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="springgreen">Louise Spencer<br/>850 cM<br/>1C</td></tr>
 </table>>];
 i7 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="lightblue">Julia French<br/>me</td></tr>
 </table>>];
-f9:w -> f8:u;
+i21 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Billy Sweet<br/>430 cM<br/>1C1R</td></tr>
+</table>>];
+i18 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Louise Spencer<br/>850 cM<br/>1C</td></tr>
+</table>>];
 f8:w -> f6:u [color=orchid];
-i7:i -> f3:u;
-f8:h -> f5:u;
-f5:w -> f1:u;
-i10:i -> f4:u;
-f3:w -> f6:u [color=orchid];
-f7:h -> f6:u [color=orchid];
-f3:h -> f2:u;
-f2:w -> f1:u;
-f4:w -> f2:u;
-i18:i -> f7:u;
 i21:i -> f9:u;
+i7:i -> f3:u;
+i18:i -> f7:u;
+f4:w -> f2:u;
+f5:w -> f1:u;
+f7:h -> f6:u [color=orchid];
+i10:i -> f4:u;
+f2:w -> f1:u;
+f8:h -> f5:u;
+f3:w -> f6:u [color=orchid];
+f9:w -> f8:u;
+f3:h -> f2:u;
 }
