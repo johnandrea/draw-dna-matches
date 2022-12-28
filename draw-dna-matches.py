@@ -43,13 +43,16 @@ me_color = 'lightblue'
 # multiple marriage outline
 multi_marr_color = '#ffc000'  #golden yellow
 
+# use this for a missing partner in a family union
+missing_name = 'unknown'
+
 # I tend to list the wife first, the displar ordering can be changed by
 # swapping the names in this list
 partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.4.1' )
+    print( '6.4.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -496,7 +499,7 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
 
             else:
               # put something in for a missing parent record
-              text += '<tr><td>unknown</td></tr>\n'
+              text += '<tr><td>' + missing_name + '</td></tr>\n'
 
             if add_sep:
                add_sep = False
