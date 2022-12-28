@@ -49,7 +49,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.3' )
+    print( '6.4' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -758,6 +758,7 @@ data_opts['display-gedcom-warnings'] = False
 data_opts['exit-on-no-families'] = True
 data_opts['exit-on-missing-individuals'] = True
 data_opts['exit-on-missing-families'] = True
+data_opts['only-birth'] = True
 
 data = readgedcom.read_file( options['infile'], data_opts )
 
