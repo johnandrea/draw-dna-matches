@@ -49,7 +49,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.4' )
+    print( '6.4.1' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -493,6 +493,10 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
                      text += ' bgcolor="' + multi_marr_color + '"'
                   text += '>' + name
                text += '</td></tr>\n'
+
+            else:
+              # put something in for a missing parent record
+              text += '<tr><td>unknown</td></tr>\n'
 
             if add_sep:
                add_sep = False
