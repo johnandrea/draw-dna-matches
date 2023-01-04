@@ -1,0 +1,46 @@
+digraph family {
+node [shape=plaintext];
+rankdir=LR;
+f1 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Grandma  i2</td></tr>
+<tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
+<tr><td port="h">Grandpa  i1</td></tr>
+</table>>];
+f11 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Mary  i21</td></tr>
+<tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
+<tr><td port="h">Fred  i11</td></tr>
+</table>>];
+f12 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Jane  i22</td></tr>
+<tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
+<tr><td port="h">George  i12</td></tr>
+</table>>];
+f14 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="w">Ginny  i13</td></tr>
+<tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
+<tr><td>unknown</td></tr>
+</table>>];
+i103 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Abe  i103<br/>1000 cM<br/>1C</td></tr>
+</table>>];
+i102 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="lightblue">Tom  i102<br/>me</td></tr>
+</table>>];
+i101 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="springgreen">Sam  i101<br/>1200 cM<br/>1C</td></tr>
+</table>>];
+f12:h -> f1:u [color=orchid];
+i103:i -> f14:u;
+i102:i -> f12:u;
+i101:i -> f11:u;
+f14:w -> f1:u [color=orchid];
+f11:h -> f1:u [color=orchid];
+}

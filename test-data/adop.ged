@@ -1,0 +1,89 @@
+0 HEAD
+1 SOUR manual
+1 GEDC
+2 VERS 5.5.1
+2 FORM LINEAGE-LINKED
+1 CHAR UTF-8
+1 SUBM @SUB1@
+0 @SUB1@ SUBM
+1 NAME John Andrea
+0 @I1@ INDI
+1 NAME Grandpa //
+1 SEX M
+1 FAMS @F1@
+0 @I2@ INDI
+1 NAME Grandma //
+1 SEX F
+1 FAMS @F1@
+0 @I11@ INDI
+1 NAME Fred //
+1 FAMC @F1@
+1 FAMS @F11@
+0 @I12@ INDI
+1 NAME George //
+1 FAMC @F1@
+0 @I13@ INDI
+1 NAME Ginny //
+1 FAMC @F1@
+0 @I21@ INDI
+1 NAME Mary //
+2 NOTE wife of Fred
+1 FAMS @F11@
+0 @I22@ INDI
+1 NAME Jane //
+2 NOTE wife of George
+1 FAMS @F12@
+0 @I23@ INDI
+1 NAME Yorick //
+2 NOTE adoptive father with Ginny
+1 FAMS @F13@
+0 @I101@ INDI
+1 NAME Sam //
+2 NOTE child of Fred and Mary
+1 FAMC @F11@
+1 EVEN
+2 TYPE dnainfo
+2 NOTE 1200 cM
+0 @I102@ INDI
+1 NAME Tom //
+2 NOTE child of George and Jane
+1 FAMC @F12@
+1 EVEN
+2 TYPE dnainfo
+2 NOTE me
+0 @I103@ INDI
+1 NAME Abe //
+2 NOTE birth child of Ginny
+1 EVEN
+2 TYPE dnainfo
+2 NOTE 1000 cM
+1 FAMC @F13@
+0 @F1@ FAM
+1 MARR
+2 NOTE grandparents
+1 HUSB @I1@
+1 WIFE @I2@
+1 CHIL @I11@
+1 CHIL @I12@
+1 CHIL @I13@
+0 @F11@ FAM
+1 MARR
+2 NOTE Fred and Mary
+1 HUSB @I11@
+1 WIFE @I21@
+1 CHIL @I101@
+0 @F12@ FAM
+1 MARR
+2 NOTE George and Jane
+1 HUSB @I12@
+1 WIFE @I22@
+1 CHIL @I102@
+0 @F13@ FAM
+1 MARR
+2 NOTE Ginny and Yorick. Adopted Abe
+1 WIFE @I13@
+1 HUSB @I23@
+1 CHIL @I103@
+2 _FREL adopted
+2 _MREL birth
+0 TRLR
