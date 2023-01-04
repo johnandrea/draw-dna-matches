@@ -52,7 +52,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.4.2' )
+    print( '6.5' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -649,8 +649,7 @@ def find_ancestors( indi, path, ancestors ):
     """
 
     key = 'famc'
-    if key in data[i_key][indi]:
-       # assuming blood relations are at index zero
+    if key in data[i_key][indi] and data[i_key][indi][key]:
        fam = data[i_key][indi][key][0]
 
        new_path = path + [fam]
