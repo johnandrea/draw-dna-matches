@@ -52,7 +52,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.5' )
+    print( '6.5.1' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -316,8 +316,8 @@ def get_name( individual ):
 
 
 def check_for_dna_event( dna_event, value_key, individual ):
-    """ Does the person in data section contain the
-        desired dna event. """
+    """ Does the person in data section contain the desired dna event.
+        Return the found value. "None" means there is no such event. """
     result = None
     if 'even' in individual:
        for event in individual['even']:
@@ -775,9 +775,13 @@ matched = dict()
 # the id of the base dna match person
 me = None
 
+# the event not existing is different from no extacted values
+found_event = False
+
 for indi in data[i_key]:
     result = check_for_dna_event( options['eventname'], options['eventtype'], data[i_key][indi] )
     if result is not None:
+       found_event = True
        test_for_me = result.lower()
        if test_for_me.startswith('me') and (test_for_me == 'me' or test_for_me[2] in [' ', '.', ',', ':']):
           matched[indi] = dict()
@@ -790,9 +794,19 @@ for indi in data[i_key]:
                 matched[indi] = dict()
                 matched[indi]['note'] = str(value) + ' cM'
 
+if not found_event:
+   event_name = '"' + options['eventname'] + '" / "' + options['eventtype'] + '"'
+   print( 'Didn\'t locate anyone with the selected event', event_name, file=sys.stderr )
+   sys.exit(1)
+
 if not me:
    print( 'Didn\'t find base person', file=sys.stderr )
-   sys.exit()
+   sys.exit(1)
+
+if len(matched) < 2:
+   # one = me, so need 2 or more
+   print( 'Didn\'t find anyone to match with', file=sys.stderr )
+   sys.exit(1)
 
 if DEBUG:
    print( '', file=sys.stderr )
