@@ -52,7 +52,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.5.1' )
+    print( '6.5.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -304,15 +304,21 @@ def extract_dna_cm( indi, note ):
     return result
 
 
+
+def get_xref( individual ):
+    return 'i' + str( individual['xref'] )
+
+
 def get_name( individual ):
     """ Return the name for the individual in the passed data section. """
     name = individual['name'][0]['value']
-    if DEBUG:
-       name += ' i' + str( individual['xref'] )
+    name = name.replace( '/', '' ).replace( '&', '&amp;' ).replace('"','&quot;').replace("'","&rsquo;").strip()
     # the standard unknown code is not good for svg output
     if '?' in name and '[' in name and ']' in name:
        name = 'unknown'
-    return name.replace( '/', '' ).replace( '&', '&amp;' ).replace('"','&quot;').replace("'","&rsquo;")
+    if DEBUG:
+       name += ' ' + get_xref( individual )
+    return name
 
 
 def check_for_dna_event( dna_event, value_key, individual ):
@@ -900,8 +906,9 @@ if DEBUG:
 multiple_marriages = find_families_of_multiple_marriages( people_to_display, families_to_display )
 
 if DEBUG:
-   print( '', file=sys.stderr )
-   show_items( 'multiply married', multiple_marriages )
+   if multiple_marriages:
+      print( '', file=sys.stderr )
+      show_items( 'multiply married', multiple_marriages )
 
 # Output to stdout
 
@@ -917,3 +924,18 @@ else:
    dot_labels( matched, families_to_display, people_to_display, multiple_marriages, me )
    dot_connect( families_to_display, people_to_display, options['reverse'] )
    end_dot()
+
+# DNA matched but not displayed
+not_displayed = []
+for indi in matched:
+    if indi not in people_to_display:
+       not_displayed.append( indi )
+if not_displayed:
+   if DEBUG:
+      print( '', file=sys.stderr )
+   print( 'Matches who are not displayed.', file=sys.stderr )
+   print( 'Due to missing birth family or common ancestor above tree top.', file=sys.stderr )
+   name = get_name( data[i_key][indi] ).strip()
+   if not DEBUG:
+      name += ' ' + get_xref( data[i_key][indi] ).strip()
+   print( name, matched[indi]['note'], file=sys.stderr )
