@@ -52,7 +52,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.5.2' )
+    print( '6.5.3' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -676,8 +676,20 @@ def find_ancestors( indi, path, ancestors ):
 
 
 def find_common_ancestor( indi, base_person, base_ancestors ):
-    # return the closest ancestor to the base person
-    # an empty restore means no match
+    ''' Return the closest ancestor to the "base person" from "indi" in a dict.
+    An empty result means no match, otherwise:
+
+    result['indi'] = the ancestor who is the closest
+    result['fam'] = fam containing the ancestor from which "base" is descendant
+    result['path'] = path from base person to closest ancestor
+    result['match-fam'] = fam containing the ancestor from which "indi" is descendant
+    result['match-path'] = path from "indi" to the ancestor
+
+    The double fam and path items are because the indi and base may be in a
+    half-relation whereby they share one ancestor but are descendant from
+    different families. I.E. fam not equal match-fam means half-relation.
+    '''
+
     result = dict()
 
     ancestors = dict()
@@ -729,6 +741,7 @@ def find_common_ancestor( indi, base_person, base_ancestors ):
 
     return result
 
+
 def find_families_of_multiple_marriages( people_to_show, families_to_show ):
     # for each person in multiple marriages return the list of their families
     # if the families are also being shown
@@ -748,6 +761,7 @@ def find_families_of_multiple_marriages( people_to_show, families_to_show ):
               results[indi] = list(for_this_person)
 
     return results
+
 
 options = get_program_options()
 
