@@ -27,19 +27,20 @@ f5 [label=<
 </table>>];
 f1 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w">Jane </td></tr>
+<tr><td port="w">Jane</td></tr>
 <tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
 <tr><td port="h">Thomas Waters</td></tr>
 </table>>];
 f6 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w">Harriet </td></tr>
+<tr><td port="w">Harriet</td></tr>
 <tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
 <tr><td port="h">Peter Spencer</td></tr>
+<tr><td bgcolor="lightblue">grandparents</td></tr>
 </table>>];
 f7 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="w">Martha </td></tr>
+<tr><td port="w">Martha</td></tr>
 <tr><td port="u" cellpadding="0" cellspacing="0">&amp;</td></tr>
 <tr><td port="h">Fred Spencer</td></tr>
 </table>>];
@@ -59,10 +60,6 @@ i10 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Allan Green<br/>860 cM<br/>1C</td></tr>
 </table>>];
-i7 [label=<
-<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
-<tr><td port="i" bgcolor="lightblue">Julia French<br/>me</td></tr>
-</table>>];
 i21 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Billy Sweet<br/>430 cM<br/>1C1R</td></tr>
@@ -71,17 +68,21 @@ i18 [label=<
 <table cellpadding="3" border="1" cellspacing="0" cellborder="0">
 <tr><td port="i" bgcolor="springgreen">Louise Spencer<br/>850 cM<br/>1C</td></tr>
 </table>>];
-f8:w -> f6:u [color=orchid];
+i7 [label=<
+<table cellpadding="3" border="1" cellspacing="0" cellborder="0">
+<tr><td port="i" bgcolor="lightblue">Julia French<br/>me</td></tr>
+</table>>];
+f3:w -> f6:u [color=orchid];
+f3:h -> f2:u;
+f8:h -> f5:u;
+f9:w -> f8:u;
+f2:w -> f1:u;
 i21:i -> f9:u;
 i7:i -> f3:u;
 i18:i -> f7:u;
+f7:h -> f6:u [color=orchid];
+f8:w -> f6:u [color=orchid];
 f4:w -> f2:u;
 f5:w -> f1:u;
-f7:h -> f6:u [color=orchid];
 i10:i -> f4:u;
-f2:w -> f1:u;
-f8:h -> f5:u;
-f3:w -> f6:u [color=orchid];
-f9:w -> f8:u;
-f3:h -> f2:u;
 }

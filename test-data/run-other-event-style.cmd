@@ -6,7 +6,7 @@ if exist other-event-style.dot del other-event-style.dot
 if exist other-event-style.png del other-event-style.png
 if exist other-event-style.svg del other-event-style.svg
 
-..\draw-dna-matches.py --relation --event=value dnainfo other-event-style.ged >other-event-style.dot 2>run.err
+draw-dna-matches.py --relation --event=value dnainfo other-event-style.ged >other-event-style.dot 2>run.err
 
 set graphviz="c:\Program files\Graphviz\bin\dot.exe"
 

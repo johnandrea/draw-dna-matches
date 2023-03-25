@@ -6,7 +6,7 @@ if exist larger.dot del larger.dot
 if exist larger.png del larger.png
 if exist larger.svg del larger.svg
 
-..\draw-dna-matches.py --relation dnamatch larger-family.ged >larger.dot 2>run.err
+draw-dna-matches.py --relation dnamatch larger.ged >larger.dot 2>run.err
 
 set graphviz="c:\Program files\Graphviz\bin\dot.exe"
 
