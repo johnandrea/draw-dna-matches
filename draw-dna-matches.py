@@ -52,7 +52,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.5.3' )
+    print( '6.6' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -450,12 +450,13 @@ def end_dot():
     print( '}' )
 
 
-def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
+def dot_labels( matches, fam_to_show, people_to_show, married_multi, fam_names, me_id ):
     """ Output a label for each person who appears in the graphs.
         'matches' as created in the calling program.
         'fam_to_show' has a boolean value of a-partner-is-dna-matched
         'people_to_show' is a plain list
         'married_multi' is a list of those in more than one marriage
+        'fam_names' is the ancestor families to show relation with 'me'
         'me_id' is id of main person
 
         See https://graphviz.org/doc/info/shapes.html
@@ -513,6 +514,12 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, me_id ):
                # shrink up this section
                smaller = ' cellpadding="0" cellspacing="0"'
                text += '<tr><td port="u"' + smaller + '>&amp;</td></tr>\n'
+
+        if fam in fam_names:
+           # add this relationship name
+           relation = fam_names[fam]
+           if relation:
+              text += '<tr><td bgcolor="' + me_color + '">' + relation + '</td></tr>\n'
 
         output_label( make_fam_dot_id(fam), text )
 
@@ -651,7 +658,6 @@ def find_ancestors( indi, path, ancestors ):
                                     'path': [ families to get to this person ]
                                   }
         Length of the path is the number of generations to the ancestor.
-
     """
 
     key = 'famc'
@@ -676,7 +682,7 @@ def find_ancestors( indi, path, ancestors ):
 
 
 def find_common_ancestor( indi, base_person, base_ancestors ):
-    ''' Return the closest ancestor to the "base person" from "indi" in a dict.
+    """ Return the closest ancestor to the "base person" from "indi" in a dict.
     An empty result means no match, otherwise:
 
     result['indi'] = the ancestor who is the closest
@@ -688,7 +694,7 @@ def find_common_ancestor( indi, base_person, base_ancestors ):
     The double fam and path items are because the indi and base may be in a
     half-relation whereby they share one ancestor but are descendant from
     different families. I.E. fam not equal match-fam means half-relation.
-    '''
+    """
 
     result = dict()
 
@@ -871,6 +877,7 @@ if options['relationship']:
 # Value for family will be True if one of the partners is also a dna match.
 
 families_to_display = dict()
+
 for indi in matched:
     if matched[indi]['common']:
        path_fams = [] # used below
@@ -895,6 +902,30 @@ for indi in matched:
 
 for fam in families_to_display:
     families_to_display[fam] = does_fam_have_match( matched, data[f_key][fam] )
+
+
+# Add relationship names for ancestors which are common ancestors
+if options['relationship']:
+   if DEBUG:
+      print( '', file=sys.stderr )
+      print( 'ancestor relationships', file=sys.stderr )
+
+   # Find all the common families
+   common_fams = dict()
+
+   for indi in matched:
+       if indi != me:
+          ancestor = matched[indi]['common']['indi']
+          fam = matched[indi]['common']['match-fam']
+          path_len = len( matched[indi]['common']['match-path'] )
+          # make plural for both parents in family
+          common_fams[fam] = find_relation_label( path_len, 0 ) + 's'
+
+   for fam in common_fams:
+       # Skip the family if one partner is also a DNA match
+       # because the relationship is already set to be shown for that person
+       if families_to_display[fam]:
+          common_fams[fam] = None
 
 if DEBUG:
    print( '', file=sys.stderr )
@@ -935,7 +966,7 @@ if options['format'] == 'gedcom':
 else:
 
    begin_dot( options['orientation'], options['title'] )
-   dot_labels( matched, families_to_display, people_to_display, multiple_marriages, me )
+   dot_labels( matched, families_to_display, people_to_display, multiple_marriages, common_fams, me )
    dot_connect( families_to_display, people_to_display, options['reverse'] )
    end_dot()
 
