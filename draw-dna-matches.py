@@ -52,7 +52,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.6' )
+    print( '6.6.1' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -774,10 +774,6 @@ options = get_program_options()
 if options['version']:
    show_version()
    sys.exit( 0 )
-
-if not os.path.isdir( options['libpath'] ):
-   print( 'Path to readgedcom is not a directory.', file=sys.stderr )
-   sys.exit( 1 )
 
 readgedcom = load_my_module( 'readgedcom', options['libpath'] )
 
