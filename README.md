@@ -109,7 +109,7 @@ Other choices are "TB" for top-to-bottom, plus "BT" (bottom-top), and "RL" (righ
 
 --libpath=directory-containing-readgedcom
 
-The path is relative to the program being used. An absolute path will not work. Default is the same location as the program (".").
+Location containing the readgedcom.py library file. The path is relative to the program being used. An absolute path will not work. Default is the same location as the program (".").
 
 
 ## Display
