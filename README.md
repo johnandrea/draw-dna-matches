@@ -66,7 +66,7 @@ Full path to the input file.
 
 --version 
 
-Dispay the version number then exit
+Display the version number then exit
 
 -- min=number
 
