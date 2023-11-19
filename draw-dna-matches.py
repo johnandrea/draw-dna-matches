@@ -52,7 +52,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.6.1' )
+    print( '6.7' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -102,6 +102,7 @@ def get_program_options():
     results['orientation'] = orientations[0]
     results['title'] = None
     results['relationship'] = False
+    results['shortname'] = False
 
     arg_help = 'Draw DNA matches.'
     parser = argparse.ArgumentParser( description=arg_help )
@@ -132,6 +133,9 @@ def get_program_options():
     arg_help = 'Show the relationship name for the matches.'
     parser.add_argument( '--relationship', default=results['relationship'], action='store_true', help=arg_help )
 
+    arg_help = 'Show only the first word of given names.'
+    parser.add_argument( '--shortname', default=results['shortname'], action='store_true', help=arg_help )
+
     arg_help = 'Style of data record holding the DNA data values.'
     arg_help += ' In the event note or the value.'
     arg_help += ' Default:' + results['eventtype']
@@ -154,6 +158,7 @@ def get_program_options():
     results['max'] = args.max
     results['reverse'] = args.reverse_arrows
     results['relationship'] = args.relationship
+    results['shortname'] = args.shortname
 
     value = args.orientation.lower()
     if value in orientations:
@@ -312,6 +317,14 @@ def get_xref( individual ):
 def get_name( individual ):
     """ Return the name for the individual in the passed data section. """
     name = individual['name'][0]['value']
+    if options['shortname']:
+       shortened = ''
+       if 'givn' in individual['name'][0]:
+          shortened = individual['name'][0]['givn'].split(' ')[0] + ' '
+       if 'surn' in individual['name'][0]:
+          shortened += individual['name'][0]['surn']
+       if shortened.strip():
+          name = shortened.strip()
     name = name.replace( '/', '' ).replace( '&', '&amp;' ).replace('"','&quot;').replace("'","&rsquo;").strip()
     # the standard unknown code is not good for svg output
     if '?' in name and '[' in name and ']' in name:
