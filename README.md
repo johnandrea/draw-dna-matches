@@ -68,7 +68,7 @@ Full path to the input file.
 
 Display the version number then exit
 
--- min=number
+--min=number
 
 Minimum match value (cM) to include in the output. Only integer values are allowed. Default 0.
 
@@ -106,6 +106,11 @@ Reverse the order of the arrows between parents and children. Default is from ch
 
 Set the orientatation of the diagram in the DOT file output. Default is "LR" for left-to-right.
 Other choices are "TB" for top-to-bottom, plus "BT" (bottom-top), and "RL" (right-left).
+
+--shortname
+
+Use only the first word from a given name (if "givn" part exists) in order to make a smaller graph without middle names and initials.
+Default is not to use this option.
 
 --libpath=directory-containing-readgedcom
 
