@@ -70,28 +70,33 @@ Display the version number then exit
 
 --min=number
 
-Minimum match value (cM) to include in the output. Only integer values are allowed. Default 0.
+Minimum match value (cM) to select for output. Only integer values are allowed. Default 0.
 
 --max=number
 
-Maximum match value (cm) to include in the output. Only integer values are allowed. Default 5000.
+Maximum match value (cm) to select for output. Only integer values are allowed. Default 5000.
 
---format=dot
+--format=tree
 
-Output as a DOT file for creating a display with Graphviz. This is the default.
+Output as a DOT file for creating a display with Graphviz as a tree connecting match people to ancestors. This is the default.
+
+or use
+--format=matrix
+
+Output as a DOT file for Graphviz to make a simple display of DNA matches grouped by match size and relationship.
 
 or use
 --format=gedcom
+
+Output as a GEDCOM file for import into another program. A minimal amount of data is copied into the output. 
 
 --eventtype=type
 
 Set the type of of data containing the DNA match values. See above GEDCOM file examples. Either 'value' or 'note'. Default is 'note'.
 
-Output as a GEDCOM file for import into another program. A minimal amount of data is copied into the output. 
-
 --relationship
 
-Add relationship name (sibling, parent, 1C, 2C1R, etc.) to matches. Relationships are computed from paths in the tree, 
+Add relationship name (sibling, parent, 1C, 2C1R, etc.) to matches in the format=tree output. Relationships are computed from paths in the tree, 
 dna values are not involved. Default is none.
 
 --title="text"
@@ -100,17 +105,17 @@ Display a title on the output chart. Default is no title.
 
 --reverse-arrows
 
-Reverse the order of the arrows between parents and children. Default is from children to parents.
+Reverse the order of the arrows between parents and children. Default is from children to parents. Only relevant for format=tree.
 
 --orientation=direction
 
 Set the orientatation of the diagram in the DOT file output. Default is "LR" for left-to-right.
-Other choices are "TB" for top-to-bottom, plus "BT" (bottom-top), and "RL" (right-left).
+Other choices are "TB" for top-to-bottom, plus "BT" (bottom-top), and "RL" (right-left). Only relevant for format=tree.
 
 --shortname
 
 Use only the first word from a given name (if "givn" part exists) in order to make a smaller graph without middle names and initials.
-Default is not to use this option.
+Default is to not use this option. Not relevant for format=gedcom.
 
 --libpath=directory-containing-readgedcom
 
@@ -124,6 +129,10 @@ In the produced graphs, each DNA match person will be shown in a green box. Any 
 ## Example
 
 ![Example tree](test-data/test-family.png)
+
+Using the format=matrix option
+
+![Example matrix output](test-data/test-family-matrix.png)
 
 ## Usage
 
