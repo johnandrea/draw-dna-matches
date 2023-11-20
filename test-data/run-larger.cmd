@@ -7,6 +7,7 @@ if exist larger.png del larger.png
 if exist larger.svg del larger.svg
 
 draw-dna-matches.py --relation dnamatch larger.ged >larger.dot 2>run.err
+draw-dna-matches.py --format-matrix --relation dnamatch larger.ged >larger-matrix.dot 2>run.err
 
 set graphviz="c:\Program files\Graphviz\bin\dot.exe"
 
@@ -14,6 +15,8 @@ if exist %graphviz% (
 
    %graphviz% -Tpng larger.dot -o larger.png >>run.out 2>>run.err
    %graphviz% -Tsvg larger.dot -o larger.svg
+   %graphviz% -Tpng larger-matrix.dot -o larger-matrix.png >>run.out 2>>run.err
+   %graphviz% -Tsvg larger-matrix.dot -o larger-matrix.svg
 
 ) else (
   echo graphviz missing
