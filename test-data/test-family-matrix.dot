@@ -8,7 +8,7 @@ subgraph self {
   graph [rank = same]
   edge [style = invis];
   self_label [
-     label = "John Anderson\nDNA matches",
+     label = "John Anderson",
      height = 1,
      row = top
   ];

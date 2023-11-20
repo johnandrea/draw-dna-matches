@@ -10,7 +10,7 @@ if exist larger-matrix.png del larger-matrix.png
 if exist larger-matrix.svg del larger-matrix.svg
 
 draw-dna-matches.py --relation dnamatch larger.ged >larger.dot 2>run.err
-draw-dna-matches.py --format=matrix --relation dnamatch larger.ged >larger-matrix.dot 2>run.err
+draw-dna-matches.py --format=matrix --title="DNA Matches in Family Tree" dnamatch larger.ged >larger-matrix.dot 2>run.err
 
 set graphviz="c:\Program files\Graphviz\bin\dot.exe"
 

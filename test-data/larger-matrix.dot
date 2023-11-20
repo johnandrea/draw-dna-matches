@@ -1,4 +1,6 @@
 digraph DNA_matches {
+  labelloc="t";
+  label="DNA Matches in Family Tree";
   node [
   style = "setlinewidth(2)",
   fontsize = 11, height = 1,
@@ -8,7 +10,7 @@ subgraph self {
   graph [rank = same]
   edge [style = invis];
   self_label [
-     label = "John Anderson\nDNA matches",
+     label = "John Anderson",
      height = 1,
      row = top
   ];
