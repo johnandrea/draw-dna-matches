@@ -1,0 +1,84 @@
+digraph DNA_matches {
+  node [
+  style = "setlinewidth(2)",
+  fontsize = 11, height = 1,
+  shape = box, width = 1 ]
+
+subgraph self {
+  graph [rank = same]
+  edge [style = invis];
+  self_label [
+     label = "John Anderson\nDNA matches",
+     height = 1,
+     row = top
+  ];
+}
+
+ subgraph close {
+   graph [rank = same]
+   node [color="tomato"]
+   edge [style = invis];
+   close_label [
+      label = "close\nfamily",
+      height = 0.5,
+      row = top
+   ];
+   close_1 [label="Laura Anderson\nauncle\n1100 cM"]
+   close_label -> close_1
+ }
+
+self_label -> close_label
+
+ subgraph cuz1 {
+   graph [rank = same]
+   node [color="lightseagreen"]
+   edge [style = invis];
+   cuz1_label [
+      label = "1C",
+      height = 0.5,
+      row = top
+   ];
+   cuz1_1 [label="Harry Turner\n1C1R\n500 cM"]
+   cuz1_label -> cuz1_1
+ }
+
+close_label -> cuz1_label
+
+ subgraph cuz2 {
+   graph [rank = same]
+   node [color="chocolate"]
+   edge [style = invis];
+   cuz2_label [
+      label = "2C",
+      height = 0.5,
+      row = top
+   ];
+   cuz2_1 [label="Joy Jackson\n2C\n242 cM"]
+   cuz2_label -> cuz2_1
+   cuz2_2 [label="John Hill\n2C\n200 cM"]
+   cuz2_1 -> cuz2_2
+   cuz2_3 [label="Dave Hill\n2C1R\n121 cM"]
+   cuz2_2 -> cuz2_3
+   cuz2_4 [label="Martha Growther\n2C1R\n53 cM"]
+   cuz2_3 -> cuz2_4
+   cuz2_5 [label="Clark Marshall\n2C1R\n14 cM"]
+   cuz2_4 -> cuz2_5
+ }
+
+cuz1_label -> cuz2_label
+
+ subgraph cuz3 {
+   graph [rank = same]
+   node [color="forestgreen"]
+   edge [style = invis];
+   cuz3_label [
+      label = "3C",
+      height = 0.5,
+      row = top
+   ];
+   cuz3_1 [label="Patsy Wilson\nhalf-3C\n19 cM"]
+   cuz3_label -> cuz3_1
+ }
+
+cuz2_label -> cuz3_label
+}
