@@ -32,7 +32,7 @@ DEBUG = False
 
 # lines to ancestors
 line_colors = ['orchid', 'tomato', 'lightseagreen']
-line_colors.extend( ['chocolate', 'forestgreen', 'gold', 'teal'] )
+line_colors.extend( ['chocolate', 'forestgreen', 'darkorange', 'teal'] )
 line_colors.extend( ['yellowgreen', 'coral', 'royalblue', 'salmon'] )
 
 # box containing a match person
@@ -53,7 +53,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '7.0' )
+    print( '7.1' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -473,12 +473,16 @@ def end_dot():
     print( '}' )
 
 
-def begin_dot_matrix( start_indi ):
+def begin_dot_matrix( start_indi, title ):
     # should convert this to a here document
     start_name = get_name( data[i_key][start_indi] )
-    start_name += '\\nDNA matches'
 
     print( 'digraph DNA_matches {' )
+
+    if title:
+       print( '  labelloc="t";' )
+       print( '  label="' + title + '";' )
+
     print( '  node [' )
     print( '  style = "setlinewidth(2)",' )
     print( '  fontsize = 11, height = 1,' )
@@ -1108,7 +1112,7 @@ if options['format'] == 'gedcom':
 elif options['format'] == 'matrix':
    # no families or connections, just the names grouped by relationship
    # and sorted by match size
-   begin_dot_matrix( me )
+   begin_dot_matrix( me, options['title'] )
    add_matrix( matched, people_to_display )
    end_dot_matrix()
 
