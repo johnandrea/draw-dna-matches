@@ -3,6 +3,7 @@ import sys
 import argparse
 import importlib.util
 import os
+import re
 
 # Output DNA matches in a tree view in Graphviz DOT format.
 # Given a GEDCOM with people having a custom event of name as input
@@ -31,8 +32,8 @@ DEBUG = False
 
 # lines to ancestors
 line_colors = ['orchid', 'tomato', 'lightseagreen']
-line_colors.extend( ['teal', 'royalblue', 'coral'] )
-line_colors.extend( ['yellowgreen', 'chocolate', 'salmon'] )
+line_colors.extend( ['chocolate', 'forestgreen', 'gold', 'teal'] )
+line_colors.extend( ['yellowgreen', 'coral', 'royalblue', 'salmon'] )
 
 # box containing a match person
 match_color = 'springgreen'
@@ -52,7 +53,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '6.7' )
+    print( '7.0' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -87,7 +88,7 @@ def get_program_options():
     results = dict()
 
     orientations = [ 'lr', 'tb', 'bt', 'rl' ]
-    formats = ['dot', 'gedcom' ]
+    formats = ['tree', 'gedcom', 'matrix' ]
     eventtypes = [ 'note', 'value' ]
 
     results['version'] = False
@@ -117,7 +118,6 @@ def get_program_options():
     parser.add_argument( '--max', default=results['max'], type=int, help=arg_help )
 
     arg_help = 'Format of output. Default ' + results['format']
-    formats = [ results['format'], 'gedcom' ]
     parser.add_argument( '--format', default=results['format'], choices=formats, help=arg_help )
 
     arg_help = 'For dot file output, reverse the order of the links.'
@@ -175,6 +175,16 @@ def get_program_options():
     value = args.title
     if value:
        results['title'] = value.strip()
+
+    # matrix needs to have relationship forced to on
+    if results['format'] == 'matrix':
+       results['relationship'] = True
+
+    # if output is gedcom, disable shortname
+    if results['format'] == 'gedcom':
+       results['shortname'] = False
+       # and what to do with relationships, maybe leave on but add a custom tag
+       results['relationship'] = False
 
     return results
 
@@ -461,6 +471,129 @@ def begin_dot( orientation, title ):
 def end_dot():
     """ End of the DOT output file """
     print( '}' )
+
+
+def begin_dot_matrix( start_indi ):
+    # should convert this to a here document
+    start_name = get_name( data[i_key][start_indi] )
+    start_name += '\\nDNA matches'
+
+    print( 'digraph DNA_matches {' )
+    print( '  node [' )
+    print( '  style = "setlinewidth(2)",' )
+    print( '  fontsize = 11, height = 1,' )
+    print( '  shape = box, width = 1 ]' )
+    print( '' )
+    print( 'subgraph self {' )
+    print( '  graph [rank = same]' )
+    print( '  edge [style = invis];' )
+    print( '  self_label [' )
+    print( '     label = "' + start_name + '",' )
+    print( '     height = 1,' )
+    print( '     row = top' )
+    print( '  ];' )
+    print( '}' )
+
+def end_dot_matrix():
+    print( '}' )
+
+
+def add_matrix( matches, displayed ):
+    # gather by relationship
+    relations = dict()
+
+    # regexp for cousin numbers
+    # 1C, 2C, 2C1R, etc.
+    cousin_pattern = re.compile( r'^(\d\d*)C' )
+
+    non_cousin_key = 'close'
+
+    def collect_relation( i, style ):
+        if style not in relations:
+           relations[style] = []
+        relations[style].append( i )
+
+    def output_relations( graph_name, prev_graph_name, color, relation_type ):
+        print( '' )
+
+        # sort by match size
+        # the lists are not large so performance is not a concern
+        match_sizes = dict()
+        for indi in relations[relation_type]:
+            # first part of the note should be the dna cM match count
+            # and it might be a non-integer numberr
+            match_size = float( matches[indi]['note'].split(' ')[0] )
+            # numeric precision is not a concern
+            if match_size not in match_sizes:
+               match_sizes[match_size] = []
+            match_sizes[match_size].append( indi )
+
+        label = relation_type
+        # special case
+        if label == 'close':
+           label = 'close\\nfamily'
+
+        print( ' subgraph', graph_name, '{' )
+        print( '   graph [rank = same]' )
+        print( '   node [color="' + color + '"]' )
+        print( '   edge [style = invis];' )
+        print( '  ', graph_name + '_label [' )
+        print( '      label = "' + label + '",' )
+        print( '      height = 0.5,' )
+        print( '      row = top' )
+        print( '   ];' )
+
+        n = 0
+        prev_node = graph_name + '_label'
+
+        for match_size in reversed(sorted( match_sizes.keys() )):
+            for indi in match_sizes[match_size]:
+                n += 1
+                node_name = graph_name + '_' + str( n )
+                indi_info = get_name( data[i_key][indi] )
+                indi_info += '\\n' + matches[indi]['relation']
+                indi_info += '\\n' + matches[indi]['note']
+                print( '  ', node_name, '[label="' + indi_info + '"]' )
+                print( '  ', prev_node, '->', node_name )
+                prev_node = node_name
+
+        print( ' }' )
+        print( '' )
+        print( prev_graph_name + '_label', '->', graph_name + '_label' )
+
+    max_cousin = 0
+
+    for indi in matches:
+        if 'relation' in matches[indi]:
+           displayed.add( indi )
+           relation = matches[indi]['relation'].upper().replace( 'HALF-', '' )
+           m = cousin_pattern.match( relation )
+           if m:
+              cousin = m.group(1)
+              collect_relation( indi, cousin + 'C' )
+              max_cousin = max( max_cousin, int(cousin) )
+           else:
+              # must be a parent or child or auncle or other non-cousin
+              collect_relation( indi, non_cousin_key )
+
+
+    n_color = 0
+
+    # first
+    prev_graph = 'self'
+    if non_cousin_key in relations:
+       n_color = ( n_color + 1 ) % len( line_colors )
+       output_relations( non_cousin_key, prev_graph, line_colors[n_color], non_cousin_key )
+       prev_graph = non_cousin_key
+    # then actual cousins
+    if max_cousin > 0:
+       for i in range( 1, max_cousin+1 ):
+           cousin = str(i) + 'C'
+           if cousin in relations:
+              n_color = ( n_color + 1 ) % len( line_colors )
+              graph_name = 'cuz' + str(i)
+              output_relations( graph_name, prev_graph, line_colors[n_color], cousin )
+              prev_graph = graph_name
 
 
 def dot_labels( matches, fam_to_show, people_to_show, married_multi, fam_names, me_id ):
@@ -971,6 +1104,13 @@ if options['format'] == 'gedcom':
    ged_individuals( families_to_display, people_to_display )
    ged_families( families_to_display, people_to_display )
    end_ged()
+
+elif options['format'] == 'matrix':
+   # no families or connections, just the names grouped by relationship
+   # and sorted by match size
+   begin_dot_matrix( me )
+   add_matrix( matched, people_to_display )
+   end_dot_matrix()
 
 else:
 
