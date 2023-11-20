@@ -145,7 +145,12 @@ graphviz -Tsvg out.dot -o out.svg
 Or to show only distant relatives
 ```
 draw-dna-matches.py  --relation --max=800  dnamatch  family.ged  >out.dot  2>out.err
-graphviz -Tpng out.dot -o out.png
+graphviz -Tsvg out.dot -o out.svg
+```
+
+To make a similar matrix display. The "--relation" option is automatically enabled with format=matrix.
+```
+draw-dna-matches.py  --format=matrix --max=800  dnamatch  family.ged  >out.dot  2>out.err
 graphviz -Tsvg out.dot -o out.svg
 ```
 
