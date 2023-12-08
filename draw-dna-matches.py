@@ -53,7 +53,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '7.1' )
+    print( '7.1.1' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -87,9 +87,13 @@ def load_my_module( module_name, relative_path ):
 def get_program_options():
     results = dict()
 
+    # left-to-right, top-to-bottom
     orientations = [ 'lr', 'tb', 'bt', 'rl' ]
     formats = ['tree', 'gedcom', 'matrix' ]
     eventtypes = [ 'note', 'value' ]
+    # top-center/left/right bottom-center/left/right and reversed just in case
+    placetitles = ['tc', 'tl', 'tr', 'bc', 'bl', 'br' ]
+    other_placetitles = ['ct', 'lt', 'rt', 'cb', 'lb', 'rb']
 
     results['version'] = False
     results['infile'] = None
@@ -104,6 +108,7 @@ def get_program_options():
     results['title'] = None
     results['relationship'] = False
     results['shortname'] = False
+    results['placetitle'] = placetitles[0]
 
     arg_help = 'Draw DNA matches.'
     parser = argparse.ArgumentParser( description=arg_help )
@@ -123,12 +128,15 @@ def get_program_options():
     arg_help = 'For dot file output, reverse the order of the links.'
     parser.add_argument( '--reverse-arrows', default=results['reverse'], action='store_true', help=arg_help )
 
-    arg_help = 'Orientation of the output dot file tb=top-bottom, lt=left-right, etc.'
+    arg_help = 'Orientation of the output dot file lr, tb, bt, rl; for for left-to-right, top-to-bottom, etc.'
     arg_help += ' Default:' + results['orientation']
     parser.add_argument( '--orientation', default=results['orientation'], type=str, help=arg_help )
 
     arg_help = 'Title to add to graph. Default is none.'
     parser.add_argument( '--title', default=results['title'], type=str, help=arg_help )
+
+    arg_help = 'Placement of the title: tc, tl, tr, bc, bl, br: for top-center, top-left, top-right, etc. Default is "tc".'
+    parser.add_argument( '--placetitle', default=results['placetitle'], type=str, help=arg_help )
 
     arg_help = 'Show the relationship name for the matches.'
     parser.add_argument( '--relationship', default=results['relationship'], action='store_true', help=arg_help )
@@ -175,6 +183,10 @@ def get_program_options():
     value = args.title
     if value:
        results['title'] = value.strip()
+
+    value = args.placetitle.lower()
+    if value in placetitles or value in other_placetitles:
+       results['placetitle'] = value
 
     # matrix needs to have relationship forced to on
     if results['format'] == 'matrix':
@@ -458,14 +470,27 @@ def make_indi_dot_id( indi ):
     return 'i' + make_dot_id( str(data[i_key][indi]['xref']) )
 
 
-def begin_dot( orientation, title ):
+def begin_dot_title( title, title_placement ):
+    if title:
+       print( 'label="' + title + '";' )
+       # default is t for top
+       if 't' in title_placement:
+          print( 'labelloc="t";' )
+       if 'b' in title_placement:
+          print( 'labelloc="b";' )
+       # default is c for center
+       if 'l' in title_placement:
+          print( 'labeljust="l";' )
+       elif 'r' in title_placement:
+          print( 'labeljust="r";' )
+
+
+def begin_dot( orientation, title, title_placement ):
     """ Start of the DOT output file """
     print( 'digraph family {' )
     print( 'node [shape=plaintext];' )
     print( 'rankdir=' + orientation.upper() + ';' )
-    if title:
-       print( 'labelloc="t";' )
-       print( 'label="' + title + '";' )
+    begin_dot_title( title, title_placement )
 
 
 def end_dot():
@@ -473,15 +498,13 @@ def end_dot():
     print( '}' )
 
 
-def begin_dot_matrix( start_indi, title ):
+def begin_dot_matrix( start_indi, title, title_placement ):
     # should convert this to a here document
     start_name = get_name( data[i_key][start_indi] )
 
     print( 'digraph DNA_matches {' )
 
-    if title:
-       print( '  labelloc="t";' )
-       print( '  label="' + title + '";' )
+    begin_dot_title( title, title_placement )
 
     print( '  node [' )
     print( '  style = "setlinewidth(2)",' )
@@ -1112,13 +1135,13 @@ if options['format'] == 'gedcom':
 elif options['format'] == 'matrix':
    # no families or connections, just the names grouped by relationship
    # and sorted by match size
-   begin_dot_matrix( me, options['title'] )
+   begin_dot_matrix( me, options['title'], options['placetitle'] )
    add_matrix( matched, people_to_display )
    end_dot_matrix()
 
 else:
 
-   begin_dot( options['orientation'], options['title'] )
+   begin_dot( options['orientation'], options['title'], options['placetitle'] )
    dot_labels( matched, families_to_display, people_to_display, multiple_marriages, common_fams, me )
    dot_connect( families_to_display, people_to_display, options['reverse'] )
    end_dot()
