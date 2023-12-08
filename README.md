@@ -103,6 +103,10 @@ dna values are not involved. Default is none.
 
 Display a title on the output chart. Default is no title.
 
+--placetitle=location
+
+Set the location of the title using "tc", "tl", "tr", "bc", "bl", "br" for top-center, top-left, top-right, bottom-center, bottom-left, bottom-right. The default is "tc" for top-center.
+
 --reverse-arrows
 
 Reverse the order of the arrows between parents and children. Default is from children to parents. Only relevant for format=tree.
@@ -165,6 +169,12 @@ Example usage if readgedcom.py is in a parallel directory
 ```
 draw-dna-matches.py --libpath=..\codecopy  dnamatch  family.ged  >out.dot  2>out.err
 ```
+
+with title placed in bottom-left
+```
+draw-dna-matches.py --libpath=..\codecopy --title="My DNA matches" --place="bl"  dnamatch  family.ged  >out.dot  2>out.err
+```
+
 
 ## Bug reports
 
