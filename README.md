@@ -121,6 +121,10 @@ Other choices are "TB" for top-to-bottom, plus "BT" (bottom-top), and "RL" (righ
 Use only the first word from a given name (if "givn" part exists) in order to make a smaller graph without middle names and initials.
 Default is to not use this option. Not relevant for format=gedcom.
 
+--thick
+
+Increase the size of the connecting lines in format=tree. Can be included multiple times for extra thickness.
+
 --libpath=directory-containing-readgedcom
 
 Location containing the readgedcom.py library file. The path is relative to the program being used. An absolute path will not work. Default is the same location as the program (".").
