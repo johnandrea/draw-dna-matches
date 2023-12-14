@@ -53,7 +53,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def show_version():
-    print( '7.1.1' )
+    print( '7.1.2' )
 
 
 def load_my_module( module_name, relative_path ):
@@ -109,6 +109,7 @@ def get_program_options():
     results['relationship'] = False
     results['shortname'] = False
     results['placetitle'] = placetitles[0]
+    results['thick'] = 1
 
     arg_help = 'Draw DNA matches.'
     parser = argparse.ArgumentParser( description=arg_help )
@@ -149,6 +150,10 @@ def get_program_options():
     arg_help += ' Default:' + results['eventtype']
     parser.add_argument( '--eventtype', default=results['eventtype'], type=str, help=arg_help )
 
+    # this option can be repeated for extra thickness
+    arg_help = 'Increase width of connecting lines'
+    parser.add_argument( '--thick', action='count', help=arg_help )
+
     # maybe this should be changed to have a type which better matched a directory
     arg_help = 'Location of the gedcom library. Default is current directory.'
     parser.add_argument( '--libpath', default=results['libpath'], type=str, help=arg_help )
@@ -187,6 +192,10 @@ def get_program_options():
     value = args.placetitle.lower()
     if value in placetitles or value in other_placetitles:
        results['placetitle'] = value
+
+    value = args.thick
+    if value:
+       results['thick'] += value
 
     # matrix needs to have relationship forced to on
     if results['format'] == 'matrix':
@@ -485,10 +494,11 @@ def begin_dot_title( title, title_placement ):
           print( 'labeljust="r";' )
 
 
-def begin_dot( orientation, title, title_placement ):
+def begin_dot( orientation, thickness, title, title_placement ):
     """ Start of the DOT output file """
     print( 'digraph family {' )
     print( 'node [shape=plaintext];' )
+    print( 'edge [penwidth=' + str( thickness ) + '];' )
     print( 'rankdir=' + orientation.upper() + ';' )
     begin_dot_title( title, title_placement )
 
@@ -1141,7 +1151,7 @@ elif options['format'] == 'matrix':
 
 else:
 
-   begin_dot( options['orientation'], options['title'], options['placetitle'] )
+   begin_dot( options['orientation'], options['thick'], options['title'], options['placetitle'] )
    dot_labels( matched, families_to_display, people_to_display, multiple_marriages, common_fams, me )
    dot_connect( families_to_display, people_to_display, options['reverse'] )
    end_dot()
