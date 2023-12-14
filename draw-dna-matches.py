@@ -52,8 +52,8 @@ missing_name = 'unknown'
 partner_types = [ 'wife', 'husb' ]
 
 
-def show_version():
-    print( '7.1.2' )
+def get_version():
+    return '7.2'
 
 
 def load_my_module( module_name, relative_path ):
@@ -95,7 +95,6 @@ def get_program_options():
     placetitles = ['tc', 'tl', 'tr', 'bc', 'bl', 'br' ]
     other_placetitles = ['ct', 'lt', 'rt', 'cb', 'lb', 'rb']
 
-    results['version'] = False
     results['infile'] = None
     results['eventname'] = None
     results['eventtype'] = eventtypes[0]
@@ -115,7 +114,7 @@ def get_program_options():
     parser = argparse.ArgumentParser( description=arg_help )
 
     arg_help = 'Show version then exit.'
-    parser.add_argument( '--version', default=results['version'], action='store_true', help=arg_help )
+    parser.add_argument( '--version', action='version', version=get_version() )
 
     arg_help = 'Minimum of matches (cM) to include. Default ' + str(results['min'])
     parser.add_argument( '--min', default=results['min'], type=int, help=arg_help )
@@ -163,7 +162,6 @@ def get_program_options():
 
     args = parser.parse_args()
 
-    results['version'] = args.version
     results['eventname'] = args.eventname
     results['infile'] = args.infile.name
     results['libpath'] = args.libpath
@@ -953,10 +951,6 @@ def find_families_of_multiple_marriages( people_to_show, families_to_show ):
 
 
 options = get_program_options()
-
-if options['version']:
-   show_version()
-   sys.exit( 0 )
 
 readgedcom = load_my_module( 'readgedcom', options['libpath'] )
 
