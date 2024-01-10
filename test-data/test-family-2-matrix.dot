@@ -14,9 +14,26 @@ subgraph self {
   ];
 }
 
- subgraph close {
+ subgraph immediate {
    graph [rank = same]
    node [color="tomato"]
+   edge [style = invis];
+   immediate_label [
+      label = "immediate\nfamily",
+      height = 0.5,
+      row = top
+   ];
+   immediate_1 [label="Alwyn Anderson\nchild\n3500 cM"]
+   immediate_label -> immediate_1
+   immediate_2 [label="Laura Smith\nparent\n3300 cM"]
+   immediate_1 -> immediate_2
+ }
+
+self_label -> immediate_label
+
+ subgraph close {
+   graph [rank = same]
+   node [color="lightseagreen"]
    edge [style = invis];
    close_label [
       label = "close\nfamily",
@@ -27,11 +44,11 @@ subgraph self {
    close_label -> close_1
  }
 
-self_label -> close_label
+immediate_label -> close_label
 
  subgraph g1C1R {
    graph [rank = same]
-   node [color="lightseagreen"]
+   node [color="chocolate"]
    edge [style = invis];
    g1C1R_label [
       label = "1C1R",
@@ -46,7 +63,7 @@ close_label -> g1C1R_label
 
  subgraph g2C {
    graph [rank = same]
-   node [color="chocolate"]
+   node [color="forestgreen"]
    edge [style = invis];
    g2C_label [
       label = "2C",
@@ -63,7 +80,7 @@ g1C1R_label -> g2C_label
 
  subgraph g2C1R {
    graph [rank = same]
-   node [color="forestgreen"]
+   node [color="darkorange"]
    edge [style = invis];
    g2C1R_label [
       label = "2C1R",
@@ -80,9 +97,24 @@ g1C1R_label -> g2C_label
 
 g2C_label -> g2C1R_label
 
+ subgraph g2C2R {
+   graph [rank = same]
+   node [color="teal"]
+   edge [style = invis];
+   g2C2R_label [
+      label = "2C2R",
+      height = 0.5,
+      row = top
+   ];
+   g2C2R_1 [label="Beth Hill\n2C2R\n30 cM"]
+   g2C2R_label -> g2C2R_1
+ }
+
+g2C1R_label -> g2C2R_label
+
  subgraph g3C {
    graph [rank = same]
-   node [color="darkorange"]
+   node [color="yellowgreen"]
    edge [style = invis];
    g3C_label [
       label = "3C",
@@ -93,5 +125,5 @@ g2C_label -> g2C1R_label
    g3C_label -> g3C_1
  }
 
-g2C1R_label -> g3C_label
+g2C2R_label -> g3C_label
 }
