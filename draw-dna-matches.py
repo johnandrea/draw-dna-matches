@@ -53,7 +53,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def get_version():
-    return '7.2'
+    return '7.3'
 
 
 def load_my_module( module_name, relative_path ):
@@ -109,6 +109,7 @@ def get_program_options():
     results['shortname'] = False
     results['placetitle'] = placetitles[0]
     results['thick'] = 1
+    results['separate'] = False
 
     arg_help = 'Draw DNA matches.'
     parser = argparse.ArgumentParser( description=arg_help )
@@ -153,6 +154,10 @@ def get_program_options():
     arg_help = 'Increase width of connecting lines'
     parser.add_argument( '--thick', action='count', help=arg_help )
 
+    # in matrix format, separate immediate family from close family and 1C from 1C1R, 1C2R, etc.
+    #arg_help = 'Separate cousins by removed count. in the matrix format.'
+    #parser.add_argument( '--separate', default=results['separate'], action='store_true', help=arg_help )
+
     # maybe this should be changed to have a type which better matched a directory
     arg_help = 'Location of the gedcom library. Default is current directory.'
     parser.add_argument( '--libpath', default=results['libpath'], type=str, help=arg_help )
@@ -170,6 +175,10 @@ def get_program_options():
     results['reverse'] = args.reverse_arrows
     results['relationship'] = args.relationship
     results['shortname'] = args.shortname
+
+    # probably best to set as a constant rather than a user option
+    # some info above, where the argument setup is commented out
+    results['separate'] = True
 
     value = args.orientation.lower()
     if value in orientations:
@@ -195,14 +204,9 @@ def get_program_options():
     if value:
        results['thick'] += value
 
-    # matrix needs to have relationship forced to on
-    if results['format'] == 'matrix':
-       results['relationship'] = True
-
     # if output is gedcom, disable shortname
     if results['format'] == 'gedcom':
        results['shortname'] = False
-       # and what to do with relationships, maybe leave on but add a custom tag
        results['relationship'] = False
 
     return results
@@ -533,25 +537,26 @@ def end_dot_matrix():
     print( '}' )
 
 
-def add_matrix( matches, displayed ):
-    # gather by relationship
+def add_matrix( matches, displayed, more_separation, show_relationship ):
+    # gather people by relationship
     relations = dict()
 
     # regexp for cousin numbers
     # 1C, 2C, 2C1R, etc.
     cousin_pattern = re.compile( r'^(\d\d*)C' )
 
-    non_cousin_key = 'close'
+    immediate_relation_key = 'immediate'
+    close_relation_key = 'close'
 
-    def collect_relation( i, style ):
-        if style not in relations:
-           relations[style] = []
-        relations[style].append( i )
+    def collect_relation( i, relation_name ):
+        if relation_name not in relations:
+           relations[relation_name] = []
+        relations[relation_name].append( i )
 
     def output_relations( graph_name, prev_graph_name, color, relation_type ):
         print( '' )
 
-        # sort by match size
+        # sort by dna match size
         # the lists are not large so performance is not a concern
         match_sizes = dict()
         for indi in relations[relation_type]:
@@ -565,8 +570,8 @@ def add_matrix( matches, displayed ):
 
         label = relation_type
         # special case
-        if label == 'close':
-           label = 'close\\nfamily'
+        if label in [immediate_relation_key,close_relation_key]:
+           label += '\\nfamily'
 
         print( ' subgraph', graph_name, '{' )
         print( '   graph [rank = same]' )
@@ -586,7 +591,8 @@ def add_matrix( matches, displayed ):
                 n += 1
                 node_name = graph_name + '_' + str( n )
                 indi_info = get_name( data[i_key][indi] )
-                indi_info += '\\n' + matches[indi]['relation']
+                if show_relationship and 'relation' in matches[indi]:
+                   indi_info += '\\n' + matches[indi]['relation']
                 indi_info += '\\n' + matches[indi]['note']
                 print( '  ', node_name, '[label="' + indi_info + '"]' )
                 print( '  ', prev_node, '->', node_name )
@@ -596,42 +602,56 @@ def add_matrix( matches, displayed ):
         print( '' )
         print( prev_graph_name + '_label', '->', graph_name + '_label' )
 
-    max_cousin = 0
-
     for indi in matches:
+        # the 'relation' valus is 'sibling', '1C', '2C1R', etc
+        # which is how people are going to be grouped
+
         if 'relation' in matches[indi]:
            displayed.add( indi )
+           # don't bother breaking out the half relations from full relations
            relation = matches[indi]['relation'].upper().replace( 'HALF-', '' )
            m = cousin_pattern.match( relation )
            if m:
               cousin = m.group(1)
-              collect_relation( indi, cousin + 'C' )
-              max_cousin = max( max_cousin, int(cousin) )
+              relation_key = cousin + 'C'
+              if more_separation:
+                 # then care more about the cousin removal count, if there is one
+                 relation_key = relation
+              collect_relation( indi, relation_key )
+
            else:
               # must be a parent or child or auncle or other non-cousin
-              collect_relation( indi, non_cousin_key )
+              relation_key = close_relation_key
+              if more_separation and relation.lower() in ['parent','sibling','child']:
+                 relation_key = immediate_relation_key
+              collect_relation( indi, relation_key )
 
 
     n_color = 0
 
-    # first
+    # first is the name of the selected person
     prev_graph = 'self'
-    if non_cousin_key in relations:
-       n_color = ( n_color + 1 ) % len( line_colors )
-       output_relations( non_cousin_key, prev_graph, line_colors[n_color], non_cousin_key )
-       prev_graph = non_cousin_key
-    # then actual cousins
-    if max_cousin > 0:
-       for i in range( 1, max_cousin+1 ):
-           cousin = str(i) + 'C'
-           if cousin in relations:
-              n_color = ( n_color + 1 ) % len( line_colors )
-              graph_name = 'cuz' + str(i)
-              output_relations( graph_name, prev_graph, line_colors[n_color], cousin )
-              prev_graph = graph_name
+
+    # closer than cousins (parent, sibling, aunt/uncle, etc)
+    for relation_key in [immediate_relation_key, close_relation_key]:
+        if relation_key in relations:
+           n_color = ( n_color + 1 ) % len( line_colors )
+           output_relations( relation_key, prev_graph, line_colors[n_color], relation_key )
+           prev_graph = relation_key
+
+    # then actual cousins by skipping the close family
+    # and lexical sorting by key name so that 1C, 1C1R, 2C1R, 2C3R, 3C are displayed in order
+
+    for relation in sorted(list(relations.keys())):
+        if relation not in [immediate_relation_key, close_relation_key]:
+           # graph name doesn't alllow names with leading digits
+           graph_name = 'g' + relation
+           n_color = ( n_color + 1 ) % len( line_colors )
+           output_relations( graph_name, prev_graph, line_colors[n_color], relation )
+           prev_graph = graph_name
 
 
-def dot_labels( matches, fam_to_show, people_to_show, married_multi, fam_names, me_id ):
+def dot_labels( matches, fam_to_show, people_to_show, married_multi, fam_names, me_id, show_relationship ):
     """ Output a label for each person who appears in the graphs.
         'matches' as created in the calling program.
         'fam_to_show' has a boolean value of a-partner-is-dna-matched
@@ -677,7 +697,7 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, fam_names, 
 
                   text += ' bgcolor="' + box_color + '">' + name
                   text += '<br/>' + matches[parent_id]['note']
-                  if 'relation' in matches[parent_id]:
+                  if show_relationship and 'relation' in matched[parent_id]:
                      text += '<br/>' + matched[parent_id]['relation']
                else:
                   if parent_id in married_multi:
@@ -717,7 +737,7 @@ def dot_labels( matches, fam_to_show, people_to_show, married_multi, fam_names, 
 
            text += ' bgcolor="' + box_color + '">' + name
            text += '<br/>' + matches[indi]['note']
-           if 'relation' in matches[indi]:
+           if show_relationship and 'relation' in matched[indi]:
               text += '<br/>' + matches[indi]['relation']
         else:
            text += '>' + name
@@ -1035,16 +1055,16 @@ if DEBUG:
        if matched[indi]['common']:
           show_items( indi, matched[indi]['common'] )
 
-# Add relationship names
-if options['relationship']:
-   if DEBUG:
-      print( '', file=sys.stderr )
-      print( 'relationships', file=sys.stderr )
-   for indi in matched:
-       if matched[indi]['common']:
-          matched[indi]['relation'] = compute_relation( matched[indi]['common'] )
-          if DEBUG:
-             print( '   ', indi, matched[indi]['relation'], file=sys.stderr )
+# Add relationship names, always compute but the flag is if it should be shown
+
+if DEBUG and options['relationship']:
+   print( '', file=sys.stderr )
+   print( 'relationships', file=sys.stderr )
+for indi in matched:
+    if matched[indi]['common']:
+       matched[indi]['relation'] = compute_relation( matched[indi]['common'] )
+       if DEBUG and options['relationship']:
+          print( '   ', indi, matched[indi]['relation'], file=sys.stderr )
 
 # For display purposes find all the families in all the paths.
 # Value for family will be True if one of the partners is also a dna match.
@@ -1078,27 +1098,26 @@ for fam in families_to_display:
 
 
 # Add relationship names for ancestors which are common ancestors
-if options['relationship']:
-   if DEBUG:
-      print( '', file=sys.stderr )
-      print( 'ancestor relationships', file=sys.stderr )
+if DEBUG and options['relationship']:
+   print( '', file=sys.stderr )
+   print( 'ancestor relationships', file=sys.stderr )
 
-   # Find all the common families
-   common_fams = dict()
+# Find all the common families
+common_fams = dict()
 
-   for indi in matched:
-       if indi != me:
-          ancestor = matched[indi]['common']['indi']
-          fam = matched[indi]['common']['match-fam']
-          path_len = len( matched[indi]['common']['match-path'] )
-          # make plural for both parents in family
-          common_fams[fam] = find_relation_label( path_len, 0 ) + 's'
+for indi in matched:
+    if indi != me:
+       ancestor = matched[indi]['common']['indi']
+       fam = matched[indi]['common']['match-fam']
+       path_len = len( matched[indi]['common']['match-path'] )
+       # make plural for both parents in family
+       common_fams[fam] = find_relation_label( path_len, 0 ) + 's'
 
-   for fam in common_fams:
-       # Skip the family if one partner is also a DNA match
-       # because the relationship is already set to be shown for that person
-       if families_to_display[fam]:
-          common_fams[fam] = None
+for fam in common_fams:
+    # Skip the family if one partner is also a DNA match
+    # because the relationship is already set to be shown for that person
+    if families_to_display[fam]:
+       common_fams[fam] = None
 
 if DEBUG:
    print( '', file=sys.stderr )
@@ -1140,13 +1159,13 @@ elif options['format'] == 'matrix':
    # no families or connections, just the names grouped by relationship
    # and sorted by match size
    begin_dot_matrix( me, options['title'], options['placetitle'] )
-   add_matrix( matched, people_to_display )
+   add_matrix( matched, people_to_display, options['separate'], options['relationship'] )
    end_dot_matrix()
 
 else:
 
    begin_dot( options['orientation'], options['thick'], options['title'], options['placetitle'] )
-   dot_labels( matched, families_to_display, people_to_display, multiple_marriages, common_fams, me )
+   dot_labels( matched, families_to_display, people_to_display, multiple_marriages, common_fams, me, options['relationship'] )
    dot_connect( families_to_display, people_to_display, options['reverse'] )
    end_dot()
 
