@@ -96,7 +96,7 @@ Set the type of of data containing the DNA match values. See above GEDCOM file e
 
 --relationship
 
-Add relationship name (sibling, parent, 1C, 2C1R, etc.) to matches in the format=tree output. Relationships are computed from paths in the tree, 
+Show relationship name (sibling, parent, 1C, 2C1R, etc.) with person names. Relationships are computed from paths in the tree, 
 dna values are not involved. Default is none.
 
 --title="text"
@@ -156,7 +156,7 @@ draw-dna-matches.py  --relation --max=800  dnamatch  family.ged  >out.dot  2>out
 graphviz -Tsvg out.dot -o out.svg
 ```
 
-To make a similar matrix display. The "--relation" option is automatically enabled with format=matrix.
+To make a similar matrix display.
 ```
 draw-dna-matches.py  --format=matrix --max=800  dnamatch  family.ged  >out.dot  2>out.err
 graphviz -Tsvg out.dot -o out.svg
