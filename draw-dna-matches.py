@@ -53,7 +53,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def get_version():
-    return '7.3'
+    return '7.4'
 
 
 def load_my_module( module_name, relative_path ):
@@ -874,7 +874,7 @@ def find_ancestors( indi, path, ancestors ):
               do_update = True
               if ancestor in ancestors:
                  # pick the shortest path
-                 if ancestors[ancestor]['path'] < len(new_path):
+                 if len(ancestors[ancestor]['path']) < len(new_path):
                     do_update = False
               if do_update:
                  ancestors[ancestor] = { 'fam': fam, 'path':new_path }
