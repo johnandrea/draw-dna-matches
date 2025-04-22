@@ -53,7 +53,7 @@ partner_types = [ 'wife', 'husb' ]
 
 
 def get_version():
-    return '7.4'
+    return '7.5'
 
 
 def load_my_module( module_name, relative_path ):
@@ -349,16 +349,16 @@ def get_xref( individual ):
 
 def get_name( individual ):
     """ Return the name for the individual in the passed data section. """
-    name = individual['name'][0]['value']
+    name = individual['name'][0]['html']
     if options['shortname']:
        shortened = ''
        if 'givn' in individual['name'][0]:
-          shortened = individual['name'][0]['givn'].split(' ')[0] + ' '
+          shortened = individual['name'][0]['givn_html'].split(' ')[0] + ' '
        if 'surn' in individual['name'][0]:
-          shortened += individual['name'][0]['surn']
+          shortened += individual['name'][0]['surn_html']
        if shortened.strip():
           name = shortened.strip()
-    name = name.replace( '/', '' ).replace( '&', '&amp;' ).replace('"','&quot;').replace("'","&rsquo;").strip()
+    name = name.replace( '/', '&sol;' ).replace('"','&quot;').replace("'","&rsquo;").strip()
     # the standard unknown code is not good for svg output
     if '?' in name and '[' in name and ']' in name:
        name = 'unknown'
